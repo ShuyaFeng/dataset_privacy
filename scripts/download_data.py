@@ -87,38 +87,53 @@ def load_compas(raw_dir: Path, out_dir: Path):
 
 # ---------------------------------------------------------------------------
 # 3. Purchase100 (Shokri et al. benchmark)
+#    Raw file: data/raw/dataset_purchase  (space-separated ASCII)
+#    Format: first col = class label (1-100), remaining 600 cols = binary features
 # ---------------------------------------------------------------------------
 def load_purchase100(raw_dir: Path, out_dir: Path):
     print("[3/7] Purchase100")
-    dest = raw_dir / "purchase100.npz"
-    if not dest.exists():
-        print("  NOTE: Purchase100 must be downloaded manually.")
-        print("  Visit: https://github.com/privacytrustlab/datasets")
-        print("  Download 'dataset_purchase.tgz', extract purchase100.npz, place in data/raw/")
-        print("  Skipping for now.")
+
+    # support both locations the tgz might extract to
+    candidates = [
+        raw_dir / "dataset_purchase" / "dataset_purchase",
+        raw_dir / "dataset_purchase",
+    ]
+    raw_file = next((p for p in candidates if p.is_file()), None)
+
+    if raw_file is None:
+        print("  SKIP — dataset_purchase file not found in data/raw/")
         return
-    data = np.load(dest)
-    X = data["features"].astype(np.float32)
-    y = data["labels"].astype(np.int32)
+
+    print(f"  reading {raw_file} (this may take ~1 min for 197k rows) ...")
+    data = np.loadtxt(raw_file, delimiter=",", dtype=np.float32)
+    # first column = label (1-indexed), rest = features
+    y = data[:, 0].astype(np.int32) - 1   # convert to 0-indexed
+    X = data[:, 1:]
+    X = StandardScaler().fit_transform(X)
     _save(out_dir / "purchase100", X, y)
     print(f"  saved: {X.shape}")
 
 
 # ---------------------------------------------------------------------------
 # 4. Texas100 (Shokri et al. benchmark)
+#    Raw files: data/raw/texas/100/feats  +  data/raw/texas/100/labels
+#    feats:  numpy binary array, shape (N, 6169)
+#    labels: numpy binary array, shape (N,), values 1-100
 # ---------------------------------------------------------------------------
 def load_texas100(raw_dir: Path, out_dir: Path):
     print("[4/7] Texas100")
-    dest = raw_dir / "texas100.npz"
-    if not dest.exists():
-        print("  NOTE: Texas100 must be downloaded manually.")
-        print("  Visit: https://github.com/privacytrustlab/datasets")
-        print("  Download 'dataset_texas.tgz', extract texas100.npz, place in data/raw/")
-        print("  Skipping for now.")
+
+    feats_path  = raw_dir / "texas" / "100" / "feats"
+    labels_path = raw_dir / "texas" / "100" / "labels"
+
+    if not feats_path.exists() or not labels_path.exists():
+        print("  SKIP — texas/100/feats or texas/100/labels not found in data/raw/")
         return
-    data = np.load(dest)
-    X = data["features"].astype(np.float32)
-    y = data["labels"].astype(np.int32)
+
+    feats  = np.load(str(feats_path),  allow_pickle=False).astype(np.float32)
+    labels = np.load(str(labels_path), allow_pickle=False).astype(np.int32)
+    y = labels - 1   # convert 1-indexed to 0-indexed
+    X = StandardScaler().fit_transform(feats)
     _save(out_dir / "texas100", X, y)
     print(f"  saved: {X.shape}")
 
