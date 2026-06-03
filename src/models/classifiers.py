@@ -81,12 +81,16 @@ class TorchMLP:
                 optimizer.step()
         return self
 
-    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+    def predict_proba(self, X: np.ndarray, batch_size: int = 4096) -> np.ndarray:
         self.net.eval()
+        results = []
         with torch.no_grad():
-            Xt = torch.from_numpy(X.astype(np.float32)).to(self.device)
-            probs = torch.softmax(self.net(Xt), dim=1).cpu().numpy()
-        return probs
+            for start in range(0, len(X), batch_size):
+                xb = torch.from_numpy(
+                    X[start : start + batch_size].astype(np.float32)
+                ).to(self.device)
+                results.append(torch.softmax(self.net(xb), dim=1).cpu().numpy())
+        return np.concatenate(results, axis=0)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.classes_[np.argmax(self.predict_proba(X), axis=1)]

@@ -27,9 +27,11 @@ def _split_members_nonmembers(X, y, train_idx, test_idx):
 
 def _predict_proba_correct_class(model, X, y):
     """Probability assigned to the true class label for each sample."""
-    proba = model.predict_proba(X)
-    classes = list(model.classes_)
-    return np.array([proba[i, classes.index(y[i])] for i in range(len(y))])
+    proba = model.predict_proba(X)          # (n, k)
+    classes = np.array(model.classes_)
+    # map y values to column indices — vectorized, no Python loop
+    col_idx = np.searchsorted(classes, y)   # works because classes_ is sorted
+    return proba[np.arange(len(y)), col_idx]
 
 
 # ── Attack 1: Loss Threshold ─────────────────────────────────────────────────
