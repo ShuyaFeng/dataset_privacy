@@ -15,8 +15,7 @@ dependencies:
   - tqdm=4.66
   - joblib=1.4
   - pip:
-    - torch==2.3.0
+    # torch is installed separately in setup_cluster.sh with CUDA wheels
+    # to avoid getting the CPU-only conda-forge version
     - xgboost==2.1.0
-    - lightgbm==4.4.0
     - requests==2.32.0
-    - kaggle==1.6.17
