@@ -1,6 +1,6 @@
 # Research Plan: What Makes a Dataset Privacy-Sensitive?
 **Target: IEEE S&P (Oakland) 2027**
-**Last updated: 2026-06-02 (session 2)**
+**Last updated: 2026-06-03 (session 3)**
 
 ---
 
@@ -16,10 +16,10 @@ Prove that dataset-level structural statistics can predict aggregate membership 
 
 | Phase | Goal | Status |
 |---|---|---|
-| 1 | Resolve fatal flaws (ground truth, threat model, Feldman positioning) | TODO |
-| 2 | Theoretical framework (formal bounds) | TODO |
-| 3 | Experimental design and execution | TODO |
-| 4 | Security narrative (Oakland-specific) | TODO |
+| 1 | Resolve fatal flaws (ground truth, threat model, Feldman positioning) | IN PROGRESS (1.1 running on cluster; 1.2, 1.3 DONE) |
+| 2 | Theoretical framework (formal bounds) | DONE (draft) |
+| 3 | Experimental design and execution | CODE DONE — waiting on cluster results |
+| 4 | Security narrative (Oakland-specific) | CODE DONE (CLI tool); narrative needs cluster results |
 | 5 | Paper writing and submission | TODO |
 
 ---
@@ -408,27 +408,34 @@ This goes in the Conclusion/Discussion section.
 
 ## Current Status
 
-**Active task:** Phase 1, Task 1.1 — cluster setup + MIA grid execution
+**Active task:** Waiting for cluster MIA grid (Task 1.1) to finish
 
-**Completed:**
-- Project directory structure created
-- `environment.yml` (conda, Python 3.10, sklearn/xgboost/torch)
-- `scripts/setup_cluster.sh` — one-shot cluster setup script
-- `scripts/download_data.py` — downloads Adult, COMPAS, NHANES, MovieLens, Gowalla automatically; Purchase100 and Texas100 require manual download from privacytrustlab/datasets
-- `src/models/classifiers.py` — MLP, XGBoost, RF with unified interface
-- `src/mia/attacks.py` — loss_threshold, shadow_model (4 shadows), lira (16 shadows)
-- `experiments/run_mia_grid.py` — single-config runner, saves JSON to results/mia_grid/
-- `slurm/mia_grid_array.sh` — Slurm array job, 63 tasks (7 datasets × 3 attacks × 3 models)
-- `experiments/check_ground_truth_variance.py` — variance analysis after grid completes
+**Completed (code written + pushed to GitHub):**
+- `environment.yml`, `scripts/setup_cluster.sh`, `scripts/download_data.py`
+- `src/models/classifiers.py` — MLP, XGBoost, RF
+- `src/mia/attacks.py` — loss_threshold, shadow_model, lira
+- `experiments/run_mia_grid.py` + `slurm/mia_grid_array.sh` — 63-task grid
+- `experiments/check_ground_truth_variance.py` — variance analysis
+- `paper/sec_threat_model.tex` — Task 1.2 DONE (paper-ready LaTeX)
+- `paper/feldman_positioning.tex` — Task 1.3 DONE (two versions: Intro + Related Work)
+- `paper/sec_theory.tex` — Phase 2 DONE (Theorem 1 + proof sketch + benchmark bias corollary)
+- `src/dpri/features.py` — 5 DPRI features implementation
+- `experiments/run_dpri.py` — compute DPRI for all datasets
+- `experiments/run_regression.py` — LOO-CV regression + ablation + variance decomposition
+- `experiments/run_findings.py` — Finding 2 (KS test) + Finding 3 (DP calibration)
+- `src/dpri/cli.py` — standalone CLI tool (Task 4.3 DONE)
 
 **Blockers:**
-- Need cluster access to run setup (user needs to scp project and run setup_cluster.sh)
-- Purchase100 and Texas100 must be downloaded manually from https://github.com/privacytrustlab/datasets
+- Waiting for `sbatch slurm/mia_grid_array.sh` to complete on cluster
 
-**Next action (user must do on cluster):**
-1. `scp -r` this project to cluster home directory
-2. `bash scripts/setup_cluster.sh`   # sets up conda env + downloads 5/7 datasets
-3. Manually download Purchase100 + Texas100, place in data/raw/, re-run download_data.py
-4. `sbatch slurm/mia_grid_array.sh`  # submits 63 Slurm tasks
-5. After jobs finish: `python experiments/check_ground_truth_variance.py`
-6. Report variance table back → we decide if ground truth is clean or need mitigation
+**When cluster finishes, run in this order:**
+1. `python experiments/check_ground_truth_variance.py`  → check AUC variance
+2. `python experiments/run_dpri.py`                     → compute DPRI features
+3. `python experiments/run_regression.py`               → R², ablation, Finding 1
+4. `python experiments/run_findings.py`                 → Finding 2 + Finding 3
+5. Report results back → we interpret findings + write paper sections
+
+**Remaining TODO (need cluster results first):**
+- Phase 5: paper writing (Introduction, Results, Discussion sections)
+- Theory proof: flesh out Appendix with full proof of Theorem 1
+- Tightness experiment for Theorem 1 (Task 2.2)
