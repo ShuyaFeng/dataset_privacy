@@ -19,8 +19,7 @@
 set -e
 mkdir -p logs
 
-PROJECT_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-cd "$PROJECT_DIR"
+cd "$SLURM_SUBMIT_DIR"
 
 # ── Cheaha module + conda activation ────────────────────────────────────────
 module load Anaconda3 2>/dev/null \

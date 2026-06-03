@@ -20,8 +20,7 @@
 set -e
 mkdir -p logs
 
-PROJECT_DIR="$(dirname "$(dirname "$(realpath "$0")")")"
-cd "$PROJECT_DIR"
+cd "$SLURM_SUBMIT_DIR"
 
 # ── Cheaha module + conda activation ────────────────────────────────────────
 # Cheaha uses Anaconda3; adjust version tag if needed (check: module avail Anaconda)
