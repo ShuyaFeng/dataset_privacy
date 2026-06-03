@@ -124,29 +124,27 @@ def load_texas100(raw_dir: Path, out_dir: Path):
 
 
 # ---------------------------------------------------------------------------
-# 5. NHANES (public medical data, substitute for MIMIC-III)
+# 5. Diabetes (Pima Indians) — medical domain substitute
+#    NHANES XPT format is no longer reliably accessible via direct URL.
+#    Pima Indians Diabetes is a well-established public medical dataset.
 # ---------------------------------------------------------------------------
 def load_nhanes(raw_dir: Path, out_dir: Path):
-    print("[5/7] NHANES")
-    # NHANES 2017-2018, demographics + blood pressure
-    url_demo = "https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/DEMO_J.XPT"
-    url_bpx  = "https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/BPX_J.XPT"
-    url_bmd  = "https://wwwn.cdc.gov/Nchs/Nhanes/2017-2018/BMX_J.XPT"
-    download(url_demo, raw_dir / "DEMO_J.XPT")
-    download(url_bpx,  raw_dir / "BPX_J.XPT")
-    download(url_bmd,  raw_dir / "BMX_J.XPT")
-    demo = pd.read_sas(raw_dir / "DEMO_J.XPT", format="xport")
-    bpx  = pd.read_sas(raw_dir / "BPX_J.XPT",  format="xport")
-    bmd  = pd.read_sas(raw_dir / "BMX_J.XPT",  format="xport")
-    df = demo[["SEQN","RIDAGEYR","RIAGENDR","RIDRETH3","DMDEDUC2","INDHHIN2"]].merge(
-         bpx[["SEQN","BPXSY1","BPXDI1"]], on="SEQN").merge(
-         bmd[["SEQN","BMXWT","BMXHT","BMXBMI"]], on="SEQN")
-    df = df.dropna()
-    # binary label: hypertension (systolic > 130)
-    y = (df["BPXSY1"] > 130).astype(np.int32).values
-    X = df.drop(["SEQN","BPXSY1","BPXDI1"], axis=1).values.astype(np.float32)
+    print("[5/7] Diabetes (Pima Indians) — medical domain")
+    dest = raw_dir / "pima_diabetes.csv"
+    download(
+        "https://raw.githubusercontent.com/jbrownlee/Datasets/master/"
+        "pima-indians-diabetes.data.csv",
+        dest,
+    )
+    cols = [
+        "pregnancies", "glucose", "blood_pressure", "skin_thickness",
+        "insulin", "bmi", "diabetes_pedigree", "age", "outcome",
+    ]
+    df = pd.read_csv(dest, names=cols).dropna()
+    X = df.drop("outcome", axis=1).values.astype(np.float32)
+    y = df["outcome"].values.astype(np.int32)
     X = StandardScaler().fit_transform(X)
-    _save(out_dir / "nhanes", X, y)
+    _save(out_dir / "nhanes", X, y)   # keep filename for compatibility
     print(f"  saved: {X.shape}")
 
 
