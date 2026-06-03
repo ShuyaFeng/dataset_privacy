@@ -1,0 +1,59 @@
+% =============================================================================
+\section{Related Work}
+\label{sec:related}
+% =============================================================================
+
+\paragraph{Membership inference attacks.}
+Shokri et al.~\cite{shokri2017membership} introduced the shadow-model
+attack and established Purchase100 and Texas100 as standard benchmarks.
+Subsequent work strengthened attacks via label-only
+access~\cite{choquette2021label}, enhanced
+thresholds~\cite{ye2022enhanced}, and the likelihood-ratio
+formulation~\cite{carlini2022lira} that we use as ground truth.
+Salem et al.~\cite{salem2019ml} showed that attacks are robust to
+imperfect shadow model knowledge.
+Our work does not propose a new attack; rather, it predicts attack
+success from data properties before any model is trained.
+
+\paragraph{Privacy risk theory.}
+Yeom et al.~\cite{yeom2018privacy} proved that MIA advantage is bounded
+by the generalization gap, linking privacy to overfitting.
+Sablayrolles et al.~\cite{sablayrolles2019whitebox} characterized the
+Bayes-optimal MIA as a likelihood ratio test, which forms the basis of
+our Theorem~\ref{thm:main}.
+Our contribution extends these results by showing that the likelihood
+ratio---and hence the MIA advantage---is bounded by pre-training
+distributional statistics, not just post-training model properties.
+
+\paragraph{Memorization and long-tail data.}
+Feldman~\cite{feldman2020memorization} proved that learning algorithms
+must memorize atypical (long-tail) training examples to achieve near-optimal
+generalization, and connected this to per-sample privacy risk.
+Carlini et al.~\cite{carlini2021extracting} showed that LLMs memorize
+rare training examples verbatim.
+Our work differs along three dimensions.
+\emph{Unit of analysis}: we study dataset-level statistics rather than
+per-sample certificates.
+\emph{Timing}: we operate before training, with no trained model.
+\emph{Output}: a deployable scalar risk score, not a post-hoc
+memorization label.
+Concretely, our experiments include high-density datasets where no
+individual sample is rare, yet DPRI correctly predicts elevated
+aggregate risk---a regime where Feldman's per-sample theory offers no
+dataset-level prediction.
+
+\paragraph{Differential privacy.}
+DP-SGD~\cite{abadi2016deep} is the standard mechanism for training
+private neural networks.
+Jagielski et al.~\cite{jagielski2020auditing} show empirically that the
+privacy guarantees of DP-SGD are tight.
+Zanella-Béguelin et al.~\cite{zanella2023bayesian} propose Bayesian
+estimation of the actual $\varepsilon$ achieved.
+None of these works ask how the \emph{benefit} of a given $\varepsilon$
+varies with dataset structure; our Finding~3 addresses this gap.
+
+\paragraph{Dataset auditing and data valuation.}
+Long et al.~\cite{long2020pragmatic} propose a pragmatic approach to
+membership inference that accounts for dataset characteristics.
+Our work goes further by predicting risk before training and providing a
+formal theoretical basis through Theorem~\ref{thm:main}.

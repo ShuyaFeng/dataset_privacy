@@ -1,0 +1,77 @@
+\documentclass[conference,compsoc]{IEEEtran}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{microtype}
+
+% ── Theorem environments ──────────────────────────────────────────────────────
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+
+% ── TODO marker (remove before submission) ────────────────────────────────────
+\newcommand{\TODO}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+
+% ── Paper metadata ────────────────────────────────────────────────────────────
+\begin{document}
+
+\title{What Makes a Dataset Privacy-Sensitive?\\
+  Towards Predicting Membership Inference Risk Before Model Training}
+
+\author{
+  \IEEEauthorblockN{Anonymous Submission}
+  \IEEEauthorblockA{IEEE S\&P 2027 Submission \#TODO}
+}
+
+\maketitle
+
+% =============================================================================
+\begin{abstract}
+% Write abstract LAST — after all results are in.
+% Key elements: 1 sentence problem, 3 findings with numbers, 1 sentence implication.
+%
+Membership inference attacks (MIA) have been studied for a decade, yet we
+still lack a principled answer to a more fundamental question: why do some
+datasets leak more than others, independent of the model trained on them?
+We introduce the \emph{Dataset Privacy Risk Index} (DPRI), a
+pre-training risk estimator built from five data-distributional statistics
+that require no trained model.
+Across \TODO{7} datasets spanning four domains, DPRI predicts MIA
+vulnerability with $R^2 = $\TODO{X.XX} and Spearman $\rho = $\TODO{X.XX}
+under leave-one-dataset-out cross-validation.
+Our analysis yields three security findings:
+(1)~dataset structure explains \TODO{XX}\% of MIA AUC variance, versus
+\TODO{XX}\% for model architecture;
+(2)~widely used MIA benchmarks (Purchase100, Texas100) are structural
+outliers that overstate real-world privacy risk by \TODO{X.X}$\times$ on
+average; and
+(3)~the benefit of differential privacy depends primarily on DPRI, not
+on the nominal $\varepsilon$ value, implying that current DP calibration
+practices may systematically under-protect high-risk datasets.
+We release DPRI as an open-source tool for pre-training dataset auditing.
+\end{abstract}
+
+% =============================================================================
+\input{sec_introduction}
+\input{sec_background}
+\input{sec_theory}
+\input{sec_dpri}
+\input{sec_setup}
+\input{sec_results}
+\input{sec_implications}
+\input{sec_related}
+\input{sec_conclusion}
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\appendix
+\input{sec_appendix}
+
+\end{document}

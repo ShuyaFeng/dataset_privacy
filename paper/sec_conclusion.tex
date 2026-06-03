@@ -1,0 +1,22 @@
+% =============================================================================
+\section{Conclusion}
+\label{sec:conclusion}
+% =============================================================================
+
+We introduced DPRI, the first pre-training dataset privacy risk estimator
+grounded in a formal bound on membership inference advantage.
+Across seven datasets in four domains, DPRI predicts MIA vulnerability
+with $R^2 = $\TODO{X.XX} using five distributional features that require
+no model training.
+Three findings challenge established practices: dataset structure
+dominates model architecture as a risk driver; widely used benchmarks
+are structural outliers that inflate reported attack success; and DP
+protection efficacy depends on data geometry, not just on $\varepsilon$.
+
+These results suggest a shift in how the community measures and reports
+membership inference risk.
+We call for benchmark diversity in MIA evaluations, for dataset-level
+risk assessment as a standard pre-training step, and for data-adaptive
+DP budgeting in privacy-sensitive deployments.
+
+The DPRI tool is available at \url{https://github.com/ShuyaFeng/dataset_privacy}.

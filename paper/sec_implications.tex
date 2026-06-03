@@ -1,0 +1,87 @@
+% =============================================================================
+\section{Security Implications}
+\label{sec:implications}
+% =============================================================================
+
+\subsection{Adversarial Use: DPRI as a Reconnaissance Tool}
+
+An adversary with access to multiple candidate datasets---for example,
+a researcher evaluating which of several publicly released models to
+attack---can compute DPRI in minutes without any model training and
+prioritize high-risk targets.
+
+We simulate this scenario.
+An adversary has a budget of $B$ MIA queries (each query = training and
+attacking one model on one dataset).
+Under random dataset selection, the expected AUC return is the
+population mean.
+Under DPRI-guided selection (attack highest-DPRI first), the adversary
+reaches the top-$k$ risk datasets in expectation with
+\TODO{X}$\times$ fewer queries (Figure~\ref{fig:adv_query}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{../results/regression/adv_query_efficiency.pdf}
+  \caption{Adversarial query efficiency: DPRI-guided vs.\ random dataset
+           selection. Shaded region = 95\% CI over 1,000 random orderings.}
+  \label{fig:adv_query}
+\end{figure}
+
+\paragraph{Mitigation.}
+Data holders can compute DPRI before releasing a dataset or a model
+trained on it.
+A high DPRI score should trigger additional safeguards: stronger DP
+guarantees, data minimization, or access controls on the trained model.
+
+\subsection{DP Budget Recommendation}
+
+Based on the empirical relationship between DPRI and DP efficacy
+(Finding~3), we propose a simple DPRI-adaptive $\varepsilon$ rule:
+
+\begin{equation}
+  \varepsilon_{\mathrm{rec}}(D) =
+  \begin{cases}
+    \varepsilon_0 & \text{if } \mathrm{DPRI}(D) < 0.35 \\
+    \varepsilon_0 / 3 & \text{if } 0.35 \leq \mathrm{DPRI}(D) < 0.65 \\
+    \varepsilon_0 / 10 & \text{if } \mathrm{DPRI}(D) \geq 0.65
+  \end{cases}
+  \label{eq:eps_rec}
+\end{equation}
+
+where $\varepsilon_0$ is the practitioner's nominal budget.
+This rule is calibrated so that all datasets achieve approximately
+equal post-DP MIA AUC, regardless of their native structure.
+The thresholds are derived from our empirical calibration on
+Table~\ref{tab:dp_calibration} and should be recalibrated as more
+datasets are added to the benchmark.
+
+\subsection{Policy Implication}
+
+Current regulatory frameworks for machine learning privacy (e.g., GDPR
+\S{}22, HIPAA de-identification) treat privacy as a property of the
+algorithm, not the data.
+Our findings imply that this is insufficient: two organizations applying
+identical DP-SGD with identical $\varepsilon$ achieve systematically
+different levels of membership inference protection depending on the
+native structure of their data.
+
+We recommend that data governance frameworks adopt DPRI (or a
+standardized equivalent) as a required pre-training assessment,
+analogous to environmental impact assessments required before
+construction projects.
+The DPRI tool we release makes this practical at near-zero computational
+cost.
+
+\subsection{Extensions}
+
+\paragraph{Federated learning.}
+In federated settings, each client's local dataset has its own DPRI.
+Clients with high DPRI should contribute more noise in the local DP
+step, or be excluded from the federation if their risk exceeds a
+threshold.
+
+\paragraph{Generative models.}
+DPRI is defined on the training data distribution and is
+model-agnostic; it applies equally to GANs, diffusion models, and LLMs.
+We leave empirical validation on generative model training data as
+future work.

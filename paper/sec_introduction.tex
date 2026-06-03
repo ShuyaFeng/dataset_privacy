@@ -1,0 +1,96 @@
+% =============================================================================
+\section{Introduction}
+\label{sec:intro}
+% =============================================================================
+
+Over the past decade, membership inference attacks (MIA)~\cite{shokri2017membership}
+have become the standard tool for measuring how much a trained model leaks
+about its training data.
+Hundreds of papers have proposed stronger attacks~\cite{carlini2022lira,ye2022enhanced},
+better defenses~\cite{nasr2019comprehensive}, and tighter theoretical
+bounds~\cite{yeom2018privacy,sablayrolles2019whitebox}.
+Yet a more fundamental question has gone largely unanswered:
+
+\smallskip
+\begin{center}
+\emph{Why do some datasets leak more than others,\\
+independent of the model trained on them?}
+\end{center}
+\smallskip
+
+This is not an engineering question.
+It is a question about the nature of data itself.
+If membership inference is the symptom, then data geometry is the disease.
+
+\paragraph{The problem with current practice.}
+Every MIA paper chooses a dataset, trains a model, and reports an AUC.
+The AUC is then attributed to the attack method or the defense mechanism.
+But our work shows empirically that dataset choice explains
+\TODO{XX}\% of AUC variance, while model architecture explains only
+\TODO{XX}\%.
+The field has been optimizing the wrong variable.
+
+A second pathology is benchmark reliance.
+Purchase100 and Texas100~\cite{shokri2017membership} are the two most
+common MIA benchmarks.
+We show that both datasets are structural outliers: their data geometry
+places them in the top \TODO{X}\% of DPRI scores across all datasets we
+studied, meaning papers that report results only on these benchmarks are
+measuring privacy risk in an unrepresentatively high-risk regime.
+
+\paragraph{Our approach.}
+We ask a temporally prior question:
+\emph{Can the privacy risk of a dataset be reliably predicted before any
+model is trained?}
+If the answer is yes, practitioners gain an actionable tool: compute the
+risk score at data collection time, before committing to a training
+pipeline or a privacy budget.
+
+We answer yes, and we formalize this through the
+\emph{Dataset Privacy Risk Index} (DPRI)---a scalar pre-training
+risk estimator derived from five distributional statistics:
+sample uniqueness, local density, outlier score, feature entropy,
+and class cluster separation.
+Each statistic is motivated by a theoretical result
+(Theorem~\ref{thm:main}) showing that MIA advantage is bounded by a
+function of local data geometry.
+
+\paragraph{Contributions.}
+\begin{itemize}
+
+\item \textbf{Theoretical foundation.}
+We prove that the Bayes-optimal MIA advantage for a sample $x$ is
+upper-bounded by $O(u(x) / \rho(x)^{1/d})$, where $u(x)$ is sample
+uniqueness and $\rho(x)$ is local density---both computable from raw data
+(Theorem~\ref{thm:main}).
+This provides the first formal link between pre-training data geometry
+and membership inference risk.
+
+\item \textbf{Dataset Privacy Risk Index (DPRI).}
+We define a dataset-level risk score from five distributional
+features and validate it across \TODO{7} datasets in \TODO{4} domains
+using three MIA attacks and three model families
+($R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX}).
+
+\item \textbf{Three security findings.}
+(F1)~Dataset structure is the dominant driver of MIA risk; model
+architecture contributes a secondary, bounded effect.
+(F2)~Widely used MIA benchmarks are structural outliers that inflate
+reported attack success by \TODO{X.X}$\times$, casting doubt on the
+external validity of a decade of MIA literature.
+(F3)~DP protection efficacy is a function of DPRI, not of $\varepsilon$
+alone, exposing a miscalibration in standard DP deployment.
+
+\item \textbf{Open-source tool.}
+We release DPRI as a Python package that audits any tabular dataset in
+under two minutes on a laptop, outputting a risk score and
+DP budget recommendation.
+
+\end{itemize}
+
+\paragraph{Scope.}
+We focus on tabular and graph-structured datasets in the centralized
+training setting.
+Extensions to image data, federated learning, and generative models are
+left as future work.
+All datasets used are publicly available; no proprietary data was accessed.

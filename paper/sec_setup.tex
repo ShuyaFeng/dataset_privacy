@@ -1,0 +1,97 @@
+% =============================================================================
+\section{Experimental Setup}
+\label{sec:setup}
+% =============================================================================
+
+\subsection{Datasets}
+
+We evaluate on seven datasets spanning four domains
+(Table~\ref{tab:datasets}).
+The selection criterion is domain diversity: all experiments must
+generalize beyond any single application area.
+All datasets are publicly available.
+
+\begin{table}[t]
+\centering
+\caption{Datasets used in the evaluation.}
+\label{tab:datasets}
+\small
+\begin{tabular}{llrrr}
+\toprule
+\textbf{Dataset} & \textbf{Domain} & \textbf{Samples} & \textbf{Features} & \textbf{Classes} \\
+\midrule
+Adult~\cite{adult1996}          & Tabular (income)   & 48,842 & 14  & 2 \\
+COMPAS~\cite{compas2016}        & Tabular (criminal) &  6,172 &  7  & 2 \\
+Purchase100~\cite{shokri2017membership} & Tabular (retail) & 197,324 & 600 & 100 \\
+Texas100~\cite{shokri2017membership}    & Tabular (medical) & 67,330 & 6,170 & 100 \\
+NHANES~\cite{nhanes}            & Medical            &  9,254 &  8  & 2 \\
+MovieLens-1M~\cite{movielens}   & Recommendation     &  6,040 &  5  & 2 \\
+Gowalla~\cite{cho2011friendship}& Mobility           & 107,092 & 6 & 2 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Purchase100 and Texas100 are the two most widely used MIA benchmarks
+in the literature~\cite{shokri2017membership,salem2019ml,nasr2019comprehensive}.
+We include them specifically to test Finding~2 (benchmark bias).
+
+\subsection{Ground Truth: Risk(D)}
+
+We define $\mathrm{Risk}(D)$ as the \emph{upper envelope} of MIA AUC
+scores across a grid of three attacks and three model families:
+\begin{equation}
+  \mathrm{Risk}(D) = \max_{\mathcal{A} \in \mathbb{A},\; f \in \mathbb{F}}
+  \mathrm{AUC}(\mathcal{A}, f, D),
+  \label{eq:risk_gt}
+\end{equation}
+where $\mathbb{A} = \{\text{LiRA, shadow, loss-threshold}\}$ and
+$\mathbb{F} = \{\text{MLP, XGBoost, RF}\}$.
+Taking the upper envelope represents the worst-case adversary who can
+choose the best attack-model combination against a fixed dataset,
+independent of the specific model the defender deploys.
+
+\paragraph{MIA attacks.}
+\emph{LiRA}~\cite{carlini2022lira} is the current state-of-the-art,
+using 16 shadow models to compute a per-sample likelihood ratio.
+\emph{Shadow-model attack}~\cite{shokri2017membership} trains 4 shadow
+models and learns a binary meta-classifier.
+\emph{Loss-threshold attack}~\cite{yeom2018privacy} thresholds the
+model's confidence on the correct class; this is the Bayes-optimal
+attack under the Gaussian assumption.
+
+\paragraph{Model families.}
+\emph{MLP} (two hidden layers, 128-64, trained with Adam for 100 epochs
+on GPU), \emph{XGBoost} (300 trees, depth 6), and \emph{Random Forest}
+(300 trees).
+All models use a 50\%/50\% member/non-member split; seeds are fixed at 42.
+
+\paragraph{Variance check.}
+Before using Equation~\eqref{eq:risk_gt}, we verify that AUC is stable
+across attacks and models within each dataset (std $<$ 0.05 within dataset).
+This validates that $\mathrm{Risk}(D)$ is a stable dataset property,
+not a model-specific artefact.
+
+\subsection{DPRI Computation}
+
+We compute the five DPRI features using scikit-learn and scipy
+(no model training required).
+The $k$-NN features use $k=5$ throughout.
+Silhouette score is computed on a random subsample of 5,000 points for
+datasets with $n > 5{,}000$.
+
+\subsection{Regression and Validation}
+
+We fit two regression models from $\phi(D)$ to $\mathrm{Risk}(D)$:
+ridge regression (interpretable) and random forest regressor (nonlinear
+check).
+Evaluation uses leave-one-dataset-out cross-validation (LODOCV):
+train on six datasets, predict on the held-out one.
+With seven datasets, LODOCV gives seven folds.
+Primary metrics: $R^2$ and Spearman rank correlation $\rho$.
+
+\subsection{Reproducibility}
+
+All code and data processing scripts are available at:
+\url{https://github.com/ShuyaFeng/dataset_privacy}.
+All random seeds are fixed.
+Results are deterministic given the same hardware.

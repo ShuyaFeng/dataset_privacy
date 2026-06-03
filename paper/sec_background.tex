@@ -1,0 +1,87 @@
+% =============================================================================
+% Section 2: Background and Threat Model
+% (sec_threat_model.tex content merged here)
+% =============================================================================
+
+\section{Background and Threat Model}
+\label{sec:background}
+
+\subsection{Membership Inference Attacks}
+
+Let $D = \{(x_i, y_i)\}_{i=1}^{n}$ be a training dataset drawn i.i.d.\
+from an unknown distribution $\mathcal{P}$ over $\mathcal{X} \times \mathcal{Y}$.
+A learner trains a classifier $f_\theta : \mathcal{X} \to \Delta(\mathcal{Y})$
+by minimizing empirical risk on $D$.
+A \emph{membership inference attack} (MIA) is an algorithm
+$\mathcal{A}$ that, given a target sample $(x, y)$ and query access to
+$f_\theta$, outputs $1$ if $(x,y) \in D$ and $0$ otherwise.
+
+The \emph{MIA advantage} of $\mathcal{A}$ is:
+\begin{equation}
+  \mathrm{Adv}(\mathcal{A}, f_\theta, D)
+  =
+  \bigl|
+    \Pr[\mathcal{A}=1 \mid (x,y)\in D]
+    -
+    \Pr[\mathcal{A}=1 \mid (x,y)\notin D]
+  \bigr|.
+  \label{eq:adv}
+\end{equation}
+We denote the dataset-level risk as the expected advantage over samples:
+\begin{equation}
+  \mathrm{Risk}(D) = \sup_{\mathcal{A}} \;\mathbb{E}_{(x,y)\sim\mathcal{P}}\,
+  \mathrm{Adv}(\mathcal{A}, f_\theta, D).
+  \label{eq:risk}
+\end{equation}
+In practice, $\mathrm{Risk}(D)$ is estimated via AUC of the best
+empirical attack over a grid of attacks and model families
+(Section~\ref{sec:setup}).
+
+\subsection{Differential Privacy}
+
+An algorithm $\mathcal{M}$ is $(\varepsilon,\delta)$-differentially
+private~\cite{dwork2006calibrating} if for all adjacent datasets $D, D'$
+differing in one record and all outputs $S$:
+$\Pr[\mathcal{M}(D)\in S] \leq e^\varepsilon \Pr[\mathcal{M}(D')\in S] + \delta$.
+Yeom et al.~\cite{yeom2018privacy} showed that
+$\mathrm{Adv}(\mathcal{A}^*) \leq e^\varepsilon - 1 + \delta$
+for $(\varepsilon,\delta)$-DP mechanisms.
+Our work shows that this bound, while tight in the worst case, does not
+account for how much DPRI amplifies or attenuates the practical risk
+(Section~\ref{sec:finding3}).
+
+\subsection{Threat Model}
+\label{sec:threat}
+
+We consider two principals: a \emph{data holder} who trains a model on
+$D$ and may later publish it, and an \emph{adversary} who infers membership.
+
+\paragraph{Adversary goal.}
+Given $(x,y)$ and oracle access to $f_\theta$, determine whether
+$(x,y) \in D$.
+
+\paragraph{Adversary capability.}
+\emph{Black-box} access: the adversary submits inputs and observes
+predicted class probabilities, but cannot inspect model weights.
+This is the standard setting for deployed APIs and MLaaS platforms.
+White-box results are consistent and reported in Appendix~\ref{app:whitebox}.
+
+\paragraph{Adversary knowledge.}
+The adversary knows the data domain distribution $\mathcal{P}$
+(e.g., that the dataset contains medical records of a specific demographic)
+but does not know the exact set $D$.
+
+\paragraph{Defender goal.}
+Before training, compute $\mathrm{DPRI}(D)$ from raw data alone---no
+model required---to estimate $\mathrm{Risk}(D)$ and inform DP budget
+selection and release decisions.
+
+\paragraph{Dual use.}
+DPRI also has an offensive application: an adversary with access to
+candidate target datasets can compute DPRI pre-attack and prioritize
+high-risk datasets to maximize attack return on query budget.
+We quantify this in Section~\ref{sec:implications} and discuss mitigations.
+
+\paragraph{Scope.}
+Centralized training, passive adversary (no data poisoning).
+Extensions to federated learning are discussed in Section~\ref{sec:implications}.

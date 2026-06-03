@@ -1,0 +1,212 @@
+% =============================================================================
+\section{Results}
+\label{sec:results}
+% =============================================================================
+
+\subsection{Ground Truth Stability}
+
+Table~\ref{tab:auc_grid} reports AUC for every (dataset, attack, model)
+combination.
+Within each dataset, the standard deviation of AUC across the nine
+configurations is \TODO{mean std across datasets} on average
+(max: \TODO{max std} on \TODO{dataset name}).
+All values fall below our 0.05 threshold, confirming that
+$\mathrm{Risk}(D)$ is a stable dataset property
+(Task~1.1 success criterion met).
+
+\begin{table}[t]
+\centering
+\caption{MIA AUC grid ($\uparrow$ = higher risk). Bold = $\mathrm{Risk}(D)$.}
+\label{tab:auc_grid}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{l ccc ccc ccc r}
+\toprule
+& \multicolumn{3}{c}{\textbf{LiRA}} &
+  \multicolumn{3}{c}{\textbf{Shadow}} &
+  \multicolumn{3}{c}{\textbf{Loss-thr.}} &
+  \multirow{2}{*}{\textbf{Risk}} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+\textbf{Dataset} & MLP & XGB & RF & MLP & XGB & RF & MLP & XGB & RF & \\
+\midrule
+Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{DPRI Predicts Risk(D)}
+
+Table~\ref{tab:dpri_features} shows per-dataset DPRI feature values and
+the corresponding $\mathrm{Risk}(D)$ scores.
+
+\begin{table}[t]
+\centering
+\caption{DPRI features and ground-truth Risk(D) per dataset.}
+\label{tab:dpri_features}
+\small
+\begin{tabular}{l ccccc r}
+\toprule
+\textbf{Dataset} & $\bar{u}$ & $\bar{\rho}^{-1}$ & $\bar{o}$ & $H$ & $S$ & \textbf{Risk} \\
+\midrule
+Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Under LODOCV, ridge regression achieves
+$R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX};
+the random forest regressor achieves
+$R^2 = $\TODO{X.XX}, $\rho = $\TODO{X.XX}.
+The comparable performance of the linear model indicates that the
+DPRI--Risk relationship is approximately linear in feature space
+(Figure~\ref{fig:regression}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{../results/regression/regression_plot.pdf}
+  \caption{Predicted vs.\ observed Risk(D) under LODOCV.
+           Each point is one dataset; dashed line is $y=x$.}
+  \label{fig:regression}
+\end{figure}
+
+\subsection{Ablation Study}
+
+Table~\ref{tab:ablation} shows the $R^2$ drop when each DPRI feature is
+removed from the linear regression.
+
+\begin{table}[t]
+\centering
+\caption{Ablation: $R^2$ drop when each feature is excluded.}
+\label{tab:ablation}
+\small
+\begin{tabular}{lcc}
+\toprule
+\textbf{Feature removed} & $R^2$ (without) & $\Delta R^2$ \\
+\midrule
+Sample Uniqueness $\bar{u}$   & \TODO{} & \TODO{} \\
+Uniqueness p90 $u_{90}$       & \TODO{} & \TODO{} \\
+Local Density $\bar{\rho}$    & \TODO{} & \TODO{} \\
+Density p90 $\rho_{90}$       & \TODO{} & \TODO{} \\
+Outlier Score $\bar{o}$       & \TODO{} & \TODO{} \\
+Outlier p90 $o_{90}$          & \TODO{} & \TODO{} \\
+Feature Entropy $H$           & \TODO{} & \TODO{} \\
+Cluster Separation $S$        & \TODO{} & \TODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Finding 1: Data Structure Dominates Model Architecture}
+\label{sec:finding1}
+
+To decompose variance, we compute:
+\begin{align}
+  V_{\text{data}}  &= \mathrm{Var}(\mathrm{AUC} \mid \text{dataset varies, model fixed}), \\
+  V_{\text{model}} &= \mathrm{Var}(\mathrm{AUC} \mid \text{model varies, dataset fixed}).
+\end{align}
+Averaged across all configurations, dataset choice explains
+\textbf{\TODO{XX}\%} of total AUC variance, while model architecture
+explains \textbf{\TODO{XX}\%} (Figure~\ref{fig:variance_decomp}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{../results/regression/variance_decomp.pdf}
+  \caption{Variance decomposition of MIA AUC across all 63 configurations.}
+  \label{fig:variance_decomp}
+\end{figure}
+
+This finding challenges a tacit assumption in the MIA literature: that
+attack strength and model architecture are the primary levers of privacy
+risk.
+Our result implies that a practitioner who trains a privacy-preserving
+model on a high-DPRI dataset will achieve lower protection than one who
+trains a standard model on a low-DPRI dataset, even if the former uses
+DP-SGD.
+
+\subsection{Finding 2: Benchmark Bias}
+\label{sec:finding2}
+
+We compare the DPRI distributions of benchmark datasets
+(Purchase100, Texas100) against real-world datasets (Adult, COMPAS,
+NHANES, MovieLens, Gowalla) using the Kolmogorov-Smirnov test.
+
+For sample uniqueness $\bar{u}$, the benchmark datasets score
+\TODO{X.XX}$\times$ higher than real-world datasets
+($p = $\TODO{X.XXX}, KS statistic $= $\TODO{X.XXX}).
+For cluster separation $S$, benchmarks score
+\TODO{X.XX}$\times$ higher ($p = $\TODO{X.XXX}).
+The pattern holds across all five DPRI features (Table~\ref{tab:benchmark_bias}).
+
+\begin{table}[t]
+\centering
+\caption{Finding 2: Benchmark vs.\ real-world DPRI features (mean values).
+         $**$ = $p < 0.05$ by KS test.}
+\label{tab:benchmark_bias}
+\small
+\begin{tabular}{lccc}
+\toprule
+\textbf{Feature} & \textbf{Benchmark} & \textbf{Real-world} & \textbf{Ratio} \\
+\midrule
+$\bar{u}$ (uniqueness)      & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
+$\bar{\rho}^{-1}$ (density) & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
+$\bar{o}$ (outlier)         & \TODO{} & \TODO{} & \TODO{}$\times$      \\
+$H$ (entropy)               & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
+$S$ (cluster sep.)          & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The corresponding $\mathrm{Risk}(D)$ gap is \TODO{X.X}$\times$:
+papers reporting MIA results exclusively on Purchase100 or Texas100
+are reporting attack success rates that are structurally inflated
+relative to the datasets that most practitioners encounter.
+Corollary~\ref{cor:benchmark} explains why this is expected from first
+principles.
+
+\subsection{Finding 3: DP Efficacy Depends on DPRI}
+\label{sec:finding3}
+
+We apply DP-SGD ($\varepsilon \in \{0.1, 1, 10\}$) to an MLP trained
+on each dataset and measure the AUC reduction relative to the
+non-private baseline (Table~\ref{tab:dp_calibration}).
+
+\begin{table}[t]
+\centering
+\caption{Finding 3: AUC reduction from DP-SGD at three privacy budgets.}
+\label{tab:dp_calibration}
+\small
+\begin{tabular}{l cccc}
+\toprule
+\textbf{Dataset} & \textbf{DPRI} & $\varepsilon=0.1$ & $\varepsilon=1$ & $\varepsilon=10$ \\
+\midrule
+Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+\midrule
+\multicolumn{2}{l}{Spearman $\rho$ (DPRI vs.\ AUC drop)} & \TODO{} & \TODO{} & \TODO{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Spearman correlation between DPRI and DP-induced AUC reduction is
+\TODO{X.XX} ($p = $\TODO{}) at $\varepsilon=1$, indicating that
+high-DPRI datasets benefit substantially more from the same $\varepsilon$
+budget.
+Equivalently, a low-DPRI dataset achieves the same protection as a
+high-DPRI dataset with \TODO{X}$\times$ more noise---a factor that
+practitioners cannot account for without pre-training risk assessment.

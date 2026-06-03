@@ -1,0 +1,103 @@
+% =============================================================================
+\section{Dataset Privacy Risk Index}
+\label{sec:dpri}
+% =============================================================================
+
+Motivated by Theorem~\ref{thm:main}, we define five distributional
+features that are computable from raw data before any model training.
+Each feature targets a geometric property that the theorem identifies as
+a driver of MIA advantage.
+
+\subsection{Feature Definitions}
+
+Let $D = \{x_1,\dots,x_n\}$ denote the feature matrix (labels used only
+for Feature~5).
+All per-sample scores are aggregated to dataset level using mean and
+90th percentile, yielding a feature vector
+$\phi(D) \in \mathbb{R}^{8}$ (two statistics for each of the four
+per-sample features, plus two scalars).
+
+\paragraph{Feature 1: Sample Uniqueness $u(x)$.}
+\begin{equation}
+  u(x) = \min_{x' \in D,\, x'\neq x} \|x - x'\|_2
+\end{equation}
+High $u(x)$ means $x$ is isolated from all other training points.
+Isolated samples have high MIA advantage by Equation~\eqref{eq:bound}.
+We use the 5-NN distance as a robust estimate; the nearest neighbour
+alone ($k=1$) is noisy for dense datasets.
+
+\paragraph{Feature 2: Local Density $\rho(x)$.}
+\begin{equation}
+  \rho(x) = \frac{1}{r_k(x)}, \quad
+  r_k(x) = \text{distance to } k\text{-th nearest neighbour}
+\end{equation}
+Low $\rho(x)$ (sparse region) implies large $u(x)$ and high risk.
+The two features are theoretically related but empirically complementary:
+$u(x)$ captures global isolation while $\rho(x)$ captures local structure.
+
+\paragraph{Feature 3: Outlier Score $o(x)$.}
+\begin{equation}
+  o(x) = \frac{1}{2}\bigl(\mathrm{LOF}_{\mathrm{norm}}(x)
+                         + \mathrm{iForest}_{\mathrm{norm}}(x)\bigr)
+\end{equation}
+An ensemble of Local Outlier Factor~\cite{breunig2000lof} and Isolation
+Forest~\cite{liu2008isolation}, each normalized to $[0,1]$.
+The ensemble reduces the sensitivity of any single outlier detector to
+its specific density assumption.
+
+\paragraph{Feature 4: Feature Entropy $H(X)$.}
+\begin{equation}
+  H(X) = \frac{1}{d} \sum_{j=1}^{d} H(X_j), \quad
+  H(X_j) = -\sum_b p_b \log_2 p_b
+\end{equation}
+The average Shannon entropy across all features $X_j$, computed over
+a histogram discretization.
+High-entropy features increase the dimensionality of the space in which
+samples are embedded, reducing density and increasing uniqueness.
+
+\paragraph{Feature 5: Cluster Separation $S$.}
+\begin{equation}
+  S = \mathrm{Silhouette}(X, y)
+  = \frac{1}{n}\sum_{i=1}^{n} \frac{b(x_i) - a(x_i)}{\max(a(x_i), b(x_i))}
+\end{equation}
+where $a(x_i)$ is the mean intra-class distance and $b(x_i)$ is the
+mean nearest-class distance.
+Well-separated classes ($S$ near $1$) place decision boundary samples
+in high-contrast regions, increasing their MIA risk.
+
+\subsection{Aggregation and the DPRI Score}
+
+The per-sample scores $(u, \rho, o)$ are aggregated to dataset level as
+mean and 90th percentile, giving a feature vector:
+\begin{equation}
+  \phi(D) = \bigl(
+    \bar{u},\; u_{90},\;
+    \bar{\rho},\; \rho_{90},\;
+    \bar{o},\; o_{90},\;
+    H(X),\; S
+  \bigr) \in \mathbb{R}^{8}.
+\end{equation}
+The 90th percentile captures tail behaviour (the hardest-to-protect
+samples) which disproportionately drives aggregate MIA AUC.
+
+The final DPRI score is a linear combination:
+\begin{equation}
+  \mathrm{DPRI}(D) = w^\top \phi(D),
+  \label{eq:dpri}
+\end{equation}
+where $w \in \mathbb{R}^{8}$ is learned by ridge regression to predict
+$\mathrm{Risk}(D)$ (Section~\ref{sec:setup}).
+The linear form is intentional: it is interpretable, and
+Section~\ref{sec:results} shows it performs comparably to nonlinear
+regressors, indicating the relationship between DPRI features and
+$\mathrm{Risk}(D)$ is approximately linear.
+
+\subsection{Computation Cost}
+
+All five features require only standard nearest-neighbour and
+density-estimation routines.
+On a laptop (8-core CPU), DPRI computation takes \TODO{X} seconds for
+datasets up to 50k samples and \TODO{X} minutes for 200k samples.
+No GPU is required.
+This is the key practical advantage over MIA-based risk assessment,
+which requires training and attacking multiple models.
