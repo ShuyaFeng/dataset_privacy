@@ -1,0 +1,43 @@
+% ============================================================
+% Feldman 2020 positioning — two versions:
+%   (A) for Introduction (shorter)
+%   (B) for Related Work (longer, more technical)
+% ============================================================
+
+% ── (A) Introduction version ────────────────────────────────
+% Insert after stating the research question, before contributions.
+%
+Feldman~\cite{feldman2020memorization} showed that \emph{individual} rare
+samples require memorization to achieve good generalization, and that
+memorization is observable only after training.
+Our work asks a complementary and temporally prior question: can
+\emph{dataset-level} structural statistics predict \emph{aggregate}
+membership inference risk before any model is trained?
+Where Feldman identifies which samples will be memorized (post-training,
+sample-level), we predict how much a dataset will leak (pre-training,
+dataset-level)---a distinction that is both scientifically and
+practically fundamental.
+
+
+% ── (B) Related Work version ────────────────────────────────
+% Insert as a paragraph in the Related Work section.
+%
+\paragraph{Memorization and long-tail samples.}
+Feldman~\cite{feldman2020memorization} proved that learning algorithms
+must memorize atypical (long-tail) training examples to achieve near-optimal
+generalization, and connected this to per-sample privacy risk.
+Subsequent work~\cite{carlini2022lira,zhang2021counterfactual} confirmed
+that samples with high training loss or low density are individually more
+vulnerable to membership inference.
+Our work differs along three dimensions.
+\emph{Unit of analysis:} we study \emph{dataset-level} statistics rather
+than per-sample certificates.
+\emph{Timing:} we operate \emph{before} training, producing a risk estimate
+without a trained model.
+\emph{Output:} we produce a deployable scalar index (DPRI) that
+practitioners can compute at data-collection time, not a post-hoc
+explanation of memorization.
+Concretely, our experiments include datasets where \emph{no individual
+sample is rare} (e.g., high-density synthetic populations), yet DPRI
+correctly predicts elevated aggregate risk---a regime where sample-level
+memorization theory offers no prediction.

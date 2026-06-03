@@ -1,0 +1,156 @@
+% ============================================================
+% Section 3: Theoretical Analysis
+% ============================================================
+
+\section{Theoretical Analysis}
+\label{sec:theory}
+
+We establish that MIA advantage is upper-bounded by data-distributional
+quantities computable before training.
+All proofs are in Appendix~\ref{app:proofs}.
+
+\subsection{Notation}
+
+Let $D = \{x_1,\dots,x_n\} \subset \mathcal{X}$ be drawn i.i.d.\ from
+density $p$ on $\mathcal{X} \subseteq \mathbb{R}^d$.
+For any $x \in D$, define:
+\begin{align}
+  u(x) &= \min_{x' \in D,\, x'\neq x} \|x - x'\|_2
+           \quad \text{(sample uniqueness / nearest-neighbour distance)},
+           \label{eq:uniqueness}\\
+  \rho(x) &= \frac{k}{ n \cdot \mathrm{Vol}(B(x,\, r_k(x)))}
+           \quad \text{(local density, $k$-NN estimate)},
+           \label{eq:density}
+\end{align}
+where $r_k(x)$ is the distance to the $k$-th nearest neighbour of $x$ in
+$D \setminus \{x\}$ and $\mathrm{Vol}(\cdot)$ denotes Euclidean ball volume.
+
+For the \emph{in-distribution} and \emph{out-distribution} of a trained model
+$f_\theta$, define the \emph{score distributions}:
+\begin{equation}
+  P_{\mathrm{in}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \in D], \quad
+  P_{\mathrm{out}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \notin D],
+\end{equation}
+where $\ell(f_\theta,x)$ is the model's loss on sample $x$.
+
+\subsection{Main Theorem}
+
+\begin{theorem}[DPRI Upper Bound on MIA Advantage]
+\label{thm:main}
+Let $f_\theta$ be trained on $D$ by minimising empirical risk.
+Assume the loss function $\ell$ is $L$-Lipschitz in $x$.
+Then for any sample $x \in D$:
+\begin{equation}
+  \mathrm{Adv}(\mathcal{A}^*, f_\theta, x)
+  \;\leq\;
+  \sqrt{\frac{L^2 \cdot u(x)^2}{2\,\sigma^2}}
+  \;\cdot\;
+  \frac{1}{\rho(x)^{1/d}},
+  \label{eq:bound}
+\end{equation}
+where $\mathcal{A}^*$ is the Bayes-optimal adversary,
+$\sigma^2$ is the variance of the loss under $P_{\mathrm{out}}$,
+and $d$ is the data dimensionality.
+
+At the \emph{dataset level}, the aggregate advantage satisfies:
+\begin{equation}
+  \mathrm{Risk}(D)
+  \;\leq\;
+  \frac{1}{n}\sum_{x \in D}
+  \sqrt{\frac{L^2 \cdot u(x)^2}{2\,\sigma^2\,\rho(x)^{2/d}}}.
+  \label{eq:risk_bound}
+\end{equation}
+\end{theorem}
+
+\paragraph{Interpretation.}
+The bound says that privacy risk increases when samples are
+\emph{far from their neighbours} ($u(x)$ large, i.e.\ isolated)
+and when the \emph{local population is sparse} ($\rho(x)$ small).
+Both quantities are computable directly from $D$---no model training required.
+The Lipschitz constant $L$ and noise level $\sigma$ are model-family
+constants that can be estimated or treated as fixed hyperparameters.
+
+\begin{proof}[Proof sketch]
+We proceed in three steps.
+
+\emph{Step 1: KL to advantage.}
+By the Bretagnolle--Huber inequality, the Bayes-optimal MIA advantage is:
+\begin{equation}
+  \mathrm{Adv}(\mathcal{A}^*) \leq
+  \sqrt{\tfrac{1}{2}\,\mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})}.
+  \label{eq:bh}
+\end{equation}
+
+\emph{Step 2: KL in terms of loss gap.}
+Since $P_{\mathrm{in}}$ and $P_{\mathrm{out}}$ are loss score distributions,
+and $\ell$ is $L$-Lipschitz, the expected loss gap between a training
+sample $x$ and the nearest out-of-sample point $x'$ satisfies:
+\begin{equation}
+  \mathbb{E}[\ell(f_\theta, x)] - \mathbb{E}[\ell(f_\theta, x')]
+  \;\leq\; L \cdot \|x - x'\|_2
+  \;\leq\; L \cdot u(x).
+  \label{eq:lipschitz_gap}
+\end{equation}
+Under a sub-Gaussian model for $P_{\mathrm{out}}$ with variance $\sigma^2$:
+\begin{equation}
+  \mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})
+  \;\leq\;
+  \frac{(L \cdot u(x))^2}{2\,\sigma^2}.
+  \label{eq:kl_bound}
+\end{equation}
+
+\emph{Step 3: Density correction.}
+The nearest-neighbour distance $u(x)$ and local density $\rho(x)$ are
+related by the $k$-NN geometry: for a sample in a region of density
+$\rho$, the expected distance to the nearest neighbour scales as
+$\rho(x)^{-1/d}$ (standard result, see \cite{biau2015lectures}).
+Substituting into~\eqref{eq:kl_bound} and applying~\eqref{eq:bh}
+yields~\eqref{eq:bound}.
+Averaging over all $x \in D$ gives~\eqref{eq:risk_bound}.
+\qed
+\end{proof}
+
+\subsection{Discussion of the Bound}
+
+\paragraph{Tightness.}
+The bound is tight up to constants for datasets with a uniform distribution
+over a compact manifold (Proposition~\ref{prop:tight}, Appendix~\ref{app:proofs}).
+For real-world datasets, the bound overestimates risk by a factor that
+decreases as the data distribution becomes more regular.
+Section~\ref{sec:results} shows empirically that the bound ranks datasets
+in the same order as the observed AUC (Spearman $\rho > 0.85$), suggesting
+it is tight enough to be predictively useful.
+
+\paragraph{What the bound cannot capture.}
+The bound depends on $L$ (Lipschitz constant of the loss) and $\sigma$
+(out-distribution noise), which are model-family properties.
+This means the bound explains why dataset structure is the \emph{dominant}
+driver of risk, while model architecture contributes a fixed multiplicative
+constant---consistent with our empirical Finding~1 (Section~\ref{sec:finding1}).
+
+\paragraph{Relationship to differential privacy.}
+If the training mechanism is $(\epsilon,\delta)$-DP, then
+$\mathrm{Adv}(\mathcal{A}^*) \leq e^\epsilon - 1 + \delta$~\cite{yeom2018privacy}.
+Combined with Theorem~\ref{thm:main}, high-DPRI datasets require
+smaller $\epsilon$ to achieve the same risk reduction---motivating our
+data-adaptive DP calibration recommendation (Section~\ref{sec:finding3}).
+
+\subsection{Corollary: Benchmark Bias is Predictable}
+
+\begin{corollary}[Benchmark datasets have structurally elevated DPRI]
+\label{cor:benchmark}
+If a benchmark dataset $D_b$ was constructed by subsampling or clustering
+a larger dataset to create balanced, well-separated classes, then
+$\mathrm{DPRI}(D_b) > \mathrm{DPRI}(D_{\mathrm{real}})$
+for a real-world dataset $D_{\mathrm{real}}$ drawn from the same domain,
+in expectation over the construction procedure.
+\end{corollary}
+
+\begin{proof}[Proof sketch]
+Subsampling increases $u(x)$ (nearest neighbours are removed) and
+clustering increases class separation, both of which increase the RHS
+of~\eqref{eq:risk_bound}.
+\end{proof}
+
+This corollary provides the theoretical underpinning for our empirical
+Finding~2 (benchmark bias, Section~\ref{sec:finding2}).
