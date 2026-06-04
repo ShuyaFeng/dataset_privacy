@@ -130,8 +130,8 @@ def load_texas100(raw_dir: Path, out_dir: Path):
         print("  SKIP — texas/100/feats or texas/100/labels not found in data/raw/")
         return
 
-    feats  = np.load(str(feats_path),  allow_pickle=False).astype(np.float32)
-    labels = np.load(str(labels_path), allow_pickle=False).astype(np.int32)
+    feats  = np.load(str(feats_path),  allow_pickle=True).astype(np.float32)
+    labels = np.load(str(labels_path), allow_pickle=True).astype(np.int32)
     y = labels - 1   # convert 1-indexed to 0-indexed
     X = StandardScaler().fit_transform(feats)
     _save(out_dir / "texas100", X, y)
