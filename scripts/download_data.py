@@ -130,12 +130,20 @@ def load_texas100(raw_dir: Path, out_dir: Path):
         print("  SKIP — texas/100/feats or texas/100/labels not found in data/raw/")
         return
 
-    feats  = np.load(str(feats_path),  allow_pickle=True).astype(np.float32)
-    labels = np.load(str(labels_path), allow_pickle=True).astype(np.int32)
-    y = labels - 1   # convert 1-indexed to 0-indexed
-    X = StandardScaler().fit_transform(feats)
+    # feats: (67330, 6169) uint16 raw ICD procedure codes
+    # labels: 99370 uint16 entries (includes held-out test split)
+    # take first 67330 labels to align with feats rows
+    feats      = np.fromfile(str(feats_path),  dtype=np.uint16).reshape(67330, 6169)
+    labels_raw = np.fromfile(str(labels_path), dtype=np.uint16)[:67330]
+
+    # map ICD codes → 0-indexed class labels
+    unique_codes = np.unique(labels_raw)
+    code_to_idx  = {c: i for i, c in enumerate(unique_codes)}
+    y = np.array([code_to_idx[c] for c in labels_raw], dtype=np.int32)
+
+    X = StandardScaler().fit_transform(feats.astype(np.float32))
     _save(out_dir / "texas100", X, y)
-    print(f"  saved: {X.shape}")
+    print(f"  saved: {X.shape}, n_classes={len(unique_codes)}")
 
 
 # ---------------------------------------------------------------------------
