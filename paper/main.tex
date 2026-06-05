@@ -30,8 +30,7 @@
 % ── Paper metadata ────────────────────────────────────────────────────────────
 \begin{document}
 
-\title{What Makes a Dataset Privacy-Sensitive?\\
-  Towards Predicting Membership Inference Risk Before Model Training}
+\title{What Makes a Dataset Privacy-Sensitive? Towards Predicting Membership Inference Risk Before Model Training}
 
 \author{
   \IEEEauthorblockN{}
@@ -48,15 +47,12 @@ Membership inference, attribute inference, differential privacy, and
 machine unlearning have been studied for a decade, yet they all treat
 privacy leakage as a property of the \emph{model}. We ask a more basic
 question: why do some datasets leak far more than others under the
-\emph{same} model and the \emph{same} attack?
-
-We show that much of the answer lies in the geometric structure of the
+\emph{same} model and the \emph{same} attack? We show that much of the answer lies in the geometric structure of the
 training data itself. We introduce the \emph{Dataset Privacy Risk Index}
 (DPRI), a risk score computed entirely from the raw data
 distribution---sample uniqueness, local density, outlier structure,
 feature entropy, and class separability---without training a single model,
-without shadow models, and without mounting any attack. We prove that the
-advantage of an optimal membership inference adversary is upper-bounded by
+without shadow models, and without mounting any attack. We prove that the advantage of an optimal membership inference adversary is upper-bounded by
 a function of these pre-training quantities, giving a formal account of why
 data geometry shapes privacy risk.
 
