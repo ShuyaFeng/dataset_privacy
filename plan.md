@@ -449,8 +449,20 @@ error; a correct attack cannot do worse than random.
 - All Phase 1-4 code + full paper draft with \TODO{} placeholders
 - See git log for details
 
+### Unit tests added (2026-06-04) — 33 tests, all pass locally
+- `tests/test_attacks.py` (7): verified LiRA fix (old=0.50, new=0.94 on leaky data)
+- `tests/test_features.py` (15): DPRI feature math + edge cases (6169-dim, 100-class, dups)
+- `tests/test_pipeline.py` (8): regression LOO-CV, ablation, full main() JSON write, CLI
+- `tests/test_findings.py` (3): Finding 2 benchmark-bias end-to-end
+- `tests/run_all.sh`: run all suites before any cluster job
+- **2nd bug caught:** Finding 2 wrote `np.bool_` to JSON (not serializable) → would
+  have crashed run_findings.py on the cluster after compute. Fixed with bool().
+- Lazy torch/xgboost imports so tests run with numpy/sklearn/scipy only.
+
 ### Remaining TODO
-- Confirm ground truth stability after LiRA fix
-- Debug why run_dpri.py produced no output
+- Re-run LiRA on cluster (21 configs) → regenerate clean ground truth
+- Confirm ground truth stability after LiRA fix (expect std to collapse <0.05)
+- run_dpri.py: features.py is verified correct, so no-output was likely just slow
+  (Purchase100 197k×600 k-NN + silhouette). Re-run and be patient / check separately.
 - Fill paper \TODO{} placeholders once results are clean
 - Theory: flesh out full proof of Theorem 1, tightness experiment (Task 2.2)
