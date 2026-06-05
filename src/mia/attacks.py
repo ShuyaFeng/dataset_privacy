@@ -111,7 +111,7 @@ def attack_shadow_model(
     return fpr, tpr, auc
 
 
-# ── Attack 3: LiRA (simplified, 16 shadow models) ────────────────────────────
+# ── Attack 3: LiRA (online, 16 shadow models) ────────────────────────────────
 
 def attack_lira(
     model_name: str,
@@ -121,64 +121,77 @@ def attack_lira(
     seed: int = 42,
 ):
     """
-    LiRA: Carlini et al. 2022.
-    For each target sample, compare its loss under models trained WITH vs WITHOUT it.
-    Simplified version uses n_shadow=16 (full paper uses 64+).
+    Online LiRA: Carlini et al. 2022.
+
+    Train n_shadow models, each on a random 50% subset. For each
+    (target model t, eval sample j) pair, use the OTHER shadow models as
+    references to estimate j's IN and OUT confidence distributions, then
+    score target model t's confidence on j via a Gaussian likelihood ratio.
+
+    The membership label is the GROUND TRUTH: whether j was actually in the
+    training set of target model t. This is the correct evaluation — the
+    previous version used an arbitrary `j < half` label, which is unrelated
+    to actual membership and produced AUC ~0.5.
 
     Returns (fpr, tpr, auc).
     """
+    from scipy.stats import norm
+
     rng = np.random.default_rng(seed)
     n = len(X)
     n_classes = len(np.unique(y))
 
-    # For efficiency: evaluate on a random subset of 500 target samples
+    # Evaluate on a random subset of target samples for efficiency.
     eval_n = min(500, n)
     eval_idx = rng.choice(n, eval_n, replace=False)
 
-    # For each target sample, track: list of (in_loss, out_loss)
-    in_scores  = [[] for _ in range(n)]
-    out_scores = [[] for _ in range(n)]
+    # Train all shadow models; record membership masks and per-sample confidence.
+    masks = np.zeros((n_shadow, n), dtype=bool)     # masks[i, j] = j in shadow i train set
+    confs = np.zeros((n_shadow, n), dtype=np.float64)
 
     for i in range(n_shadow):
-        # each shadow model is trained on a random 50% subset
         train_mask = rng.random(n) < 0.5
-        train_idx  = np.where(train_mask)[0]
-
+        masks[i] = train_mask
         shadow = get_model(model_name, n_classes=n_classes, seed=seed + i)
-        shadow.fit(X[train_idx], y[train_idx])
+        shadow.fit(X[train_mask], y[train_mask])
+        confs[i] = _predict_proba_correct_class(shadow, X, y)
 
-        # confidence on correct class = proxy for -loss
-        conf_all = _predict_proba_correct_class(shadow, X, y)
+    # LiRA operates in logit space.
+    eps = 1e-6
+    cc = np.clip(confs, eps, 1 - eps)
+    logit_confs = np.log(cc / (1 - cc))
 
-        for j in eval_idx:
-            if train_mask[j]:
-                in_scores[j].append(conf_all[j])
-            else:
-                out_scores[j].append(conf_all[j])
+    scores, labels = [], []
 
-    # Compute LiRA score for each evaluated sample
-    lira_scores = []
-    true_labels = []  # 1 = member (we define membership as being in the first half)
-
-    half = n // 2
     for j in eval_idx:
-        ins  = np.array(in_scores[j])
-        outs = np.array(out_scores[j])
-        if len(ins) < 2 or len(outs) < 2:
-            continue
-        # likelihood ratio: mean in_conf - mean out_conf
-        score = float(np.mean(ins) - np.mean(outs))
-        lira_scores.append(score)
-        true_labels.append(1 if j < half else 0)
+        col_mask  = masks[:, j]          # (n_shadow,) which shadows had j IN
+        col_logit = logit_confs[:, j]    # (n_shadow,) logit-confidence on j
 
-    if len(set(true_labels)) < 2:
-        # degenerate case: return 0.5
+        for t in range(n_shadow):
+            # leave target t out; use the rest as references
+            sel = np.ones(n_shadow, dtype=bool)
+            sel[t] = False
+            in_refs  = col_logit[sel &  col_mask]
+            out_refs = col_logit[sel & ~col_mask]
+            if len(in_refs) < 2 or len(out_refs) < 2:
+                continue
+
+            mu_in,  std_in  = in_refs.mean(),  in_refs.std()  + 1e-6
+            mu_out, std_out = out_refs.mean(), out_refs.std() + 1e-6
+
+            # log-likelihood ratio: IN vs OUT for target model's confidence
+            s = (norm.logpdf(col_logit[t], mu_in,  std_in)
+                 - norm.logpdf(col_logit[t], mu_out, std_out))
+            scores.append(s)
+            labels.append(int(col_mask[t]))   # ground-truth membership
+
+    if len(set(labels)) < 2:
         return np.array([0, 1]), np.array([0, 1]), 0.5
 
-    lira_scores = np.array(lira_scores)
-    true_labels = np.array(true_labels)
-    auc = roc_auc_score(true_labels, lira_scores)
-    fpr, tpr, _ = roc_curve(true_labels, lira_scores)
+    scores = np.array(scores)
+    labels = np.array(labels)
+    auc = roc_auc_score(labels, scores)
+    fpr, tpr, _ = roc_curve(labels, scores)
     return fpr, tpr, float(auc)
 
 

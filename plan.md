@@ -408,34 +408,49 @@ This goes in the Conclusion/Discussion section.
 
 ## Current Status
 
-**Active task:** Waiting for cluster MIA grid (Task 1.1) to finish
+**Active task:** Phase 1 Task 1.1 — fixing LiRA bug, regenerating ground truth
 
-**Completed (code written + pushed to GitHub):**
-- `environment.yml`, `scripts/setup_cluster.sh`, `scripts/download_data.py`
-- `src/models/classifiers.py` — MLP, XGBoost, RF
-- `src/mia/attacks.py` — loss_threshold, shadow_model, lira
-- `experiments/run_mia_grid.py` + `slurm/mia_grid_array.sh` — 63-task grid
-- `experiments/check_ground_truth_variance.py` — variance analysis
-- `paper/sec_threat_model.tex` — Task 1.2 DONE (paper-ready LaTeX)
-- `paper/feldman_positioning.tex` — Task 1.3 DONE (two versions: Intro + Related Work)
-- `paper/sec_theory.tex` — Phase 2 DONE (Theorem 1 + proof sketch + benchmark bias corollary)
-- `src/dpri/features.py` — 5 DPRI features implementation
-- `experiments/run_dpri.py` — compute DPRI for all datasets
-- `experiments/run_regression.py` — LOO-CV regression + ablation + variance decomposition
-- `experiments/run_findings.py` — Finding 2 (KS test) + Finding 3 (DP calibration)
-- `src/dpri/cli.py` — standalone CLI tool (Task 4.3 DONE)
+### First MIA grid run (2026-06-03) — REVEALED A BUG
 
-**Blockers:**
-- Waiting for `sbatch slurm/mia_grid_array.sh` to complete on cluster
+First full 63-config grid completed. `check_ground_truth_variance.py` output:
+- Within-dataset AUC std: texas100=0.239, purchase100=0.223, adult=0.217 (5/7 FAILED <0.05 threshold)
+- **LiRA mean AUC = 0.4819 < 0.5** ← impossible for a correct attack
 
-**When cluster finishes, run in this order:**
-1. `python experiments/check_ground_truth_variance.py`  → check AUC variance
-2. `python experiments/run_dpri.py`                     → compute DPRI features
-3. `python experiments/run_regression.py`               → R², ablation, Finding 1
-4. `python experiments/run_findings.py`                 → Finding 2 + Finding 3
-5. Report results back → we interpret findings + write paper sections
+**Root cause:** `attack_lira` used `true_labels.append(1 if j < half else 0)` —
+an arbitrary membership label unrelated to actual shadow-model membership.
+Score (mean in_conf - mean out_conf) was uninformative w.r.t. this label → AUC ~0.5.
 
-**Remaining TODO (need cluster results first):**
-- Phase 5: paper writing (Introduction, Results, Discussion sections)
-- Theory proof: flesh out Appendix with full proof of Theorem 1
-- Tightness experiment for Theorem 1 (Task 2.2)
+**Why this also caused the variance failure:** within each dataset, the 3 LiRA
+configs sat at ~0.48 while the 6 loss/shadow configs sat at ~0.9, inflating
+within-dataset std. Verified: texas100 min_auc=0.4755 is exactly the LiRA value.
+Fixing LiRA should collapse the variance.
+
+**Fix applied (this session):** rewrote `attack_lira` as proper online LiRA —
+per-(target,sample) Gaussian likelihood ratio in logit space, with ground-truth
+membership labels. loss_threshold and shadow_model verified correct, NOT changed.
+
+**This is bug-fixing, not p-hacking:** AUC < 0.5 is an objective implementation
+error; a correct attack cannot do worse than random.
+
+### Next actions (on cluster, in order)
+1. `git pull`
+2. Delete only the LiRA results: `rm results/mia_grid/*__lira__*.json`
+3. Re-submit grid (skip-if-exists reruns only the 21 LiRA configs):
+   `sbatch slurm/mia_gpu_array.sh && sbatch slurm/mia_cpu_array.sh`
+4. After completion: re-run `check_ground_truth_variance.py`
+   - If within-dataset std now <0.05 for most datasets → ground truth is clean, proceed
+   - If still high →走 plan.md Task 1.1 mitigation (model capacity covariate / LiRA-only)
+5. In parallel, `run_dpri.py` can run now (independent of ground truth) — but note
+   it did NOT appear in all_analysis.txt, so it may have crashed or still be running.
+   Check separately.
+6. Once ground truth clean + DPRI done: `run_regression.py` then `run_findings.py`
+
+### Completed (code on GitHub)
+- All Phase 1-4 code + full paper draft with \TODO{} placeholders
+- See git log for details
+
+### Remaining TODO
+- Confirm ground truth stability after LiRA fix
+- Debug why run_dpri.py produced no output
+- Fill paper \TODO{} placeholders once results are clean
+- Theory: flesh out full proof of Theorem 1, tightness experiment (Task 2.2)
