@@ -36,25 +36,38 @@
 % Write abstract LAST — after all results are in.
 % Key elements: 1 sentence problem, 3 findings with numbers, 1 sentence implication.
 %
-Membership inference attacks (MIA) have been studied for a decade, yet we
-still lack a principled answer to a more fundamental question: why do some
-datasets leak more than others, independent of the model trained on them?
-We introduce the \emph{Dataset Privacy Risk Index} (DPRI), a
-pre-training risk estimator built from five data-distributional statistics
-that require no trained model.
-Across \TODO{7} datasets spanning four domains, DPRI predicts MIA
-vulnerability with $R^2 = $\TODO{X.XX} and Spearman $\rho = $\TODO{X.XX}
-under leave-one-dataset-out cross-validation.
-Our analysis yields three security findings:
-(1)~dataset structure explains \TODO{XX}\% of MIA AUC variance, versus
-\TODO{XX}\% for model architecture;
-(2)~widely used MIA benchmarks (Purchase100, Texas100) are structural
-outliers that overstate real-world privacy risk by \TODO{X.X}$\times$ on
-average; and
-(3)~the benefit of differential privacy depends primarily on DPRI, not
-on the nominal $\varepsilon$ value, implying that current DP calibration
-practices may systematically under-protect high-risk datasets.
-We release DPRI as an open-source tool for pre-training dataset auditing.
+A decade of research on membership inference attacks (MIA), attribute
+inference, differential privacy, and machine unlearning has produced ever
+stronger attacks and defenses, yet a more fundamental question remains
+unanswered: why are some datasets inherently more prone to privacy leakage
+than others, independent of the model trained on them? This is a question
+about the nature of data rather than the engineering of attacks, and it has
+direct consequences for how privacy risk is measured and mitigated in
+practice.
+
+We argue that membership inference is largely a symptom whose underlying
+cause is the geometric structure of the training data. To make this precise,
+we introduce the \emph{Dataset Privacy Risk Index} (DPRI), a risk estimator
+computed entirely from the raw data distribution---using sample uniqueness,
+local density, outlier structure, feature entropy, and class
+separability---and requiring no trained model, no shadow models, and no
+attack. We ground DPRI in a formal analysis showing that the advantage of an
+optimal membership inference adversary is upper-bounded by a function of
+these pre-training distributional quantities, providing a principled
+explanation for why data geometry, rather than model architecture, should
+dominate privacy risk.
+
+Building on this foundation, we investigate three questions of broad
+consequence for the security community: whether dataset structure predicts
+privacy risk more reliably than the choice of model; whether the benchmarks
+that have anchored a decade of MIA evaluation are structurally
+representative of the data practitioners actually deploy; and whether the
+protection delivered by a fixed differential privacy budget depends on the
+underlying data distribution. Together, these questions reframe privacy risk
+as a property that can be anticipated before training rather than measured
+after deployment. We release DPRI as an open-source tool so that data
+holders can audit a dataset's privacy risk at collection time, before
+committing to a model or a privacy budget.
 \end{abstract}
 
 % =============================================================================
