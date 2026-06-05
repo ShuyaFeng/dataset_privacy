@@ -37,7 +37,7 @@ We include them specifically to test Finding~2 (benchmark bias).
 
 \subsection{Ground Truth: Risk(D)}
 
-We define $\mathrm{Risk}(D)$ as the \emph{upper envelope} of MIA AUC
+We define $\mathrm{Risk}(D)$ as the upper envelope of MIA AUC
 scores across a grid of three attacks and three model families:
 \begin{equation}
   \mathrm{Risk}(D) = \max_{\mathcal{A} \in \mathbb{A},\; f \in \mathbb{F}}
@@ -51,19 +51,19 @@ choose the best attack-model combination against a fixed dataset,
 independent of the specific model the defender deploys.
 
 \paragraph{MIA attacks.}
-\emph{LiRA}~\cite{carlini2022lira} is the current state-of-the-art,
+LiRA~\cite{carlini2022lira} is the current state-of-the-art,
 using 16 shadow models to compute a per-sample likelihood ratio.
-\emph{Shadow-model attack}~\cite{shokri2017membership} trains 4 shadow
+The shadow-model attack~\cite{shokri2017membership} trains 4 shadow
 models and learns a binary meta-classifier.
-\emph{Loss-threshold attack}~\cite{yeom2018privacy} thresholds the
-model's confidence on the correct class; this is the Bayes-optimal
+The loss-threshold attack~\cite{yeom2018privacy} thresholds the
+model's confidence on the correct class. This is the Bayes-optimal
 attack under the Gaussian assumption.
 
 \paragraph{Model families.}
-\emph{MLP} (two hidden layers, 128-64, trained with Adam for 100 epochs
-on GPU), \emph{XGBoost} (300 trees, depth 6), and \emph{Random Forest}
+MLP (two hidden layers, 128-64, trained with Adam for 100 epochs
+on GPU), XGBoost (300 trees, depth 6), and Random Forest
 (300 trees).
-All models use a 50\%/50\% member/non-member split; seeds are fixed at 42.
+All models use a 50\%/50\% member/non-member split. Seeds are fixed at 42.
 
 \paragraph{Variance check.}
 Before using Equation~\eqref{eq:risk_gt}, we verify that AUC is stable

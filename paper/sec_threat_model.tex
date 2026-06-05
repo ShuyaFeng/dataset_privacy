@@ -12,12 +12,12 @@ Let $D = \{(x_i, y_i)\}_{i=1}^{n}$ be a training dataset drawn i.i.d.\ from an
 unknown distribution $\mathcal{P}$.
 A learner trains a classifier $f_\theta : \mathcal{X} \to \Delta(\mathcal{Y})$
 by minimizing empirical risk on $D$.
-A \emph{membership inference attack} (MIA) is an algorithm
+A membership inference attack (MIA) is an algorithm
 $\mathcal{A} : \mathcal{X} \times \mathcal{Y} \times \mathcal{F} \to \{0,1\}$
 that, given a target sample $(x, y)$ and query access to $f_\theta$,
 outputs $1$ if $(x,y) \in D$ and $0$ otherwise.
 
-The \emph{MIA advantage} of $\mathcal{A}$ is:
+The MIA advantage of $\mathcal{A}$ is:
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}, f_\theta, D)
   \;=\;
@@ -28,7 +28,7 @@ The \emph{MIA advantage} of $\mathcal{A}$ is:
   \right|.
   \label{eq:adv}
 \end{equation}
-We denote the \emph{dataset-level} risk as the expected advantage over samples:
+We denote the dataset-level risk as the expected advantage over samples:
 \begin{equation}
   \mathrm{Risk}(D) \;=\; \sup_{\mathcal{A}} \;\mathbb{E}_{(x,y)\sim\mathcal{P}}\,
   \mathrm{Adv}(\mathcal{A}, f_\theta, D),
@@ -40,8 +40,8 @@ attack (Section~\ref{sec:setup}).
 
 \subsection{Threat Model}
 
-We consider two principals: a \emph{data holder} who trains a model on $D$
-and may later publish it, and an \emph{adversary} who wishes to infer
+We consider two principals: a data holder who trains a model on $D$
+and may later publish it, and an adversary who wishes to infer
 membership in $D$.
 
 \paragraph{Adversary goal.}
@@ -49,24 +49,24 @@ Given a target sample $(x,y)$ and oracle access to $f_\theta$,
 determine whether $(x,y) \in D$.
 
 \paragraph{Adversary capability.}
-The adversary has \emph{black-box} access to $f_\theta$: it may submit
+The adversary has black-box access to $f_\theta$: it may submit
 arbitrary inputs and observe predicted class probabilities, but cannot
 inspect model weights. This is the standard setting for deployed models
 (APIs, MLaaS).
 As a secondary experiment (Section~\ref{sec:implications}) we also consider
-white-box access; results are consistent.
+white-box access, and results are consistent.
 
 \paragraph{Adversary knowledge.}
-The adversary knows the \emph{data domain distribution} $\mathcal{P}$
+The adversary knows the data domain distribution $\mathcal{P}$
 (e.g., it knows the dataset came from medical records of a particular
-demographic) but does \emph{not} know the exact set $D$.
+demographic) but does not know the exact set $D$.
 This reflects realistic scenarios where domain knowledge is public but
 training data is confidential.
 
 \paragraph{Defender goal.}
-Before training begins, the data holder computes a \emph{Dataset Privacy
-Risk Index} (DPRI) from the raw dataset $D$ using only data-distributional
-statistics---no trained model required.
+Before training begins, the data holder computes a Dataset Privacy
+Risk Index (DPRI) from the raw dataset $D$ using only data-distributional
+statistics, with no trained model required.
 DPRI provides an estimate of $\mathrm{Risk}(D)$ that can inform
 (i) whether to apply differential privacy before training,
 (ii) which epsilon budget is appropriate, and
@@ -77,11 +77,11 @@ Our primary analysis targets centralized training.
 We discuss extensions to federated learning and DP-SGD in
 Section~\ref{sec:implications}.
 We do not consider attacks on the training data directly (e.g., data
-poisoning); the adversary is passive.
+poisoning). The adversary is passive.
 
 \paragraph{Dual use.}
-DPRI can also be used \emph{offensively}: an adversary who has access to
+DPRI can also be used offensively: an adversary who has access to
 candidate target datasets (e.g., a public benchmark or a leaked schema)
-can compute DPRI \emph{before} mounting an attack and prioritize
+can compute DPRI before mounting an attack and prioritize
 high-risk datasets to maximize attack efficiency.
 We demonstrate this in Section~\ref{sec:adv_use} and discuss mitigations.

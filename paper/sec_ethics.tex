@@ -11,30 +11,30 @@ This work studies the privacy risk of datasets and involves no new
 collection of or interaction with human subjects. All experiments use
 publicly available, previously released datasets (Adult, COMPAS,
 Purchase100, Texas100, Pima Indians Diabetes, MovieLens-1M, and Gowalla).
-Our use constitutes secondary analysis of already-public data; it does not
+Our use constitutes secondary analysis of already-public data. It does not
 meet the definition of human-subjects research requiring institutional
 review board (IRB) approval at our institutions. We collected no new
 personal data and did not attempt to re-identify any individual.
 
 \paragraph{Sensitive domains.}
-Several datasets derive from sensitive contexts---criminal-justice records
+Several datasets derive from sensitive contexts: criminal-justice records
 (COMPAS), hospital discharge records (Texas100), clinical measurements
 (Pima Diabetes), and individual mobility traces (Gowalla). We use these
-datasets solely to \emph{measure} membership inference risk, never to make
+datasets solely to measure membership inference risk, never to make
 any inference, prediction, or decision about the individuals they describe.
-We are aware that some of these datasets---most notably COMPAS---carry
+We are aware that some of these datasets, most notably COMPAS, carry
 documented demographic biases. Because we do not train or release deployed
 predictors and draw no conclusions about individuals, our use does not
 propagate those biases into downstream decisions.
 
 \paragraph{Dual use.}
 Our central artifact, DPRI, is dual-use. Because it estimates a dataset's
-privacy risk \emph{before} training, an adversary with access to candidate
+privacy risk before training, an adversary with access to candidate
 datasets could in principle use it as a reconnaissance tool to prioritize
 high-risk targets (Section~\ref{sec:implications}). We make three
 observations that, on balance, support release. First, DPRI is computed
 only from intrinsic statistical properties of a dataset and confers no
-capability to attack any specific deployed model or service; our
+capability to attack any specific deployed model or service. Our
 experiments attack no live system, so no vendor vulnerability disclosure is
 applicable. Second, any adversary who can compute DPRI can already mount the
 membership inference attacks we study, so DPRI provides at most a marginal

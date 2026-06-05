@@ -25,8 +25,8 @@ For any $x \in D$, define:
 where $r_k(x)$ is the distance to the $k$-th nearest neighbour of $x$ in
 $D \setminus \{x\}$ and $\mathrm{Vol}(\cdot)$ denotes Euclidean ball volume.
 
-For the \emph{in-distribution} and \emph{out-distribution} of a trained model
-$f_\theta$, define the \emph{score distributions}:
+For the in-distribution and out-distribution of a trained model
+$f_\theta$, define the score distributions:
 \begin{equation}
   P_{\mathrm{in}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \in D], \quad
   P_{\mathrm{out}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \notin D],
@@ -52,7 +52,7 @@ where $\mathcal{A}^*$ is the Bayes-optimal adversary,
 $\sigma^2$ is the variance of the loss under $P_{\mathrm{out}}$,
 and $d$ is the data dimensionality.
 
-At the \emph{dataset level}, the aggregate advantage satisfies:
+At the dataset level, the aggregate advantage satisfies:
 \begin{equation}
   \mathrm{Risk}(D)
   \;\leq\;
@@ -64,16 +64,16 @@ At the \emph{dataset level}, the aggregate advantage satisfies:
 
 \paragraph{Interpretation.}
 The bound says that privacy risk increases when samples are
-\emph{far from their neighbours} ($u(x)$ large, i.e.\ isolated)
-and when the \emph{local population is sparse} ($\rho(x)$ small).
-Both quantities are computable directly from $D$---no model training required.
+far from their neighbours ($u(x)$ large, i.e.\ isolated)
+and when the local population is sparse ($\rho(x)$ small).
+Both quantities are computable directly from $D$, with no model training required.
 The Lipschitz constant $L$ and noise level $\sigma$ are model-family
 constants that can be estimated or treated as fixed hyperparameters.
 
 \begin{proof}[Proof sketch]
 We proceed in three steps.
 
-\emph{Step 1: KL to advantage.}
+Step 1: KL to advantage.
 By the Bretagnolle--Huber inequality, the Bayes-optimal MIA advantage is:
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}^*) \leq
@@ -81,7 +81,7 @@ By the Bretagnolle--Huber inequality, the Bayes-optimal MIA advantage is:
   \label{eq:bh}
 \end{equation}
 
-\emph{Step 2: KL in terms of loss gap.}
+Step 2: KL in terms of loss gap.
 Since $P_{\mathrm{in}}$ and $P_{\mathrm{out}}$ are loss score distributions,
 and $\ell$ is $L$-Lipschitz, the expected loss gap between a training
 sample $x$ and the nearest out-of-sample point $x'$ satisfies:
@@ -99,7 +99,7 @@ Under a sub-Gaussian model for $P_{\mathrm{out}}$ with variance $\sigma^2$:
   \label{eq:kl_bound}
 \end{equation}
 
-\emph{Step 3: Density correction.}
+Step 3: Density correction.
 The nearest-neighbour distance $u(x)$ and local density $\rho(x)$ are
 related by the $k$-NN geometry: for a sample in a region of density
 $\rho$, the expected distance to the nearest neighbour scales as
@@ -124,15 +124,15 @@ it is tight enough to be predictively useful.
 \paragraph{What the bound cannot capture.}
 The bound depends on $L$ (Lipschitz constant of the loss) and $\sigma$
 (out-distribution noise), which are model-family properties.
-This means the bound explains why dataset structure is the \emph{dominant}
+This means the bound explains why dataset structure is the dominant
 driver of risk, while model architecture contributes a fixed multiplicative
-constant---consistent with our empirical Finding~1 (Section~\ref{sec:finding1}).
+constant, consistent with our empirical Finding~1 (Section~\ref{sec:finding1}).
 
 \paragraph{Relationship to differential privacy.}
 If the training mechanism is $(\epsilon,\delta)$-DP, then
 $\mathrm{Adv}(\mathcal{A}^*) \leq e^\epsilon - 1 + \delta$~\cite{yeom2018privacy}.
 Combined with Theorem~\ref{thm:main}, high-DPRI datasets require
-smaller $\epsilon$ to achieve the same risk reduction---motivating our
+smaller $\epsilon$ to achieve the same risk reduction, motivating our
 data-adaptive DP calibration recommendation (Section~\ref{sec:finding3}).
 
 \subsection{Corollary: Benchmark Bias is Predictable}

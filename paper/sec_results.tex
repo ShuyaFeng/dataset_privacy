@@ -66,8 +66,8 @@ Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
 \end{table}
 
 Under LODOCV, ridge regression achieves
-$R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX};
-the random forest regressor achieves
+$R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX}.
+The random forest regressor achieves
 $R^2 = $\TODO{X.XX}, $\rho = $\TODO{X.XX}.
 The comparable performance of the linear model indicates that the
 DPRI--Risk relationship is approximately linear in feature space
@@ -77,7 +77,7 @@ DPRI--Risk relationship is approximately linear in feature space
   \centering
   \dprifig{../results/regression/regression_plot.pdf}{\linewidth}
   \caption{Predicted vs.\ observed Risk(D) under LODOCV.
-           Each point is one dataset; dashed line is $y=x$.}
+           Each point is one dataset. The dashed line is $y=x$.}
   \label{fig:regression}
 \end{figure}
 
@@ -208,5 +208,5 @@ The Spearman correlation between DPRI and DP-induced AUC reduction is
 high-DPRI datasets benefit substantially more from the same $\varepsilon$
 budget.
 Equivalently, a low-DPRI dataset achieves the same protection as a
-high-DPRI dataset with \TODO{X}$\times$ more noise---a factor that
+high-DPRI dataset with \TODO{X}$\times$ more noise, a factor that
 practitioners cannot account for without pre-training risk assessment.

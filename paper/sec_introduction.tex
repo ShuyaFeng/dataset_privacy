@@ -13,8 +13,8 @@ Yet a more fundamental question has gone largely unanswered:
 
 \smallskip
 \begin{center}
-\emph{Why do some datasets leak more than others,\\
-independent of the model trained on them?}
+Why do some datasets leak more than others,\\
+independent of the model trained on them?
 \end{center}
 \smallskip
 
@@ -40,14 +40,14 @@ measuring privacy risk in an unrepresentatively high-risk regime.
 
 \paragraph{Our approach.}
 We ask a temporally prior question:
-\emph{Can the privacy risk of a dataset be reliably predicted before any
-model is trained?}
+Can the privacy risk of a dataset be reliably predicted before any
+model is trained?
 If the answer is yes, practitioners gain an actionable tool: compute the
 risk score at data collection time, before committing to a training
 pipeline or a privacy budget.
 
 We answer yes, and we formalize this through the
-\emph{Dataset Privacy Risk Index} (DPRI)---a scalar pre-training
+Dataset Privacy Risk Index (DPRI), a scalar pre-training
 risk estimator derived from five distributional statistics:
 sample uniqueness, local density, outlier score, feature entropy,
 and class cluster separation.
@@ -61,7 +61,7 @@ function of local data geometry.
 \item \textbf{Theoretical foundation.}
 We prove that the Bayes-optimal MIA advantage for a sample $x$ is
 upper-bounded by $O(u(x) / \rho(x)^{1/d})$, where $u(x)$ is sample
-uniqueness and $\rho(x)$ is local density---both computable from raw data
+uniqueness and $\rho(x)$ is local density, both computable from raw data
 (Theorem~\ref{thm:main}).
 This provides the first formal link between pre-training data geometry
 and membership inference risk.
@@ -73,7 +73,7 @@ using three MIA attacks and three model families
 ($R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX}).
 
 \item \textbf{Three security findings.}
-(F1)~Dataset structure is the dominant driver of MIA risk; model
+(F1)~Dataset structure is the dominant driver of MIA risk. Model
 architecture contributes a secondary, bounded effect.
 (F2)~Widely used MIA benchmarks are structural outliers that inflate
 reported attack success by \TODO{X.X}$\times$, casting doubt on the
@@ -93,4 +93,4 @@ We focus on tabular and graph-structured datasets in the centralized
 training setting.
 Extensions to image data, federated learning, and generative models are
 left as future work.
-All datasets used are publicly available; no proprietary data was accessed.
+All datasets used are publicly available. No proprietary data was accessed.
