@@ -35,17 +35,43 @@ def load_dataset(name: str, data_dir: Path):
     return d["X"], d["y"]
 
 
+def merge_json_to_csv(out_dir: Path):
+    """Combine all per-dataset *_dpri.json checkpoints into dpri_features.csv.
+
+    Used after a Slurm array job where each task computed one dataset.
+    """
+    rows = []
+    for jp in sorted(out_dir.glob("*_dpri.json")):
+        with open(jp) as f:
+            rows.append(json.load(f))
+    if not rows:
+        print(f"No *_dpri.json files found in {out_dir}")
+        return
+    df = pd.DataFrame(rows).set_index("dataset")
+    csv_path = out_dir / "dpri_features.csv"
+    df.to_csv(csv_path)
+    print(f"Merged {len(rows)} datasets -> {csv_path}")
+    print(df.round(4).to_string())
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset",  default=None, choices=DATASETS + [None])
     parser.add_argument("--data_dir", default="data/processed")
     parser.add_argument("--out_dir",  default="results/dpri")
     parser.add_argument("--k",        type=int, default=5)
+    parser.add_argument("--merge",    action="store_true",
+                        help="merge existing *_dpri.json into dpri_features.csv and exit")
     args = parser.parse_args()
 
     data_dir = Path(args.data_dir)
     out_dir  = Path(args.out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    # merge mode: combine per-dataset JSON checkpoints into the final CSV
+    if args.merge:
+        merge_json_to_csv(out_dir)
+        return
 
     targets = [args.dataset] if args.dataset else DATASETS
     rows = []
@@ -70,7 +96,9 @@ def main():
         print(f"  Done. uniqueness_mean={feats['uniqueness_mean']:.4f}  "
               f"cluster_sep={feats['cluster_sep']:.4f}")
 
-    if rows:
+    # Only write the combined CSV when running ALL datasets in one process.
+    # In Slurm array mode (one --dataset per task), run with --merge afterwards.
+    if not args.dataset and rows:
         df = pd.DataFrame(rows).set_index("dataset")
         csv_path = out_dir / "dpri_features.csv"
         df.to_csv(csv_path)
