@@ -72,9 +72,9 @@ def finding2_benchmark_bias():
         results[feat] = {
             "benchmark_mean": round(float(b_vals.mean()), 4),
             "realworld_mean": round(float(r_vals.mean()), 4),
-            "ks_stat": round(stat, 4),
-            "ks_pval": round(pval, 4),
-            "significant": pval < 0.05,
+            "ks_stat": round(float(stat), 4),
+            "ks_pval": round(float(pval), 4),
+            "significant": bool(pval < 0.05),   # np.bool_ is not JSON serializable
         }
         sig = "**" if pval < 0.05 else "  "
         print(f"  {sig} {feat:<25} "
