@@ -5,18 +5,21 @@ All expose a sklearn-compatible fit/predict_proba interface.
 MLP  → PyTorch, auto-uses GPU when available (CUDA) else CPU.
 XGBoost → uses GPU tree method when CUDA is available.
 RF   → sklearn, CPU only (fast enough for tabular data).
+
+torch and xgboost are imported lazily so that RF-only / test environments
+without those packages can still import this module.
 """
 
 import numpy as np
-import torch
-import torch.nn as nn
-from torch.utils.data import DataLoader, TensorDataset
 from sklearn.ensemble import RandomForestClassifier
-from xgboost import XGBClassifier
 
 
 def _cuda_available() -> bool:
-    return torch.cuda.is_available()
+    try:
+        import torch
+        return torch.cuda.is_available()
+    except ImportError:
+        return False
 
 
 # ── PyTorch MLP with sklearn-compatible interface ────────────────────────────
@@ -41,12 +44,13 @@ class TorchMLP:
         self.lr = lr
         self.batch_size = batch_size
         self.seed = seed
-        self.device = torch.device("cuda" if _cuda_available() else "cpu")
+        self.device = None        # set lazily in fit()
         self.net = None
         self.classes_ = None
         self._label_map = None
 
-    def _build_net(self, in_dim: int, n_classes: int) -> nn.Module:
+    def _build_net(self, in_dim: int, n_classes: int):
+        import torch.nn as nn
         layers = []
         prev = in_dim
         for h in self.hidden_sizes:
@@ -56,6 +60,11 @@ class TorchMLP:
         return nn.Sequential(*layers)
 
     def fit(self, X: np.ndarray, y: np.ndarray):
+        import torch
+        import torch.nn as nn
+        from torch.utils.data import DataLoader, TensorDataset
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         torch.manual_seed(self.seed)
         self.classes_ = np.unique(y)
         self._label_map = {c: i for i, c in enumerate(self.classes_)}
@@ -82,6 +91,7 @@ class TorchMLP:
         return self
 
     def predict_proba(self, X: np.ndarray, batch_size: int = 4096) -> np.ndarray:
+        import torch
         self.net.eval()
         results = []
         with torch.no_grad():
@@ -109,7 +119,7 @@ def get_model(name: str, n_classes: int, seed: int = 42):
             seed=seed,
         )
     if name == "xgboost":
-        # use GPU tree method when CUDA is available
+        from xgboost import XGBClassifier
         device = "cuda" if _cuda_available() else "cpu"
         return XGBClassifier(
             n_estimators=300,
