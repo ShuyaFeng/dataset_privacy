@@ -15,7 +15,7 @@
 #SBATCH --cpus-per-task=16
 #SBATCH --mem=64G
 #SBATCH --time=12:00:00
-#SBATCH --array=0-6
+#SBATCH --array=0-12
 #SBATCH --output=logs/dpri_%A_%a.out
 #SBATCH --error=logs/dpri_%A_%a.err
 
@@ -30,7 +30,7 @@ module load Anaconda3 2>/dev/null \
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate dpri
 
-DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla)
+DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla breastcancer wine digits covtype germancredit kddcup)
 DATASET=${DATASETS[$SLURM_ARRAY_TASK_ID]}
 
 echo "DPRI task $SLURM_ARRAY_TASK_ID → dataset=$DATASET"

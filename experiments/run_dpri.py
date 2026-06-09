@@ -24,6 +24,7 @@ from src.dpri.features import compute_dpri_features
 DATASETS = [
     "adult", "compas", "purchase100", "texas100",
     "nhanes", "movielens", "gowalla",
+    "breastcancer", "wine", "digits", "covtype", "germancredit", "kddcup",
 ]
 
 

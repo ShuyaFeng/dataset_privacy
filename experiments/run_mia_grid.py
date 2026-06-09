@@ -37,6 +37,7 @@ from src.mia.attacks import (
 DATASET_NAMES = [
     "adult", "compas", "purchase100", "texas100",
     "nhanes", "movielens", "gowalla",
+    "breastcancer", "wine", "digits", "covtype", "germancredit", "kddcup",
 ]
 
 

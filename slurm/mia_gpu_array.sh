@@ -13,7 +13,7 @@
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
 #SBATCH --gres=gpu:1
-#SBATCH --array=0-20
+#SBATCH --array=0-38
 #SBATCH --output=logs/mia_gpu_%A_%a.out
 #SBATCH --error=logs/mia_gpu_%A_%a.err
 
@@ -35,7 +35,7 @@ conda activate dpri
 python -c "import torch; print('CUDA:', torch.cuda.is_available(), '| device:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'none')"
 
 # ── Config mapping ───────────────────────────────────────────────────────────
-DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla)
+DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla breastcancer wine digits covtype germancredit kddcup)
 ATTACKS=(loss_threshold shadow_model lira)
 MODEL=mlp   # this script is GPU-only for MLP
 
