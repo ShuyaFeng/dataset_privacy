@@ -21,6 +21,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import spearmanr
 from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import LeaveOneOut
 from sklearn.metrics import r2_score
@@ -60,8 +61,10 @@ def load_data():
 
 def run_loo_cv(X: np.ndarray, y: np.ndarray, model_name: str):
     """Leave-one-out cross-validation."""
+    # alpha is high because n is tiny (7 datasets) and features are collinear
+    # (uniqueness and density are near-reciprocals); strong shrinkage is needed.
     if model_name == "linear":
-        model_cls = lambda: Ridge(alpha=0.1)
+        model_cls = lambda: Ridge(alpha=1.0)
     elif model_name == "rf":
         model_cls = lambda: RandomForestRegressor(n_estimators=500, random_state=42)
     else:
@@ -71,10 +74,16 @@ def run_loo_cv(X: np.ndarray, y: np.ndarray, model_name: str):
     y_true, y_pred = [], []
 
     for train_idx, test_idx in loo.split(X):
+        # Standardize features INSIDE the fold (fit on train only) so the linear
+        # model is not dominated by raw-scale features (density spans 0.03..35,
+        # uniqueness 0.14..56). Without this, ridge LOO-CV gives R^2 = -10.
+        scaler = StandardScaler()
+        Xtr = scaler.fit_transform(X[train_idx])
+        Xte = scaler.transform(X[test_idx])
         m = model_cls()
-        m.fit(X[train_idx], y[train_idx])
+        m.fit(Xtr, y[train_idx])
         y_true.append(y[test_idx[0]])
-        y_pred.append(m.predict(X[test_idx])[0])
+        y_pred.append(m.predict(Xte)[0])
 
     y_true = np.array(y_true)
     y_pred = np.array(y_pred)
@@ -171,17 +180,22 @@ def main():
         records = [_json.load(open(p)) for p in mia_dir.glob("*.json")]
         mia_df = pd.DataFrame(records)
 
-        var_by_dataset = mia_df.groupby("dataset")["auc"].var().mean()
-        var_by_model   = mia_df.groupby("model")["auc"].var().mean()
-        var_by_attack  = mia_df.groupby("attack")["auc"].var().mean()
+        # Factor influence = spread (std) of that factor's GROUP MEANS.
+        # Large spread means changing the factor moves AUC a lot, i.e. it
+        # explains more of the variation. (The previous version used
+        # groupby.var().mean(), which is WITHIN-group variance: the opposite
+        # signal, and it was mislabeled as "variance from X".)
+        dataset_spread = mia_df.groupby("dataset")["auc"].mean().std()
+        model_spread   = mia_df.groupby("model")["auc"].mean().std()
+        attack_spread  = mia_df.groupby("attack")["auc"].mean().std()
 
         print("\n" + "="*60)
-        print("Finding 1: Variance Decomposition")
+        print("Finding 1: Factor influence (std of group-mean AUC)")
         print("="*60)
-        total = var_by_dataset + var_by_model + var_by_attack
-        print(f"  Variance from dataset:  {var_by_dataset/total*100:.1f}%")
-        print(f"  Variance from model:    {var_by_model/total*100:.1f}%")
-        print(f"  Variance from attack:   {var_by_attack/total*100:.1f}%")
+        total = dataset_spread + model_spread + attack_spread
+        print(f"  Dataset: std={dataset_spread:.4f}  ({dataset_spread/total*100:.1f}%)")
+        print(f"  Model:   std={model_spread:.4f}  ({model_spread/total*100:.1f}%)")
+        print(f"  Attack:  std={attack_spread:.4f}  ({attack_spread/total*100:.1f}%)")
 
     # ── Save results ─────────────────────────────────────────────────────
     results = {
