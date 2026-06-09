@@ -37,20 +37,25 @@ from src.mia.attacks import (
 DATASET_NAMES = [
     "adult", "compas", "purchase100", "texas100",
     "nhanes", "movielens", "gowalla",
-    "breastcancer", "wine", "digits", "covtype", "germancredit", "kddcup",
+    "covtype", "digits", "creditg", "spambase", "mushroom", "electricity",
+    "letter", "optdigits", "pendigits", "satimage", "segment", "vehicle",
+    "ionosphere", "phoneme", "bankmarketing", "magic", "nomao", "har",
+    "gasdrift", "mnist", "fashionmnist", "jm1", "kc1", "breastw",
 ]
 
 
 def load_dataset(name: str, data_dir: Path):
     path = data_dir / f"{name}.npz"
     if not path.exists():
-        raise FileNotFoundError(f"Dataset not found: {path}\nRun scripts/download_data.py first.")
+        return None, None   # missing (e.g. an OpenML fetch that failed); caller skips
     d = np.load(path)
     return d["X"], d["y"]
 
 
 def run_single(dataset: str, attack: str, model_name: str, data_dir: Path, seed: int = 42):
     X, y = load_dataset(dataset, data_dir)
+    if X is None:
+        return None
 
     # 50/50 member/non-member split — standard MIA convention
     X_train, X_test, y_train, y_test = train_test_split(
@@ -113,6 +118,9 @@ def main():
         args.dataset, args.attack, args.model,
         Path(args.data_dir), args.seed
     )
+    if result is None:
+        print(f"  SKIP: {args.dataset} not found (download may have failed) — exiting cleanly")
+        return
     print(f"  AUC={result['auc']:.4f}  time={result['elapsed_sec']}s")
 
     with open(out_path, "w") as f:

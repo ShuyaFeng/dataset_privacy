@@ -240,45 +240,57 @@ def _save(path: Path, X: np.ndarray, y: np.ndarray):
 # 8-13. Extra public datasets via scikit-learn (stable download + cache).
 #       Added to grow n from 7 to 13 for a more robust DPRI regression.
 # ---------------------------------------------------------------------------
-def load_sklearn_extras(out_dir: Path):
-    from sklearn.datasets import (
-        load_breast_cancer, load_wine, load_digits,
-        fetch_covtype, fetch_openml, fetch_kddcup99,
-    )
+def load_extra_datasets(out_dir: Path):
+    """Extra public datasets (scikit-learn built-ins + OpenML) to reach n~31
+    for a robust DPRI regression. Each fetch is wrapped in try/except so one
+    failure does not abort the rest. Large sets are subsampled to 30k to keep
+    the downstream MIA grid tractable. Domains span medical, image, forest,
+    credit, network, sensor, physics, and speech.
+    """
+    from sklearn.datasets import fetch_openml, fetch_covtype, load_digits
+
     rng = np.random.default_rng(42)
 
-    def _prep_save(name, X, y, subsample=None):
-        X = np.asarray(X, dtype=np.float32)
-        _, y = np.unique(np.asarray(y), return_inverse=True)   # labels -> 0..C-1
+    def _prep_save(name, X, y, subsample=30000):
+        X = np.nan_to_num(np.asarray(X, dtype=np.float32))
+        _, y = np.unique(np.asarray(y).astype(str), return_inverse=True)
         y = y.astype(np.int32)
         if subsample and len(X) > subsample:
             idx = rng.choice(len(X), subsample, replace=False)
             X, y = X[idx], y[idx]
         X = StandardScaler().fit_transform(X)
         _save(out_dir / name, X, y)
-        print(f"  {name}: {X.shape}, {len(np.unique(y))} classes")
+        print(f"  saved {name}: {X.shape}, {len(np.unique(y))} classes")
 
-    print("[8/13] breastcancer (medical)")
-    d = load_breast_cancer(); _prep_save("breastcancer", d.data, d.target)
+    # scikit-learn built-ins (reliable, cached locally)
+    try:
+        Xc, yc = fetch_covtype(return_X_y=True)
+        _prep_save("covtype", Xc, yc)
+    except Exception as e:
+        print(f"  SKIP covtype: {type(e).__name__}: {e}")
+    try:
+        d = load_digits()
+        _prep_save("digits", d.data, d.target, subsample=None)
+    except Exception as e:
+        print(f"  SKIP digits: {type(e).__name__}: {e}")
 
-    print("[9/13] wine")
-    d = load_wine(); _prep_save("wine", d.data, d.target)
-
-    print("[10/13] digits (image-like, 10 classes)")
-    d = load_digits(); _prep_save("digits", d.data, d.target)
-
-    print("[11/13] covtype (forest, subset 30k)")
-    d = fetch_covtype(); _prep_save("covtype", d.data, d.target, subsample=30000)
-
-    print("[12/13] germancredit (openml credit-g)")
-    d = fetch_openml("credit-g", version=1, as_frame=True, parser="auto")
-    Xg = pd.get_dummies(d.data).values
-    _prep_save("germancredit", Xg, d.target)
-
-    print("[13/13] kddcup (network, subset 30k)")
-    d = fetch_kddcup99(subset="SF", percent10=True)
-    Xk = pd.get_dummies(pd.DataFrame(d.data)).values
-    _prep_save("kddcup", Xk, d.target, subsample=30000)
+    # OpenML datasets, addressed by stable numeric data_id
+    openml_ids = {
+        "creditg": 31, "spambase": 44, "mushroom": 24, "electricity": 151,
+        "letter": 6, "optdigits": 28, "pendigits": 32, "satimage": 182,
+        "segment": 36, "vehicle": 54, "ionosphere": 59, "phoneme": 1489,
+        "bankmarketing": 1461, "magic": 1120, "nomao": 1486, "har": 1478,
+        "gasdrift": 1476, "mnist": 554, "fashionmnist": 40996,
+        "jm1": 1053, "kc1": 1067, "breastw": 15,
+    }
+    for name, did in openml_ids.items():
+        try:
+            d = fetch_openml(data_id=did, as_frame=True, parser="auto")
+            X = pd.get_dummies(d.data, dummy_na=True)
+            X = X.apply(pd.to_numeric, errors="coerce").fillna(0).values
+            _prep_save(name, X, d.target)
+        except Exception as e:
+            print(f"  SKIP {name} (openml {did}): {type(e).__name__}")
 
 
 def main():
@@ -299,7 +311,7 @@ def main():
     load_nhanes(raw_dir, out_dir)
     load_movielens(raw_dir, out_dir)
     load_gowalla(raw_dir, out_dir)
-    load_sklearn_extras(out_dir)
+    load_extra_datasets(out_dir)
 
     print("\nDone. Check data/processed/ for .npz files.")
     print("Manually download Purchase100 and Texas100 from:")

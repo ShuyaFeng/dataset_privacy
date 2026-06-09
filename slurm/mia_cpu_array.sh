@@ -12,7 +12,7 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
-#SBATCH --array=0-77
+#SBATCH --array=0-185
 #SBATCH --output=logs/mia_cpu_%A_%a.out
 #SBATCH --error=logs/mia_cpu_%A_%a.err
 
@@ -30,7 +30,7 @@ source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate dpri
 
 # ── Config mapping ───────────────────────────────────────────────────────────
-DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla breastcancer wine digits covtype germancredit kddcup)
+DATASETS=(adult compas purchase100 texas100 nhanes movielens gowalla covtype digits creditg spambase mushroom electricity letter optdigits pendigits satimage segment vehicle ionosphere phoneme bankmarketing magic nomao har gasdrift mnist fashionmnist jm1 kc1 breastw)
 ATTACKS=(loss_threshold shadow_model lira)
 MODELS=(xgboost rf)
 
