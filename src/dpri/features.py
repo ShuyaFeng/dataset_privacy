@@ -44,8 +44,13 @@ def compute_density(X: np.ndarray, k: int = 5) -> np.ndarray:
     nn.fit(X)
     dists, _ = nn.kneighbors(X)
     r_k = dists[:, k]
-    # avoid division by zero for duplicate points
-    r_k = np.where(r_k < 1e-10, 1e-10, r_k)
+    # Floor r_k at a small fraction of the typical scale. Duplicate or
+    # near-duplicate points have r_k ~ 0, and a naive 1/r_k blows up the
+    # density (e.g. millions on COMPAS/Gowalla, which have many repeated rows).
+    # Flooring at 10% of the median keeps duplicates "very dense" but bounded.
+    nonzero = r_k[r_k > 1e-12]
+    floor = float(np.median(nonzero)) * 0.1 if nonzero.size > 0 else 1e-6
+    r_k = np.maximum(r_k, floor)
     return 1.0 / r_k
 
 

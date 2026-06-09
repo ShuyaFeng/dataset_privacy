@@ -61,17 +61,25 @@ def main():
     print("=" * 60)
     print(df.groupby("model")["auc"].agg(["mean","std"]).round(4).to_string())
 
-    # Define Risk(D) = upper envelope (max AUC across all 9 configs)
-    risk = df.groupby("dataset")["auc"].max().rename("Risk_D")
-    print("\n" + "=" * 60)
-    print("RISK(D) = max AUC across all attack/model configs")
-    print("This is the ground truth for DPRI regression.")
-    print("=" * 60)
-    print(risk.sort_values(ascending=False).round(4).to_string())
+    # Ground truth options:
+    #   mean = typical risk across the attack/model grid. Primary choice: it
+    #          preserves dataset separation and is robust to the pathological
+    #          over-fitting of unregularized RF.
+    #   max  = worst-case adversary (upper envelope). Kept for comparison; it
+    #          collapses onto RF for every dataset, erasing benchmark contrast.
+    risk_mean = df.groupby("dataset")["auc"].mean().rename("Risk_D")
+    risk_max  = df.groupby("dataset")["auc"].max().rename("Risk_D")
 
-    risk_path = Path("results") / "ground_truth_risk.csv"
-    risk.reset_index().to_csv(risk_path, index=False)
-    print(f"\nSaved to {risk_path}")
+    print("\n" + "=" * 60)
+    print("RISK(D): mean (primary) vs max (comparison)")
+    print("=" * 60)
+    cmp = pd.DataFrame({"mean": risk_mean, "max": risk_max})
+    print(cmp.sort_values("mean", ascending=False).round(4).to_string())
+
+    risk_mean.reset_index().to_csv("results/ground_truth_risk.csv", index=False)
+    risk_max.reset_index().to_csv("results/ground_truth_risk_max.csv", index=False)
+    print("\nSaved mean -> results/ground_truth_risk.csv (primary, used by regression)")
+    print("Saved max  -> results/ground_truth_risk_max.csv (comparison)")
 
 
 if __name__ == "__main__":
