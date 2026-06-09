@@ -72,18 +72,21 @@ def test_run_loo_cv_rejects_unknown_model():
     print("PASS test_run_loo_cv_rejects_unknown_model")
 
 
-# ── ablation ─────────────────────────────────────────────────────────────────
+# ── single-factor analysis ───────────────────────────────────────────────────
 
-def test_ablation_identifies_driving_feature():
-    """If y depends only on feature 0, dropping it must hurt R² the most."""
+def test_single_factor_identifies_driving_feature():
+    """If Risk depends only on feature 0, it must have the highest |Spearman|."""
     rng = np.random.default_rng(0)
     n = 20
     X = rng.normal(size=(n, 4))
     y = 2.0 * X[:, 0] + rng.normal(0, 0.01, n)
-    baseline_r2, results = rr.ablation(X, y, ["f0", "f1", "f2", "f3"])
-    drops = {k: v["r2_drop"] for k, v in results.items()}
-    assert drops["f0"] == max(drops.values()), f"f0 should have largest drop: {drops}"
-    print(f"PASS test_ablation_identifies_driving_feature (drops={ {k: round(v,3) for k,v in drops.items()} })")
+    df = pd.DataFrame(X, columns=["f0", "f1", "f2", "f3"])
+    df["Risk_D"] = y
+    results = rr.single_factor_analysis(df, ["f0", "f1", "f2", "f3"])
+    best = max(results, key=lambda k: abs(results[k]["spearman"]))
+    assert best == "f0", f"f0 should dominate, got {best}: {results}"
+    assert results["f0"]["p_value"] < 0.05, "f0 should be significant"
+    print(f"PASS test_single_factor_identifies_driving_feature (f0 rho={results['f0']['spearman']})")
 
 
 # ── end-to-end regression from synthetic CSVs ────────────────────────────────
@@ -94,8 +97,9 @@ def test_regression_end_to_end():
     datasets = [f"ds{i}" for i in range(9)]
 
     # synthetic DPRI features where risk is a linear function of features
-    feat_data = rng.normal(size=(9, 8))
-    w = np.array([0.3, 0.1, 0.2, 0.05, 0.15, 0.05, 0.1, 0.05])
+    n_feat = len(rr.FEATURE_COLS)
+    feat_data = rng.normal(size=(9, n_feat))
+    w = np.linspace(0.3, 0.05, n_feat)
     risk = 0.5 + 0.1 * (feat_data @ w)
     risk = np.clip(risk, 0.4, 1.0)
 
@@ -107,7 +111,7 @@ def test_regression_end_to_end():
         dpri_df = pd.DataFrame(feat_data, columns=rr.FEATURE_COLS, index=datasets)
         dpri_df.index.name = "dataset"
         dpri_df["n_samples"] = 1000
-        dpri_df["n_features"] = 8
+        dpri_df["n_features"] = n_feat
         dpri_df.to_csv(td / "results" / "dpri" / "dpri_features.csv")
 
         risk_df = pd.DataFrame({"dataset": datasets, "Risk_D": risk})
@@ -125,7 +129,7 @@ def test_regression_end_to_end():
                 res = json.load(f)
             assert "linear" in res and "r2_loo" in res["linear"]
             assert "rf" in res
-            assert "ablation" in res
+            assert "single_factor" in res
             assert "feature_importances" in res
             r2 = res["linear"]["r2_loo"]
             assert np.isfinite(r2)
@@ -178,7 +182,7 @@ if __name__ == "__main__":
         test_run_loo_cv_recovers_linear_signal,
         test_run_loo_cv_rf_runs,
         test_run_loo_cv_rejects_unknown_model,
-        test_ablation_identifies_driving_feature,
+        test_single_factor_identifies_driving_feature,
         test_regression_end_to_end,
         test_cli_dpri_to_scalar_range,
         test_cli_risk_category,
