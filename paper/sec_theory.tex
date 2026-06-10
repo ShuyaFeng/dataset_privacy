@@ -124,16 +124,18 @@ it is tight enough to be predictively useful.
 \paragraph{What the bound cannot capture.}
 The bound depends on $L$ (Lipschitz constant of the loss) and $\sigma$
 (out-distribution noise), which are model-family properties.
-This means the bound explains why dataset structure is the dominant
-driver of risk, while model architecture contributes a fixed multiplicative
-constant, consistent with our empirical Finding~1 (Section~\ref{sec:finding1}).
+The bound separates a data-geometry term from model-family constants
+($L$ and $\sigma$). The data term varies widely across datasets while the
+model contributes a bounded multiplicative factor. This is consistent with
+our empirical finding that dataset structure influences risk comparably to
+model architecture (Section~\ref{sec:finding1}).
 
 \paragraph{Relationship to differential privacy.}
 If the training mechanism is $(\epsilon,\delta)$-DP, then
 $\mathrm{Adv}(\mathcal{A}^*) \leq e^\epsilon - 1 + \delta$~\cite{yeom2018privacy}.
-Combined with Theorem~\ref{thm:main}, high-DPRI datasets require
-smaller $\epsilon$ to achieve the same risk reduction, motivating our
-data-adaptive DP calibration recommendation (Section~\ref{sec:finding3}).
+Combined with Theorem~\ref{thm:main}, high-DPRI datasets would require a
+smaller $\epsilon$ to achieve the same risk reduction, motivating the
+data-aware DP direction we discuss in Section~\ref{sec:implications}.
 
 \subsection{Corollary: Benchmark Bias is Predictable}
 

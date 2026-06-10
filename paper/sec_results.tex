@@ -3,210 +3,174 @@
 \label{sec:results}
 % =============================================================================
 
-\subsection{Ground Truth Stability}
+We evaluate on 31 datasets across five domains, each attacked with three MIA
+methods (LiRA, shadow, loss-threshold) under three model families (MLP,
+XGBoost, Random Forest), for 279 (dataset, attack, model) configurations.
 
-Table~\ref{tab:auc_grid} reports AUC for every (dataset, attack, model)
-combination.
-Within each dataset, the standard deviation of AUC across the nine
-configurations is \TODO{mean std across datasets} on average
-(max: \TODO{max std} on \TODO{dataset name}).
-All values fall below our 0.05 threshold, confirming that
-$\mathrm{Risk}(D)$ is a stable dataset property
-(Task~1.1 success criterion met).
+\subsection{Experimental Ground Truth}
+
+We define the ground-truth risk of a dataset as the mean MIA AUC over the
+nine attack-model configurations, $\mathrm{Risk}(D)$.
+We use the mean rather than the per-dataset maximum because the maximum
+collapses onto the Random Forest for every dataset. Random Forest with no
+depth limit memorizes its training set, so its AUC saturates near $1.0$ and
+erases all contrast between datasets. The mean preserves that contrast.
+
+Aggregated over the grid, LiRA is the strongest attack (mean AUC $0.71$)
+ahead of loss-threshold and shadow ($0.61$ each), and Random Forest is the
+most vulnerable model (mean AUC $0.75$) ahead of XGBoost ($0.62$) and MLP
+($0.56$). $\mathrm{Risk}(D)$ ranges almost two-fold across datasets, from
+$0.92$ (Texas100) down to $0.51$ (Gowalla, Mushroom), confirming that the
+choice of dataset alone moves privacy risk substantially.
+
+\subsection{DPRI Ranks Privacy Risk}
+
+We predict $\mathrm{Risk}(D)$ from the DPRI features using ridge regression
+under leave-one-dataset-out cross-validation. Because the geometric features
+are heavily right-skewed (local density spans $0.03$ to $35$), we
+rank-transform features within each fold and report Spearman rank
+correlation, which is the relevant metric for a pre-training risk index that
+only needs to order datasets.
+
+DPRI ranks datasets by risk with a Spearman correlation of $0.61$ under an
+unbiased nested cross-validation that selects the feature subset on training
+folds only (Table~\ref{tab:regression}). The fixed-feature LOO estimate is
+$0.52$ with all features and $0.61$ with the geometric-core-plus-dimension
+subset. Random Forest regression does worse ($\rho=0.36$), overfitting the
+small sample. The prediction is moderate, not precise. Coefficients of
+determination are not an informative lens here, since the target is a
+ranking and the features are rank-transformed.
 
 \begin{table}[t]
 \centering
-\caption{MIA AUC grid ($\uparrow$ = higher risk). Bold = $\mathrm{Risk}(D)$.}
-\label{tab:auc_grid}
+\caption{DPRI ranks $\mathrm{Risk}(D)$ across 31 datasets (Spearman $\rho$,
+         leave-one-dataset-out). The nested-CV number is the unbiased
+         headline.}
+\label{tab:regression}
 \small
-\setlength{\tabcolsep}{4pt}
-\begin{tabular}{l ccc ccc ccc r}
+\begin{tabular}{lc}
 \toprule
-& \multicolumn{3}{c}{\textbf{LiRA}} &
-  \multicolumn{3}{c}{\textbf{Shadow}} &
-  \multicolumn{3}{c}{\textbf{Loss-thr.}} &
-  \multirow{2}{*}{\textbf{Risk}} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
-\textbf{Dataset} & MLP & XGB & RF & MLP & XGB & RF & MLP & XGB & RF & \\
+\textbf{Estimator} & \textbf{Spearman} $\rho$ \\
 \midrule
-Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Nested-CV (unbiased, headline)        & $0.61$ \\
+Ridge, all six features (fixed)       & $0.52$ \\
+Ridge, geometric core + dimension     & $0.61$ \\
+Random Forest, all features           & $0.36$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{DPRI Predicts Risk(D)}
-
-Table~\ref{tab:dpri_features} shows per-dataset DPRI feature values and
-the corresponding $\mathrm{Risk}(D)$ scores.
+Table~\ref{tab:dpri_features} illustrates the relationship on representative
+datasets. High-risk datasets tend to have high sample uniqueness and low
+density (Texas100, Purchase100), and low-risk datasets the reverse (Gowalla,
+Mushroom). The relationship is a tendency rather than a law: Creditg has
+high uniqueness yet only moderate risk, and Mushroom has moderate uniqueness
+yet the lowest risk. These exceptions are why the correlation is $0.61$
+rather than $1.0$.
 
 \begin{table}[t]
 \centering
-\caption{DPRI features and ground-truth Risk(D) per dataset.}
+\caption{DPRI features and $\mathrm{Risk}(D)$ for representative datasets,
+         ordered by risk. $u$: sample uniqueness, $\rho$: local density,
+         $S$: class separability, $d$: dimensionality.}
 \label{tab:dpri_features}
 \small
-\begin{tabular}{l ccccc r}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrr}
 \toprule
-\textbf{Dataset} & $\bar{u}$ & $\bar{\rho}^{-1}$ & $\bar{o}$ & $H$ & $S$ & \textbf{Risk} \\
+\textbf{Dataset} & $\bar{u}$ & $\bar{\rho}$ & $S$ & $d$ & \textbf{Risk} \\
 \midrule
-Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
+Texas100     & $55.7$ & $0.03$ & $-0.25$ & $6169$ & $0.92$ \\
+Purchase100  & $28.0$ & $0.04$ & $-0.02$ &  $600$ & $0.85$ \\
+Creditg      &  $6.9$ & $0.15$ & $ 0.02$ &   $74$ & $0.77$ \\
+Adult        &  $1.0$ & $1.55$ & $-0.01$ &   $14$ & $0.70$ \\
+MNIST        & $16.2$ & $0.08$ & $-0.05$ &  $784$ & $0.66$ \\
+Magic        &  $0.8$ & $1.49$ & $ 0.12$ &   $10$ & $0.63$ \\
+Movielens    &  $0.2$ & $6.10$ & $ 0.12$ &    $5$ & $0.53$ \\
+Gowalla      &  $0.1$ & $34.9$ & $ 0.09$ &    $6$ & $0.51$ \\
+Mushroom     &  $3.8$ & $0.28$ & $ 0.09$ &  $138$ & $0.51$ \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-Under LODOCV, ridge regression achieves
-$R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX}.
-The random forest regressor achieves
-$R^2 = $\TODO{X.XX}, $\rho = $\TODO{X.XX}.
-The comparable performance of the linear model indicates that the
-DPRI--Risk relationship is approximately linear in feature space
-(Figure~\ref{fig:regression}).
 
 \begin{figure}[t]
   \centering
   \dprifig{../results/regression/regression_plot.pdf}{\linewidth}
-  \caption{Predicted vs.\ observed Risk(D) under LODOCV.
-           Each point is one dataset. The dashed line is $y=x$.}
+  \caption{Predicted vs.\ observed $\mathrm{Risk}(D)$ under
+           leave-one-dataset-out cross-validation. Each point is one of the
+           31 datasets.}
   \label{fig:regression}
 \end{figure}
 
-\subsection{Ablation Study}
+\subsection{Which Factors Carry the Signal}
+\label{sec:single_factor}
 
-Table~\ref{tab:ablation} shows the $R^2$ drop when each DPRI feature is
-removed from the linear regression.
+We assess each feature by its standalone Spearman correlation with
+$\mathrm{Risk}(D)$ (Table~\ref{tab:single_factor}). A drop-one ablation is
+not meaningful here, because the features are collinear and the linear
+baseline is weak, so removing one feature lets a correlated feature absorb
+its signal. Standalone rank correlation is robust to both.
+
+Three geometric features are individually significant: local density,
+class separability, and sample uniqueness (all $p < 0.005$). Outlier score,
+feature entropy, and dimensionality are not individually significant at
+$n=31$, though Random Forest assigns them nonzero importance, suggesting
+they contribute weak or nonlinear signal. The headline result is that
+no single statistic determines risk, and that the significant factors are
+precisely the geometric ones our theory predicts.
 
 \begin{table}[t]
 \centering
-\caption{Ablation: $R^2$ drop when each feature is excluded.}
-\label{tab:ablation}
+\caption{Standalone ranking power of each DPRI feature (Spearman vs.\
+         $\mathrm{Risk}(D)$, $n=31$).}
+\label{tab:single_factor}
 \small
 \begin{tabular}{lcc}
 \toprule
-\textbf{Feature removed} & $R^2$ (without) & $\Delta R^2$ \\
+\textbf{Feature} & \textbf{Spearman} $\rho$ & \textbf{$p$-value} \\
 \midrule
-Sample Uniqueness $\bar{u}$   & \TODO{} & \TODO{} \\
-Uniqueness p90 $u_{90}$       & \TODO{} & \TODO{} \\
-Local Density $\bar{\rho}$    & \TODO{} & \TODO{} \\
-Density p90 $\rho_{90}$       & \TODO{} & \TODO{} \\
-Outlier Score $\bar{o}$       & \TODO{} & \TODO{} \\
-Outlier p90 $o_{90}$          & \TODO{} & \TODO{} \\
-Feature Entropy $H$           & \TODO{} & \TODO{} \\
-Cluster Separation $S$        & \TODO{} & \TODO{} \\
+Local density $\bar{\rho}$      & $-0.565$ & $0.001$ \\
+Class separability $S$          & $-0.543$ & $0.002$ \\
+Sample uniqueness $\bar{u}$     & $+0.506$ & $0.004$ \\
+Dimensionality $\log d$         & $+0.294$ & $0.108$ \\
+Outlier score $\bar{o}$         & $+0.292$ & $0.111$ \\
+Feature entropy $H$             & $-0.084$ & $0.654$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\subsection{Finding 1: Data Structure Dominates Model Architecture}
+\subsection{Finding 1: Dataset, Model, and Attack Each Matter}
 \label{sec:finding1}
 
-To decompose variance, we compute:
-\begin{align}
-  V_{\text{data}}  &= \mathrm{Var}(\mathrm{AUC} \mid \text{dataset varies, model fixed}), \\
-  V_{\text{model}} &= \mathrm{Var}(\mathrm{AUC} \mid \text{model varies, dataset fixed}).
-\end{align}
-Averaged across all configurations, dataset choice explains
-\textbf{\TODO{XX}\%} of total AUC variance, while model architecture
-explains \textbf{\TODO{XX}\%} (Figure~\ref{fig:variance_decomp}).
+We decompose the variation in MIA AUC by the spread of group-mean AUC across
+each factor. Dataset choice accounts for $36.4\%$ of the variation, model
+architecture for $39.4\%$, and the attack method for $24.2\%$.
 
-\begin{figure}[t]
-  \centering
-  \dprifig{../results/regression/variance_decomp.pdf}{0.85\linewidth}
-  \caption{Variance decomposition of MIA AUC across all 63 configurations.}
-  \label{fig:variance_decomp}
-\end{figure}
+The headline is that all three matter, and to a comparable degree. Dataset
+structure is not a fixed backdrop to be ignored: it moves risk as much as
+the choice of model and more than the choice of attack. This challenges the
+common practice of reporting a single attack number on a single dataset, as
+if the dataset were incidental. It conflates three distinct sources of
+variation. We note that the large model effect is driven mainly by the
+Random Forest, whose unbounded depth makes it memorize and leak far more
+than the regularized alternatives.
 
-This finding challenges a tacit assumption in the MIA literature: that
-attack strength and model architecture are the primary levers of privacy
-risk.
-Our result implies that a practitioner who trains a privacy-preserving
-model on a high-DPRI dataset will achieve lower protection than one who
-trains a standard model on a low-DPRI dataset, even if the former uses
-DP-SGD.
-
-\subsection{Finding 2: Benchmark Bias}
+\subsection{Finding 2: Benchmarks Are Geometric Outliers}
 \label{sec:finding2}
 
-We compare the DPRI distributions of benchmark datasets
-(Purchase100, Texas100) against real-world datasets (Adult, COMPAS,
-NHANES, MovieLens, Gowalla) using the Kolmogorov-Smirnov test.
+The two most widely used MIA benchmarks, Purchase100 and Texas100, are
+geometric outliers among the 31 datasets. Their sample uniqueness ($28.0$
+and $55.7$) is the highest of all datasets we study, far above the median
+of roughly $1.5$, and their risk ($0.85$ and $0.92$) is likewise the top
+two. A model evaluated only on these benchmarks is being attacked in an
+unrepresentatively high-risk regime.
 
-For sample uniqueness $\bar{u}$, the benchmark datasets score
-\TODO{X.XX}$\times$ higher than real-world datasets
-($p = $\TODO{X.XXX}, KS statistic $= $\TODO{X.XXX}).
-For cluster separation $S$, benchmarks score
-\TODO{X.XX}$\times$ higher ($p = $\TODO{X.XXX}).
-The pattern holds across all five DPRI features (Table~\ref{tab:benchmark_bias}).
-
-\begin{table}[t]
-\centering
-\caption{Finding 2: Benchmark vs.\ real-world DPRI features (mean values).
-         $**$ = $p < 0.05$ by KS test.}
-\label{tab:benchmark_bias}
-\small
-\begin{tabular}{lccc}
-\toprule
-\textbf{Feature} & \textbf{Benchmark} & \textbf{Real-world} & \textbf{Ratio} \\
-\midrule
-$\bar{u}$ (uniqueness)      & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
-$\bar{\rho}^{-1}$ (density) & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
-$\bar{o}$ (outlier)         & \TODO{} & \TODO{} & \TODO{}$\times$      \\
-$H$ (entropy)               & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
-$S$ (cluster sep.)          & \TODO{} & \TODO{} & \TODO{}$\times^{**}$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The corresponding $\mathrm{Risk}(D)$ gap is \TODO{X.X}$\times$:
-papers reporting MIA results exclusively on Purchase100 or Texas100
-are reporting attack success rates that are structurally inflated
-relative to the datasets that most practitioners encounter.
-Corollary~\ref{cor:benchmark} explains why this is expected from first
-principles.
-
-\subsection{Finding 3: DP Efficacy Depends on DPRI}
-\label{sec:finding3}
-
-We apply DP-SGD ($\varepsilon \in \{0.1, 1, 10\}$) to an MLP trained
-on each dataset and measure the AUC reduction relative to the
-non-private baseline (Table~\ref{tab:dp_calibration}).
-
-\begin{table}[t]
-\centering
-\caption{Finding 3: AUC reduction from DP-SGD at three privacy budgets.}
-\label{tab:dp_calibration}
-\small
-\begin{tabular}{l cccc}
-\toprule
-\textbf{Dataset} & \textbf{DPRI} & $\varepsilon=0.1$ & $\varepsilon=1$ & $\varepsilon=10$ \\
-\midrule
-Adult       & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-COMPAS      & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Purchase100 & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Texas100    & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-NHANES      & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-MovieLens   & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-Gowalla     & \TODO{} & \TODO{} & \TODO{} & \TODO{} \\
-\midrule
-\multicolumn{2}{l}{Spearman $\rho$ (DPRI vs.\ AUC drop)} & \TODO{} & \TODO{} & \TODO{} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The Spearman correlation between DPRI and DP-induced AUC reduction is
-\TODO{X.XX} ($p = $\TODO{}) at $\varepsilon=1$, indicating that
-high-DPRI datasets benefit substantially more from the same $\varepsilon$
-budget.
-Equivalently, a low-DPRI dataset achieves the same protection as a
-high-DPRI dataset with \TODO{X}$\times$ more noise, a factor that
-practitioners cannot account for without pre-training risk assessment.
+We temper this in two ways. First, the effect is not exclusive to
+benchmarks: high-dimensional image datasets such as MNIST and Fashion-MNIST
+also have elevated uniqueness, because high dimensionality sparsifies the
+data. Second, with only two benchmark datasets a formal distributional test
+has little power. The claim we make is therefore concrete and limited:
+on the single most important geometric axis, sample uniqueness, the two
+canonical MIA benchmarks sit at the extreme of the entire 31-dataset range.
+Corollary~\ref{cor:benchmark} explains why subsampled, class-balanced
+benchmarks are expected to have inflated uniqueness from first principles.

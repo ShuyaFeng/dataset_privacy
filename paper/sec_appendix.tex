@@ -88,33 +88,15 @@ Hence the bound and the true advantage have the same rate.
 \end{proof}
 
 % =============================================================================
-\section{White-Box Results}
-\label{app:whitebox}
+\section{Dataset Details}
+\label{app:datasets}
 % =============================================================================
 
-\TODO{Add white-box MIA AUC table here after experiments complete.}
-Results are consistent with black-box findings: DPRI predicts white-box
-MIA risk with $R^2 = $\TODO{}.
-
-% =============================================================================
-\section{DPRI Computation Time}
-\label{app:compute}
-% =============================================================================
-
-\begin{table}[h]
-\centering
-\caption{DPRI computation time on a laptop (8-core CPU, no GPU).}
-\small
-\begin{tabular}{lrr}
-\toprule
-\textbf{Dataset} & \textbf{Samples} & \textbf{Time (sec)} \\
-\midrule
-COMPAS      &   6,172 & \TODO{} \\
-NHANES      &   9,254 & \TODO{} \\
-Adult       &  48,842 & \TODO{} \\
-Texas100    &  67,330 & \TODO{} \\
-Gowalla     & 107,092 & \TODO{} \\
-Purchase100 & 197,324 & \TODO{} \\
-\bottomrule
-\end{tabular}
-\end{table}
+The 31 datasets span medical (e.g.\ Breast-W, NHANES), image (MNIST,
+Fashion-MNIST, Digits, OptDigits, PenDigits), network (KDDCup), forest
+cover (CovType), credit (German Credit), and a range of tabular sources
+(OpenML), together with the canonical MIA benchmarks Purchase100 and
+Texas100 and the mobility and recommendation datasets Gowalla and MovieLens.
+Datasets larger than 30k samples are subsampled to 30k to keep the
+attack-model grid tractable. All datasets are publicly available and loaded
+through scikit-learn, OpenML, or their original public sources.

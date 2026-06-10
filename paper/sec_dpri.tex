@@ -65,39 +65,31 @@ mean nearest-class distance.
 Well-separated classes ($S$ near $1$) place decision boundary samples
 in high-contrast regions, increasing their MIA risk.
 
-\subsection{Aggregation and the DPRI Score}
+\subsection{Aggregation and Risk Prediction}
 
-The per-sample scores $(u, \rho, o)$ are aggregated to dataset level as
-mean and 90th percentile, giving a feature vector:
-\begin{equation}
-  \phi(D) = \bigl(
-    \bar{u},\; u_{90},\;
-    \bar{\rho},\; \rho_{90},\;
-    \bar{o},\; o_{90},\;
-    H(X),\; S
-  \bigr) \in \mathbb{R}^{8}.
-\end{equation}
-The 90th percentile captures tail behaviour (the hardest-to-protect
-samples) which disproportionately drives aggregate MIA AUC.
+Per-sample scores ($u$, $\rho$, $o$) are aggregated to the dataset level by
+their mean. To these five geometric statistics we append the data
+dimensionality $\log d$, which captures that high-dimensional data is sparser
+and therefore more memorizable, giving a six-dimensional descriptor
+$\phi(D)$.
 
-The final DPRI score is a linear combination:
-\begin{equation}
-  \mathrm{DPRI}(D) = w^\top \phi(D),
-  \label{eq:dpri}
-\end{equation}
-where $w \in \mathbb{R}^{8}$ is learned by ridge regression to predict
-$\mathrm{Risk}(D)$ (Section~\ref{sec:setup}).
-The linear form is intentional: it is interpretable, and
-Section~\ref{sec:results} shows it performs comparably to nonlinear
-regressors, indicating the relationship between DPRI features and
-$\mathrm{Risk}(D)$ is approximately linear.
+To predict $\mathrm{Risk}(D)$ from $\phi(D)$ we use ridge regression with two
+deliberate choices. First, the geometric features are heavily right-skewed
+(local density spans two orders of magnitude), so we rank-transform each
+feature within cross-validation folds. Second, because $n=31$ is small
+relative to the feature count, we select the feature subset by nested
+cross-validation rather than fitting one fixed high-dimensional model.
+Section~\ref{sec:results} reports the resulting unbiased rank correlation.
+We emphasize ranking over absolute prediction. A pre-training index needs to
+order datasets by risk, not to estimate an exact AUC.
 
 \subsection{Computation Cost}
 
-All five features require only standard nearest-neighbour and
-density-estimation routines.
-On a laptop (8-core CPU), DPRI computation takes \TODO{X} seconds for
-datasets up to 50k samples and \TODO{X} minutes for 200k samples.
+All features require only standard nearest-neighbour and density-estimation
+routines. On a commodity workstation DPRI computation takes seconds for
+datasets up to roughly ten thousand samples, and a few minutes for the
+largest datasets we study (Purchase100 at 197k samples, Texas100 at 6169
+features), dominated by the nearest-neighbour search.
 No GPU is required.
-This is the key practical advantage over MIA-based risk assessment,
-which requires training and attacking multiple models.
+This is the key practical advantage over MIA-based risk assessment, which
+requires training and attacking many models.
