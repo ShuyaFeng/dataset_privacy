@@ -5,93 +5,89 @@
 
 \subsection{Datasets}
 
-We evaluate on seven datasets spanning four domains
-(Table~\ref{tab:datasets}).
-The selection criterion is domain diversity: all experiments must
-generalize beyond any single application area.
-All datasets are publicly available.
+We evaluate on 31 publicly available datasets spanning five domains: medical,
+image, network, tabular, and recommendation or mobility. They range from
+several hundred to roughly 200k samples and from 5 to 6169 features. The set
+includes the two canonical MIA benchmarks, Purchase100 and Texas100, which
+we include specifically to test Finding~2. Datasets larger than 30k samples
+are subsampled to 30k to keep the attack-model grid tractable. Most are
+loaded through scikit-learn or OpenML. Table~\ref{tab:datasets} shows a
+representative selection, and the full list is in
+Appendix~\ref{app:datasets}.
 
 \begin{table}[t]
 \centering
-\caption{Datasets used in the evaluation.}
+\caption{Representative datasets (of 31). Sample and feature counts are after
+         preprocessing and any subsampling.}
 \label{tab:datasets}
 \small
 \begin{tabular}{llrrr}
 \toprule
-\textbf{Dataset} & \textbf{Domain} & \textbf{Samples} & \textbf{Features} & \textbf{Classes} \\
+\textbf{Dataset} & \textbf{Domain} & \textbf{Samples} & \textbf{Feat.} & \textbf{Cls.} \\
 \midrule
-Adult~\cite{adult1996}          & Tabular (income)   & 48,842 & 14  & 2 \\
-COMPAS~\cite{compas2016}        & Tabular (criminal) &  6,172 &  7  & 2 \\
-Purchase100~\cite{shokri2017membership} & Tabular (retail) & 197,324 & 600 & 100 \\
-Texas100~\cite{shokri2017membership}    & Tabular (medical) & 67,330 & 6,170 & 100 \\
-Pima Diabetes~\cite{smith1988pima} & Medical           &    768 &  8  & 2 \\
-MovieLens-1M~\cite{movielens}   & Recommendation     &  6,040 &  5  & 2 \\
-Gowalla~\cite{cho2011friendship}& Mobility           & 107,092 & 6 & 2 \\
+Texas100~\cite{shokri2017membership}    & Benchmark/med.  & 67,330 & 6,169 & 100 \\
+Purchase100~\cite{shokri2017membership} & Benchmark/retail & 197,324 & 600 & 100 \\
+MNIST          & Image       & 30,000 & 784 & 10 \\
+CovType        & Forest      & 30,000 &  54 &  7 \\
+Adult~\cite{adult1996}          & Income      & 48,842 & 14 & 2 \\
+German Credit  & Credit      &  1,000 & 74 & 2 \\
+Spambase       & Spam        &  4,601 & 57 & 2 \\
+Gowalla~\cite{cho2011friendship}& Mobility    & 107,092 &  6 & 2 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Purchase100 and Texas100 are the two most widely used MIA benchmarks
-in the literature~\cite{shokri2017membership,salem2019ml,nasr2019comprehensive}.
-We include them specifically to test Finding~2 (benchmark bias).
-
 \subsection{Ground Truth: Risk(D)}
 
-We define $\mathrm{Risk}(D)$ as the upper envelope of MIA AUC
-scores across a grid of three attacks and three model families:
+For each dataset we run three MIA attacks against three model families,
+yielding nine AUC scores, and define $\mathrm{Risk}(D)$ as their mean:
 \begin{equation}
-  \mathrm{Risk}(D) = \max_{\mathcal{A} \in \mathbb{A},\; f \in \mathbb{F}}
+  \mathrm{Risk}(D) = \frac{1}{|\mathbb{A}||\mathbb{F}|}
+  \sum_{\mathcal{A} \in \mathbb{A}} \sum_{f \in \mathbb{F}}
   \mathrm{AUC}(\mathcal{A}, f, D),
   \label{eq:risk_gt}
 \end{equation}
 where $\mathbb{A} = \{\text{LiRA, shadow, loss-threshold}\}$ and
 $\mathbb{F} = \{\text{MLP, XGBoost, RF}\}$.
-Taking the upper envelope represents the worst-case adversary who can
-choose the best attack-model combination against a fixed dataset,
-independent of the specific model the defender deploys.
+We use the mean rather than the maximum because the maximum collapses onto
+the Random Forest for every dataset (Section~\ref{sec:finding1}), which
+saturates near AUC $1.0$ and erases the contrast between datasets. The mean
+reflects the typical adversary across realistic and worst-case models alike.
 
 \paragraph{MIA attacks.}
-LiRA~\cite{carlini2022lira} is the current state-of-the-art,
-using 16 shadow models to compute a per-sample likelihood ratio.
-The shadow-model attack~\cite{shokri2017membership} trains 4 shadow
-models and learns a binary meta-classifier.
-The loss-threshold attack~\cite{yeom2018privacy} thresholds the
-model's confidence on the correct class. This is the Bayes-optimal
-attack under the Gaussian assumption.
+LiRA~\cite{carlini2022lira} is the current state of the art, using 16 shadow
+models to compute a per-sample likelihood ratio.
+The shadow-model attack~\cite{shokri2017membership} trains 4 shadow models
+and learns a binary meta-classifier.
+The loss-threshold attack~\cite{yeom2018privacy} thresholds the model's
+confidence on the correct class, the Bayes-optimal attack under a Gaussian
+assumption.
 
 \paragraph{Model families.}
-MLP (two hidden layers, 128-64, trained with Adam for 100 epochs
-on GPU), XGBoost (300 trees, depth 6), and Random Forest
-(300 trees).
+MLP (two hidden layers, 128-64, trained with Adam for 100 epochs on GPU),
+XGBoost (300 trees, depth 6), and Random Forest (300 trees, unbounded depth).
 All models use a 50\%/50\% member/non-member split. Seeds are fixed at 42.
-
-\paragraph{Variance check.}
-Before using Equation~\eqref{eq:risk_gt}, we verify that AUC is stable
-across attacks and models within each dataset (std $<$ 0.05 within dataset).
-This validates that $\mathrm{Risk}(D)$ is a stable dataset property,
-not a model-specific artefact.
 
 \subsection{DPRI Computation}
 
-We compute the five DPRI features using scikit-learn and scipy
-(no model training required).
-The $k$-NN features use $k=5$ throughout.
-Silhouette score is computed on a random subsample of 5,000 points for
+We compute the five geometric features using scikit-learn and scipy, with
+$k=5$ for the $k$-NN features, and append data dimensionality $\log d$. No
+model training is required. Silhouette score uses a 5,000-point subsample for
 datasets with $n > 5{,}000$.
 
 \subsection{Regression and Validation}
 
-We fit two regression models from $\phi(D)$ to $\mathrm{Risk}(D)$:
-ridge regression (interpretable) and random forest regressor (nonlinear
-check).
-Evaluation uses leave-one-dataset-out cross-validation (LODOCV):
-train on six datasets, predict on the held-out one.
-With seven datasets, LODOCV gives seven folds.
-Primary metrics: $R^2$ and Spearman rank correlation $\rho$.
+We predict $\mathrm{Risk}(D)$ from the DPRI features under
+leave-one-dataset-out cross-validation across all 31 datasets. Features are
+rank-transformed within each fold (Section~\ref{sec:dpri}). We report Spearman
+rank correlation as the primary metric, together with an unbiased nested
+cross-validation that selects the feature subset on the training folds only.
+We also report $R^2$, but it is not the appropriate lens here, since the
+features are rank-transformed and the prediction target is a ranking.
 
 \subsection{Reproducibility}
 
-All code and data processing scripts are available at:
+All code and data-processing scripts are available at
 \url{https://github.com/ShuyaFeng/dataset_privacy}.
-All random seeds are fixed.
-Results are deterministic given the same hardware.
+All random seeds are fixed, and results are deterministic given the same
+hardware.

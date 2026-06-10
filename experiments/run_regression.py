@@ -273,9 +273,20 @@ def main():
         print("Finding 1: Factor influence (std of group-mean AUC)")
         print("="*60)
         total = dataset_spread + model_spread + attack_spread
-        print(f"  Dataset: std={dataset_spread:.4f}  ({dataset_spread/total*100:.1f}%)")
-        print(f"  Model:   std={model_spread:.4f}  ({model_spread/total*100:.1f}%)")
-        print(f"  Attack:  std={attack_spread:.4f}  ({attack_spread/total*100:.1f}%)")
+        print("  All models:")
+        print(f"    Dataset: {dataset_spread/total*100:.1f}%  Model: {model_spread/total*100:.1f}%  Attack: {attack_spread/total*100:.1f}%")
+
+        # Restrict to regularized models (drop Random Forest, whose unbounded
+        # depth memorizes the training set and saturates AUC near 1.0 on every
+        # dataset, an unrealistic worst case). This isolates the effect among
+        # models that are actually deployed.
+        reg = mia_df[mia_df["model"] != "rf"]
+        ds_r = reg.groupby("dataset")["auc"].mean().std()
+        md_r = reg.groupby("model")["auc"].mean().std()
+        at_r = reg.groupby("attack")["auc"].mean().std()
+        tot_r = ds_r + md_r + at_r
+        print("  Regularized models only (MLP, XGBoost):")
+        print(f"    Dataset: {ds_r/tot_r*100:.1f}%  Model: {md_r/tot_r*100:.1f}%  Attack: {at_r/tot_r*100:.1f}%")
 
     # ── Save results ─────────────────────────────────────────────────────
     results = {

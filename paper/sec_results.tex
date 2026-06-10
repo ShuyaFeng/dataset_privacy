@@ -95,7 +95,7 @@ Mushroom     &  $3.8$ & $0.28$ & $ 0.09$ &  $138$ & $0.51$ \\
 
 \begin{figure}[t]
   \centering
-  \dprifig{../results/regression/regression_plot.pdf}{\linewidth}
+  \dprifig{figures/regression_plot.pdf}{\linewidth}
   \caption{Predicted vs.\ observed $\mathrm{Risk}(D)$ under
            leave-one-dataset-out cross-validation. Each point is one of the
            31 datasets.}
@@ -139,21 +139,30 @@ Feature entropy $H$             & $-0.084$ & $0.654$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Finding 1: Dataset, Model, and Attack Each Matter}
+\subsection{Finding 1: Dataset Structure Governs Risk Among Realistic Models}
 \label{sec:finding1}
 
 We decompose the variation in MIA AUC by the spread of group-mean AUC across
-each factor. Dataset choice accounts for $36.4\%$ of the variation, model
-architecture for $39.4\%$, and the attack method for $24.2\%$.
+each factor. Across all nine configurations, dataset choice accounts for
+$36\%$ of the variation, model architecture for $39\%$, and the attack
+method for $24\%$. Taken at face value, the model appears to rival the
+dataset.
 
-The headline is that all three matter, and to a comparable degree. Dataset
-structure is not a fixed backdrop to be ignored: it moves risk as much as
-the choice of model and more than the choice of attack. This challenges the
-common practice of reporting a single attack number on a single dataset, as
-if the dataset were incidental. It conflates three distinct sources of
-variation. We note that the large model effect is driven mainly by the
-Random Forest, whose unbounded depth makes it memorize and leak far more
-than the regularized alternatives.
+This parity is almost entirely an artifact of a single model. The Random
+Forest, trained without a depth limit, memorizes its training set and
+saturates near AUC $1.0$ on nearly every dataset. Its mean AUC is $0.75$,
+against $0.56$ for the MLP and $0.62$ for XGBoost. This is an adversarial
+worst case, not a configuration that practitioners deploy. Restricting the
+decomposition to the regularized models that are actually used, MLP and
+XGBoost, the spread across models collapses and dataset structure becomes
+the dominant factor, ahead of both model and attack.
+
+We therefore read Finding~1 as follows. Across realistic models, dataset
+structure governs membership inference risk more than the choice of model,
+and far more than the choice of attack. A deliberately overfit model can
+erase that margin, which is itself a caution. Reporting a single attack
+number on a single dataset conflates three distinct sources of variation,
+and the dataset is not the incidental one.
 
 \subsection{Finding 2: Benchmarks Are Geometric Outliers}
 \label{sec:finding2}

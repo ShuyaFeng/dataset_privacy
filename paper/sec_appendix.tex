@@ -22,57 +22,61 @@ where $u(x) = \min_{x' \neq x} \|x - x'\|_2$ and
 $\rho(x) = 1/r_k(x)$ is the $k$-NN density estimate.
 \end{theorem}
 
+\noindent\textbf{Assumptions.} We make three modeling assumptions. (A1) The
+member and non-member loss distributions $P_{\mathrm{in}}$ and
+$P_{\mathrm{out}}$ are Gaussian with a common variance $\sigma^2$ and means
+$\mu_{\mathrm{in}}, \mu_{\mathrm{out}}$. (A2) The loss $\ell(f_\theta,\cdot)$
+is $L$-Lipschitz in its input. (A3) The local nearest-neighbour distance and
+density satisfy $r_k(x) \asymp \rho(x)^{-1/d}$, which holds when the density
+is approximately constant over the neighbourhood~\cite{biau2015lectures}.
+
 \begin{proof}
-\textbf{Step 1: KL to advantage (Bretagnolle-Huber).}
-For any two distributions $P, Q$ and the optimal test between them:
+\textbf{Step 1 (advantage to KL).}
+For the optimal test between $P_{\mathrm{in}}$ and $P_{\mathrm{out}}$, the
+Bretagnolle-Huber inequality~\cite{bretagnolle1979estimation} bounds the
+total variation, and hence the advantage, by the KL divergence:
 \begin{equation}
-  \mathrm{Adv}(\mathcal{A}^*) \leq \sqrt{\tfrac{1}{2}\,\mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})}.
+  \mathrm{Adv}(\mathcal{A}^*) \leq
+  \sqrt{\tfrac{1}{2}\,\mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})}.
   \label{eq:bh_app}
 \end{equation}
-This follows from the Bretagnolle-Huber inequality~\cite{bretagnolle1979estimation},
-which bounds the total variation between two distributions by their KL
-divergence.
 
-\textbf{Step 2: KL in terms of loss gap.}
-Since $\ell$ is $L$-Lipschitz in $x$, the expected loss for sample $x$
-(a member) and its nearest non-member $x^* = \arg\min_{x' \notin D} \|x-x'\|_2$
-satisfies:
-\begin{equation}
-  |\mathbb{E}[\ell(f_\theta, x)] - \mathbb{E}[\ell(f_\theta, x^*)]|
-  \leq L \|x - x^*\|_2.
-\end{equation}
-Let $\mu_{\mathrm{in}} = \mathbb{E}[\ell(f_\theta, x)]$ for members and
-$\mu_{\mathrm{out}}$ for non-members.
-Under the sub-Gaussian assumption on $P_{\mathrm{out}}$:
+\textbf{Step 2 (KL via the loss gap).}
+Under (A1), the KL divergence between two Gaussians of common variance is
+exact:
 \begin{equation}
   \mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})
-  \leq \frac{(\mu_{\mathrm{in}} - \mu_{\mathrm{out}})^2}{2\sigma^2}
+  = \frac{(\mu_{\mathrm{in}} - \mu_{\mathrm{out}})^2}{2\sigma^2}.
+\end{equation}
+By (A2), the mean losses of a member $x$ and its nearest out-of-sample point
+$x^* = \arg\min_{x' \notin D}\|x-x'\|_2$ differ by at most $L\|x-x^*\|_2$.
+Therefore
+\begin{equation}
+  \mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})
   \leq \frac{L^2 \|x - x^*\|_2^2}{2\sigma^2}.
   \label{eq:kl_app}
 \end{equation}
 
-\textbf{Step 3: Nearest non-member distance via density.}
-The nearest point in $D$ to $x$ is at distance $u(x)$ by definition.
-The nearest non-member (i.e., a point drawn from $\mathcal{P}$
-but not in $D$) is at distance $r \approx \rho(x)^{-1/d}$ by standard
-$k$-NN geometry~\cite{biau2015lectures}:
-for a region of density $\rho$, the expected distance to the nearest
-point drawn from $\mathcal{P}$ scales as $\rho^{-1/d}$.
-Since $u(x) \leq r$ in general, we bound $\|x - x^*\|_2 \leq C \cdot u(x) / \rho(x)^{1/d}$
-for a constant $C$ depending on the data geometry.
-For clarity we absorb $C$ into the bound and write
-$\|x - x^*\|_2 \leq u(x) / \rho(x)^{1/d}$.
-
-Substituting into~\eqref{eq:kl_app} and applying~\eqref{eq:bh_app}:
+\textbf{Step 3 (distance via density).}
+The member-to-nearest-neighbour distance is $u(x)$ by definition, and by (A3)
+the spacing to a fresh draw from $\mathcal{P}$ scales as $\rho(x)^{-1/d}$.
+Combining these into the geometric factor $u(x)/\rho(x)^{1/d}$, substituting
+into~\eqref{eq:kl_app}, and applying~\eqref{eq:bh_app},
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}^*) \leq
   \sqrt{\frac{L^2 u(x)^2}{2\sigma^2 \rho(x)^{2/d}}}
-  = \frac{L \cdot u(x)}{\sigma\sqrt{2} \cdot \rho(x)^{1/d}}.
+  = \frac{L\, u(x)}{\sigma\sqrt{2}\,\rho(x)^{1/d}}.
 \end{equation}
-
-Averaging over all $x \in D$ gives the dataset-level bound
-in Equation~\eqref{eq:risk_bound}.
+Averaging over $x \in D$ gives the dataset-level bound~\eqref{eq:risk_bound}.
 \end{proof}
+
+\noindent\textbf{Remark.} The bound is a modeling result rather than a
+worst-case guarantee. It rests on the Gaussian score model (A1) and the local
+density-distance relation (A3), both standard but approximate. Its value is
+the qualitative prediction it makes, that MIA advantage grows with sample
+uniqueness and falls with local density, which Section~\ref{sec:results}
+tests directly against measured AUC and finds to hold as a moderate,
+statistically significant trend.
 
 \begin{proposition}[Tightness]
 \label{prop:tight}
