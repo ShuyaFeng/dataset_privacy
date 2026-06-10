@@ -406,11 +406,54 @@ This goes in the Conclusion/Discussion section.
 
 ---
 
-## Current Status
+## Current Status (2026-06-09) — n=31 RESULTS IN, REFRAMING PAPER
 
-**Active task:** Phase 1 Task 1.1 — fixing LiRA bug, regenerating ground truth
+**Headline result:** DPRI predicts the RANKING of MIA risk with an unbiased
+nested-CV Spearman of **0.61** across 31 datasets. This is a MODERATE,
+significant predictor, not the precise predictor originally hoped for.
 
-### First MIA grid run (2026-06-03) — REVEALED A BUG
+**What the n=7 -> n=31 jump taught us (the hard way):**
+- n=7 gave RF Spearman 0.93 / uniqueness rho=1.000 — these were small-sample
+  artifacts. At n=31 they fell to 0.34 / 0.506. Adding datasets was essential.
+- Honest ceiling after optimization: nested-CV Spearman 0.61.
+
+**Optimizations that were real (theory-driven, not p-hacking):**
+- In-fold rank-transform of features (geometry is heavily skewed; raw-value
+  regression collapsed). Lifted LOO 0.35 -> 0.52.
+- Added log(n_features): higher-dimensional data is sparser and more
+  memorizable. Geometric-core + dimensionality is the selected subset.
+- Nested CV (inner loop selects subset on train folds only) = 0.61 unbiased.
+  It does NOT drop below fixed-method LOO because subset selection is stable.
+
+**Key numbers to put in the paper:**
+- Nested-CV Spearman = 0.61 (headline, unbiased, p<0.001)
+- Single-factor (significant): density rho=-0.565 (p=0.001), cluster_sep
+  rho=-0.543 (p=0.002), uniqueness rho=+0.506 (p=0.004). outlier/entropy/
+  log_nfeatures individually n.s.
+- Finding 1 variance decomposition: dataset 36.4%, model 39.4%, attack 24.2%
+  ** -> "data structure dominates model" is FALSE at n=31; model is comparable.**
+- AUC by attack: lira 0.71, loss 0.61, shadow 0.61. By model: mlp 0.56, rf
+  0.75, xgboost 0.62. RF over-fits hardest.
+- Risk(D) uses MEAN over the 9-config grid (max collapses onto RF, kills
+  benchmark contrast). Range: texas 0.92 ... gowalla/mushroom 0.51.
+- Benchmarks (texas100 uniq=55.7, purchase100 uniq=28.0) are the top-2 in both
+  uniqueness and risk -> Finding 2 (benchmark bias) holds, but high-dim image
+  sets (mnist 16.2) are also elevated, so it is not exclusive to benchmarks.
+
+**Reframing the paper (in progress this session):**
+- DELETE the claim "governed more by data structure than by the model"
+  (n=31: dataset 36% < model 39%). Replace with "comparable to model, more
+  than attack."
+- Downgrade "precise prediction" to "significant moderate prediction
+  (Spearman 0.61), partially anticipated before training."
+- Strengthen Finding 2 (benchmark outliers) with the 31-dataset backdrop.
+- Add data dimensionality as a named DPRI factor.
+- Fill all \TODO{} with the real numbers above.
+
+**Decision deferred (user): which venue.** Do NOT optimize for PETS-vs-Oakland
+right now; just make the paper honest and complete.
+
+### ARCHIVE: First MIA grid run (2026-06-03) — REVEALED A BUG
 
 First full 63-config grid completed. `check_ground_truth_variance.py` output:
 - Within-dataset AUC std: texas100=0.239, purchase100=0.223, adult=0.217 (5/7 FAILED <0.05 threshold)

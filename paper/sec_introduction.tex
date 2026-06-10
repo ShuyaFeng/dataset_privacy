@@ -18,42 +18,43 @@ independent of the model trained on them?
 \end{center}
 \smallskip
 
-This is not an engineering question.
-It is a question about the nature of data itself.
-If membership inference is the symptom, then data geometry is the disease.
+This is not only an engineering question.
+It is also a question about the nature of data itself.
+Membership inference is, in part, a symptom of how the training data is shaped.
 
 \paragraph{The problem with current practice.}
 Every MIA paper chooses a dataset, trains a model, and reports an AUC.
 The AUC is then attributed to the attack method or the defense mechanism.
-But our work shows empirically that dataset choice explains
-\TODO{XX}\% of AUC variance, while model architecture explains only
-\TODO{XX}\%.
-The field has been optimizing the wrong variable.
+But across 31 datasets we find that dataset choice explains 36\% of the
+variation in AUC, comparable to the 39\% explained by model architecture and
+well above the 24\% explained by the attack method.
+Dataset structure is a first-class driver of privacy risk, not a fixed
+backdrop, yet it is rarely reported or controlled for.
 
 A second pathology is benchmark reliance.
 Purchase100 and Texas100~\cite{shokri2017membership} are the two most
 common MIA benchmarks.
-We show that both datasets are structural outliers: their data geometry
-places them in the top \TODO{X}\% of DPRI scores across all datasets we
-studied, meaning papers that report results only on these benchmarks are
-measuring privacy risk in an unrepresentatively high-risk regime.
+We show that both are geometric outliers. Their sample uniqueness is the
+highest among all 31 datasets we study, placing them far outside the range
+of typical deployed data, so papers that report results only on these
+benchmarks measure privacy risk in an unrepresentatively high-risk regime.
 
 \paragraph{Our approach.}
 We ask a temporally prior question:
-Can the privacy risk of a dataset be reliably predicted before any
-model is trained?
-If the answer is yes, practitioners gain an actionable tool: compute the
-risk score at data collection time, before committing to a training
-pipeline or a privacy budget.
+Can the privacy risk of a dataset be anticipated before any model is trained?
+If so, practitioners gain an actionable signal: estimate risk at data
+collection time, before committing to a training pipeline or a privacy budget.
 
-We answer yes, and we formalize this through the
-Dataset Privacy Risk Index (DPRI), a scalar pre-training
-risk estimator derived from five distributional statistics:
-sample uniqueness, local density, outlier score, feature entropy,
-and class cluster separation.
+We give a qualified yes. We introduce the Dataset Privacy Risk Index (DPRI),
+a scalar pre-training risk estimator derived from distributional statistics:
+sample uniqueness, local density, outlier score, feature entropy, class
+cluster separation, and data dimensionality.
 Each statistic is motivated by a theoretical result
 (Theorem~\ref{thm:main}) showing that MIA advantage is bounded by a
 function of local data geometry.
+Across 31 datasets, DPRI ranks datasets by risk with an unbiased
+cross-validated Spearman correlation of $0.61$, a significant but moderate
+signal. Data geometry shapes privacy risk without fully determining it.
 
 \paragraph{Contributions.}
 \begin{itemize}
@@ -67,30 +68,36 @@ This provides the first formal link between pre-training data geometry
 and membership inference risk.
 
 \item \textbf{Dataset Privacy Risk Index (DPRI).}
-We define a dataset-level risk score from five distributional
-features and validate it across \TODO{7} datasets in \TODO{4} domains
-using three MIA attacks and three model families
-($R^2 = $\TODO{X.XX}, Spearman $\rho = $\TODO{X.XX}).
+We define a dataset-level risk score from six distributional features and
+validate it across 31 datasets in five domains using three MIA attacks and
+three model families. DPRI ranks datasets by risk with an unbiased nested
+cross-validated Spearman correlation of $0.61$ ($p < 0.001$).
 
-\item \textbf{Three security findings.}
-(F1)~Dataset structure is the dominant driver of MIA risk. Model
-architecture contributes a secondary, bounded effect.
-(F2)~Widely used MIA benchmarks are structural outliers that inflate
-reported attack success by \TODO{X.X}$\times$, casting doubt on the
-external validity of a decade of MIA literature.
-(F3)~DP protection efficacy is a function of DPRI, not of $\varepsilon$
-alone, exposing a miscalibration in standard DP deployment.
+\item \textbf{A calibrated, qualified finding.}
+The prediction is moderate, not precise, and no single statistic suffices.
+Sample uniqueness, local density, class separability, and dimensionality
+are each significant predictors, yet privacy risk is shaped by data geometry
+without being determined by it. We argue this nuance is itself a
+contribution. It bounds what any pre-training predictor can achieve.
+
+\item \textbf{Two measurement findings.}
+(F1)~Dataset structure influences MIA risk comparably to model architecture
+and more than the choice of attack, so an attack number reported on a single
+benchmark conflates three distinct sources of variation.
+(F2)~The benchmarks that anchor a decade of MIA research are geometric
+outliers, casting doubt on the external validity of results reported only
+on them.
 
 \item \textbf{Open-source tool.}
 We release DPRI as a Python package that audits any tabular dataset in
-under two minutes on a laptop, outputting a risk score and
-DP budget recommendation.
+under two minutes on a laptop, outputting a risk score and its
+distributional breakdown.
 
 \end{itemize}
 
 \paragraph{Scope.}
-We focus on tabular and graph-structured datasets in the centralized
-training setting.
-Extensions to image data, federated learning, and generative models are
-left as future work.
+We study 31 public datasets spanning tabular, image, network, medical, and
+recommendation domains, in the centralized training setting.
+Extensions to federated learning and generative models are left as future
+work.
 All datasets used are publicly available. No proprietary data was accessed.

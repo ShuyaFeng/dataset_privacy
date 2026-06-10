@@ -3,20 +3,26 @@
 \label{sec:conclusion}
 % =============================================================================
 
-We introduced DPRI, the first pre-training dataset privacy risk estimator
-grounded in a formal bound on membership inference advantage.
-Across seven datasets in four domains, DPRI predicts MIA vulnerability
-with $R^2 = $\TODO{X.XX} using five distributional features that require
-no model training.
-Three findings challenge established practices. First, dataset structure
-dominates model architecture as a risk driver. Second, widely used benchmarks
-are structural outliers that inflate reported attack success. Third, DP
-protection efficacy depends on data geometry, not just on $\varepsilon$.
+We introduced DPRI, a pre-training dataset privacy risk estimator grounded
+in a formal bound on membership inference advantage.
+Across 31 datasets in five domains, DPRI ranks MIA vulnerability with an
+unbiased cross-validated Spearman correlation of $0.61$, using
+distributional features that require no model training.
+The prediction is moderate rather than precise, which is itself a finding.
+Privacy risk is significantly shaped by data geometry, yet no single
+pre-training statistic determines it.
+Two further findings challenge established practice. First, the benchmarks
+that anchor a decade of membership inference research are geometric outliers
+that do not represent typical deployed data. Second, dataset structure
+influences risk comparably to model architecture and more than the choice of
+attack, so reporting an attack number on a single benchmark conflates three
+distinct sources of variation.
 
 These results suggest a shift in how the community measures and reports
 membership inference risk.
-We call for benchmark diversity in MIA evaluations, for dataset-level
-risk assessment as a standard pre-training step, and for data-adaptive
-DP budgeting in privacy-sensitive deployments.
+We call for benchmark diversity in MIA evaluations and for dataset-level
+risk assessment as a standard pre-training step, while cautioning that
+pre-training prediction is informative but not a substitute for direct
+measurement.
 
 The DPRI tool is available at \url{https://github.com/ShuyaFeng/dataset_privacy}.
