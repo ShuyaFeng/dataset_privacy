@@ -154,8 +154,8 @@ saturates near AUC $1.0$ on nearly every dataset. Its mean AUC is $0.75$,
 against $0.56$ for the MLP and $0.62$ for XGBoost. This is an adversarial
 worst case, not a configuration that practitioners deploy. Restricting the
 decomposition to the regularized models that are actually used, MLP and
-XGBoost, the spread across models collapses and dataset structure becomes
-the dominant factor, ahead of both model and attack.
+XGBoost, dataset structure rises to $49.5\%$ of the variation, twice the
+model share ($24.4\%$) and well ahead of attack ($26.1\%$).
 
 We therefore read Finding~1 as follows. Across realistic models, dataset
 structure governs membership inference risk more than the choice of model,
