@@ -106,6 +106,51 @@ def run_loo_cv(X: np.ndarray, y: np.ndarray, model_name: str):
     return r2, spear, y_true, y_pred
 
 
+def _rank_ridge_predict(F_tr, F_te, y_tr, alpha=1.0):
+    """Fit rank-transformed ridge on F_tr, predict F_te (test mapped via train ECDF)."""
+    Xt = np.empty_like(F_tr, dtype=float)
+    Xv = np.empty_like(F_te, dtype=float)
+    for j in range(F_tr.shape[1]):
+        col = F_tr[:, j]
+        Xt[:, j] = rankdata(col)
+        Xv[:, j] = [(col < v).sum() + 0.5 * (col == v).sum() for v in F_te[:, j]]
+    scaler = StandardScaler()
+    Xt = scaler.fit_transform(Xt)
+    Xv = scaler.transform(Xv)
+    m = Ridge(alpha=alpha)
+    m.fit(Xt, y_tr)
+    return m.predict(Xv)
+
+
+def nested_cv_spearman(df: pd.DataFrame, candidates: list, y: np.ndarray):
+    """Unbiased Spearman via nested LOO.
+
+    Outer loop holds out one dataset. The inner loop picks the best feature
+    subset (from `candidates`) using only the outer training folds, so the
+    held-out dataset never informs feature selection. This is the honest
+    number to report, since the feature set and transform were chosen during
+    analysis.
+    """
+    n = len(df)
+    y_true, y_pred = [], []
+    for tr, te in LeaveOneOut().split(np.arange(n)):
+        best_cols, best_score = None, -2.0
+        for cols in candidates:
+            F = df.iloc[tr][cols].values
+            iy, ip = [], []
+            for itr, ite in LeaveOneOut().split(F):
+                ip.append(_rank_ridge_predict(F[itr], F[ite], y[tr][itr])[0])
+                iy.append(y[tr][ite[0]])
+            s = spearmanr(iy, ip)[0]
+            if s > best_score:
+                best_score, best_cols = s, cols
+        pred = _rank_ridge_predict(df.iloc[tr][best_cols].values,
+                                   df.iloc[te][best_cols].values, y[tr])[0]
+        y_pred.append(pred)
+        y_true.append(y[te[0]])
+    return spearmanr(y_true, y_pred)[0]
+
+
 def single_factor_analysis(df: pd.DataFrame, feature_names: list):
     """Each feature's standalone Spearman rank correlation with Risk(D).
 
@@ -177,6 +222,16 @@ def main():
     print(f"  Linear:  R²={r2_lin:.4f}  Spearman={sp_lin:.4f}")
     print(f"  RF:      R²={r2_rf:.4f}  Spearman={sp_rf:.4f}")
 
+    # Unbiased estimate: nested LOO that selects the feature subset on training
+    # folds only. Candidates go from all features to the theory-driven core.
+    geo = [c for c in ["uniqueness_mean", "density_mean", "cluster_sep"] if c in df.columns]
+    candidates = [feat_list]
+    if "log_nfeatures" in df.columns:
+        candidates.append(geo + ["log_nfeatures"])
+    candidates.append(geo)
+    sp_nested = nested_cv_spearman(df, candidates, y)
+    print(f"  Nested-CV (unbiased) Spearman={sp_nested:.4f}")
+
     # ── Variance decomposition (Finding 1 support) ───────────────────────
     # Fit full model once to get feature importances
     full_rf = RandomForestRegressor(n_estimators=500, random_state=42)
@@ -224,6 +279,7 @@ def main():
 
     # ── Save results ─────────────────────────────────────────────────────
     results = {
+        "nested_cv_spearman": round(float(sp_nested), 4),
         "linear": {"r2_loo": round(r2_lin, 4), "spearman_loo": round(sp_lin, 4)},
         "rf":     {"r2_loo": round(r2_rf,  4), "spearman_loo": round(sp_rf,  4)},
         "single_factor": sf,
@@ -247,21 +303,20 @@ def main():
     print("\n" + "="*60)
     print("VERDICT (primary metric: rank correlation, n=31)")
     print("="*60)
-    print(f"  Linear (rank+ridge) Spearman  rho={sp_lin:.4f}")
-    print(f"  RF                  Spearman  rho={sp_rf:.4f}")
-    print(f"  (R^2: Linear={r2_lin:.3f}, RF={r2_rf:.3f})")
-    best_rho = max(sp_rf, sp_lin)
-    if best_rho >= 0.75:
-        print(f"  -> STRONG: DPRI ranks dataset risk well (rho={best_rho:.3f})")
-    elif best_rho >= 0.55:
-        print(f"  -> MODERATE: DPRI is a significant moderate predictor (rho={best_rho:.3f})")
-    elif best_rho >= 0.40:
-        print(f"  -> WEAK-MODERATE (rho={best_rho:.3f}); signal present but limited")
+    print(f"  Nested-CV (unbiased, PRIMARY)  rho={sp_nested:.4f}")
+    print(f"  Linear (rank+ridge, all feats) rho={sp_lin:.4f}")
+    print(f"  RF                             rho={sp_rf:.4f}")
+    print(f"  (R^2: Linear={r2_lin:.3f}, RF={r2_rf:.3f} -- not the right lens here)")
+    if sp_nested >= 0.75:
+        print(f"  -> STRONG: DPRI ranks dataset risk well (rho={sp_nested:.3f})")
+    elif sp_nested >= 0.55:
+        print(f"  -> MODERATE: DPRI is a significant moderate predictor (rho={sp_nested:.3f})")
+    elif sp_nested >= 0.40:
+        print(f"  -> WEAK-MODERATE (rho={sp_nested:.3f}); signal present but limited")
     else:
-        print(f"  -> WEAK (rho={best_rho:.3f}); revisit features or ground truth")
-    print("  CAVEAT: feature choice and transform were selected during analysis;")
-    print("  a nested-CV estimate is the honest unbiased number (likely a few")
-    print("  points lower). Report it as such in the paper.")
+        print(f"  -> WEAK (rho={sp_nested:.3f}); revisit features or ground truth")
+    print("  Report the nested-CV number as the headline: it accounts for the")
+    print("  feature-set selection and is the unbiased estimate.")
 
 
 if __name__ == "__main__":
