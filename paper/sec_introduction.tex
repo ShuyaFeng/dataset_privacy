@@ -25,11 +25,16 @@ Membership inference is, in part, a symptom of how the training data is shaped.
 \paragraph{The problem with current practice.}
 Every MIA paper chooses a dataset, trains a model, and reports an AUC.
 The AUC is then attributed to the attack method or the defense mechanism.
-But across 31 datasets we find that dataset choice explains 36\% of the
-variation in AUC, comparable to the 39\% explained by model architecture and
-well above the 24\% explained by the attack method.
-Dataset structure is a first-class driver of privacy risk, not a fixed
-backdrop, yet it is rarely reported or controlled for.
+But when we decompose the variation in AUC across 31 datasets, three
+attacks, and three model families, the dataset is anything but a fixed
+backdrop. Among the regularized models that practitioners actually deploy,
+dataset choice explains $49.5\%$ of the variation in AUC, twice the share
+of model architecture ($24.4\%$) and well above the attack method
+($26.1\%$). Only a deliberately overfit model, an unbounded-depth Random
+Forest that memorizes its training set outright, erases this margin
+(Section~\ref{sec:finding1}).
+Dataset structure is a first-class driver of privacy risk,
+yet it is rarely reported or controlled for.
 
 A second pathology is benchmark reliance.
 Purchase100 and Texas100~\cite{shokri2017membership} are the two most
@@ -52,9 +57,25 @@ cluster separation, and data dimensionality.
 Each statistic is motivated by a theoretical result
 (Theorem~\ref{thm:main}) showing that MIA advantage is bounded by a
 function of local data geometry.
-Across 31 datasets, DPRI ranks datasets by risk with an unbiased
-cross-validated Spearman correlation of $0.61$, a significant but moderate
-signal. Data geometry shapes privacy risk without fully determining it.
+Across 31 datasets, DPRI ranks datasets by risk with a Spearman correlation
+of $0.61$ ($p < 0.001$). We report this number under nested cross-validation
+that selects features on training folds only, so it is free of the selection
+optimism that inflates small-$n$ results; the same discipline is what
+exposed our own early estimates, on fewer datasets, as artifacts.
+Data geometry significantly shapes privacy risk without fully determining
+it.
+
+Our question is related to, but distinct from, the memorization literature.
+Feldman~\cite{feldman2020memorization} showed that rare individual samples
+must be memorized for good generalization, a phenomenon observable only
+after training. We ask the complementary and temporally prior question:
+can dataset-level structural statistics predict aggregate membership
+inference risk before any model is trained? Where that line of work
+identifies which samples a given model will memorize (post-training,
+sample-level), we predict how much a dataset will leak (pre-training,
+dataset-level), a distinction that is both scientific and operational. A
+pre-training score is the only kind a practitioner can act on at data
+collection time.
 
 \paragraph{Contributions.}
 \begin{itemize}
@@ -81,17 +102,19 @@ without being determined by it. We argue this nuance is itself a
 contribution. It bounds what any pre-training predictor can achieve.
 
 \item \textbf{Two measurement findings.}
-(F1)~Dataset structure influences MIA risk comparably to model architecture
-and more than the choice of attack, so an attack number reported on a single
-benchmark conflates three distinct sources of variation.
+(F1)~Among realistic, regularized models, dataset structure governs MIA
+risk more than model architecture ($49.5\%$ vs.\ $24.4\%$ of AUC variation)
+and far more than the choice of attack ($26.1\%$), so an attack number
+reported on a single benchmark conflates three distinct sources of
+variation, and the dataset is the largest of them.
 (F2)~The benchmarks that anchor a decade of MIA research are geometric
 outliers, casting doubt on the external validity of results reported only
 on them.
 
 \item \textbf{Open-source tool.}
 We release DPRI as a Python package that audits any tabular dataset in
-under two minutes on a laptop, outputting a risk score and its
-distributional breakdown.
+minutes on a laptop, with no model training and no GPU, outputting a risk
+score and its distributional breakdown.
 
 \end{itemize}
 

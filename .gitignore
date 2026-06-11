@@ -31,3 +31,11 @@ env/
 .vscode/
 .idea/
 *.swp
+
+# LaTeX build artifacts (Overleaf compiles from source)
+paper/main.pdf
+paper/main.log
+paper/main.blg
+paper/main.aux
+paper/main.bbl
+paper/main.out

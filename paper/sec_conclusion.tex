@@ -13,10 +13,11 @@ Privacy risk is significantly shaped by data geometry, yet no single
 pre-training statistic determines it.
 Two further findings challenge established practice. First, the benchmarks
 that anchor a decade of membership inference research are geometric outliers
-that do not represent typical deployed data. Second, dataset structure
-influences risk comparably to model architecture and more than the choice of
-attack, so reporting an attack number on a single benchmark conflates three
-distinct sources of variation.
+that do not represent typical deployed data. Second, among the regularized
+models practitioners actually deploy, dataset structure governs risk more
+than model architecture and far more than the choice of attack, so reporting
+an attack number on a single benchmark conflates three distinct sources of
+variation, of which the dataset is the largest.
 
 These results suggest a shift in how the community measures and reports
 membership inference risk.
@@ -25,4 +26,5 @@ risk assessment as a standard pre-training step, while cautioning that
 pre-training prediction is informative but not a substitute for direct
 measurement.
 
-The DPRI tool is available at \url{https://github.com/ShuyaFeng/dataset_privacy}.
+The DPRI tool is provided as an anonymized artifact and will be released
+as open source upon publication.

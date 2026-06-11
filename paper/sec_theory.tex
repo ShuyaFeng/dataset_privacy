@@ -15,22 +15,22 @@ Let $D = \{x_1,\dots,x_n\} \subset \mathcal{X}$ be drawn i.i.d.\ from
 density $p$ on $\mathcal{X} \subseteq \mathbb{R}^d$.
 For any $x \in D$, define:
 \begin{align}
-  u(x) &= \min_{x' \in D,\, x'\neq x} \|x - x'\|_2
-           \quad \text{(sample uniqueness / nearest-neighbour distance)},
+  u(x) &= \min_{x' \in D,\, x'\neq x} \|x - x'\|_2,
            \label{eq:uniqueness}\\
-  \rho(x) &= \frac{k}{ n \cdot \mathrm{Vol}(B(x,\, r_k(x)))}
-           \quad \text{(local density, $k$-NN estimate)},
+  \rho(x) &= \frac{k}{ n \cdot \mathrm{Vol}(B(x,\, r_k(x)))},
            \label{eq:density}
 \end{align}
-where $r_k(x)$ is the distance to the $k$-th nearest neighbour of $x$ in
-$D \setminus \{x\}$ and $\mathrm{Vol}(\cdot)$ denotes Euclidean ball volume.
+the sample uniqueness (nearest-neighbour distance) and the local density
+($k$-NN estimate), where $r_k(x)$ is the distance to the $k$-th nearest
+neighbour of $x$ in $D \setminus \{x\}$ and $\mathrm{Vol}(\cdot)$ denotes
+Euclidean ball volume.
 
 For the in-distribution and out-distribution of a trained model
 $f_\theta$, define the score distributions:
-\begin{equation}
-  P_{\mathrm{in}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \in D], \quad
-  P_{\mathrm{out}}(s) = \Pr[\ell(f_\theta, x) \leq s \mid x \notin D],
-\end{equation}
+\begin{align}
+  P_{\mathrm{in}}(s) &= \Pr[\ell(f_\theta, x) \leq s \mid x \in D],\\
+  P_{\mathrm{out}}(s) &= \Pr[\ell(f_\theta, x) \leq s \mid x \notin D],
+\end{align}
 where $\ell(f_\theta,x)$ is the model's loss on sample $x$.
 
 \subsection{Main Theorem}
@@ -38,7 +38,9 @@ where $\ell(f_\theta,x)$ is the model's loss on sample $x$.
 \begin{theorem}[DPRI Upper Bound on MIA Advantage]
 \label{thm:main}
 Let $f_\theta$ be trained on $D$ by minimising empirical risk.
-Assume the loss function $\ell$ is $L$-Lipschitz in $x$.
+Assume the loss function $\ell$ is $L$-Lipschitz in $x$ and that the
+non-member loss distribution $P_{\mathrm{out}}$ is sub-Gaussian with
+variance proxy $\sigma^2$.
 Then for any sample $x \in D$:
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}^*, f_\theta, x)
@@ -69,12 +71,19 @@ and when the local population is sparse ($\rho(x)$ small).
 Both quantities are computable directly from $D$, with no model training required.
 The Lipschitz constant $L$ and noise level $\sigma$ are model-family
 constants that can be estimated or treated as fixed hyperparameters.
+We state Theorem~\ref{thm:main} as a modeling result under explicit,
+standard distributional assumptions (made precise in
+Appendix~\ref{app:proofs}), not as a worst-case guarantee.
+Its value is the falsifiable qualitative prediction it makes, that risk
+rises with uniqueness and falls with density, which
+Section~\ref{sec:results} tests directly against measured attack AUC.
 
 \begin{proof}[Proof sketch]
 We proceed in three steps.
 
 Step 1: KL to advantage.
-By the Bretagnolle--Huber inequality, the Bayes-optimal MIA advantage is:
+By Pinsker's inequality~\cite{tsybakov2009introduction}, the Bayes-optimal
+MIA advantage is:
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}^*) \leq
   \sqrt{\tfrac{1}{2}\,\mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})}.
@@ -117,9 +126,18 @@ The bound is tight up to constants for datasets with a uniform distribution
 over a compact manifold (Proposition~\ref{prop:tight}, Appendix~\ref{app:proofs}).
 For real-world datasets, the bound overestimates risk by a factor that
 decreases as the data distribution becomes more regular.
-Section~\ref{sec:results} shows empirically that the bound ranks datasets
-in the same order as the observed AUC (Spearman $\rho > 0.85$), suggesting
-it is tight enough to be predictively useful.
+Section~\ref{sec:results} tests the bound's prediction empirically: the
+geometric quantities it identifies are each individually significant
+predictors of observed AUC (standalone Spearman $|\rho|$ of $0.51$ to
+$0.57$, all $p<0.005$), and the combined index ranks datasets at
+$\rho = 0.61$ under unbiased cross-validation, confirming that the bound
+is predictively useful even where it is loose.
+A synthetic experiment on uniform hypercube data validates
+Proposition~\ref{prop:tight} directly: the bound factor decays with
+fitted log-log slopes within $0.03$ of the predicted $-1/d$ for
+$d \in \{2,4,8\}$, and it ranks the measured attack advantage across all
+$(n,d)$ configurations with Spearman $\rho = 0.89$
+(Appendix~\ref{app:proofs}, Figure~\ref{fig:tightness}).
 
 \paragraph{What the bound cannot capture.}
 The bound depends on $L$ (Lipschitz constant of the loss) and $\sigma$

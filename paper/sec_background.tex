@@ -17,25 +17,27 @@ $\mathcal{A}$ that, given a target sample $(x, y)$ and query access to
 $f_\theta$, outputs $1$ if $(x,y) \in D$ and $0$ otherwise.
 
 The MIA advantage of $\mathcal{A}$ is:
-\begin{equation}
+\begin{multline}
   \mathrm{Adv}(\mathcal{A}, f_\theta, D)
   =
   \bigl|
-    \Pr[\mathcal{A}=1 \mid (x,y)\in D]
+    \Pr[\mathcal{A}=1 \mid (x,y)\in D] \\
     -
     \Pr[\mathcal{A}=1 \mid (x,y)\notin D]
   \bigr|.
   \label{eq:adv}
-\end{equation}
+\end{multline}
 We denote the dataset-level risk as the expected advantage over samples:
 \begin{equation}
   \mathrm{Risk}(D) = \sup_{\mathcal{A}} \;\mathbb{E}_{(x,y)\sim\mathcal{P}}\,
   \mathrm{Adv}(\mathcal{A}, f_\theta, D).
   \label{eq:risk}
 \end{equation}
-In practice, $\mathrm{Risk}(D)$ is estimated via AUC of the best
-empirical attack over a grid of attacks and model families
-(Section~\ref{sec:setup}).
+The supremum in Equation~\eqref{eq:risk} is not directly observable.
+In practice we estimate $\mathrm{Risk}(D)$ by the mean AUC over a grid of
+strong attacks and model families, a typical-adversary surrogate;
+Section~\ref{sec:setup} defines the grid and explains why the mean,
+rather than the maximum, is the informative estimator.
 
 \subsection{Differential Privacy}
 
@@ -72,14 +74,15 @@ but does not know the exact set $D$.
 
 \paragraph{Defender goal.}
 Before training, compute $\mathrm{DPRI}(D)$ from raw data alone, with no
-model required, to estimate $\mathrm{Risk}(D)$ and inform DP budget
-selection and release decisions.
+model required, to estimate $\mathrm{Risk}(D)$ and to inform the choice
+of differential-privacy budget and the release decision.
 
 \paragraph{Dual use.}
 DPRI also has an offensive application: an adversary with access to
 candidate target datasets can compute DPRI pre-attack and prioritize
 high-risk datasets to maximize attack return on query budget.
-We quantify this in Section~\ref{sec:implications} and discuss mitigations.
+We analyze this reconnaissance threat and its mitigations in
+Section~\ref{sec:implications}.
 
 \paragraph{Scope.}
 Centralized training, passive adversary (no data poisoning).

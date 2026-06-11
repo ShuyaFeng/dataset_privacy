@@ -15,12 +15,24 @@ loaded through scikit-learn or OpenML. Table~\ref{tab:datasets} shows a
 representative selection, and the full list is in
 Appendix~\ref{app:datasets}.
 
+The corpus size is a deliberate design choice. Because the dataset is our
+unit of statistical analysis, every dataset added to the corpus requires
+its own full ground-truth grid of nine attack-model configurations,
+including shadow-model training for LiRA, so each point in our regression
+costs hours of compute. Thirty-one datasets is roughly an order of
+magnitude more than the two to four typically used in MIA evaluations,
+and Section~\ref{sec:power} shows empirically why that breadth is not
+optional: correlations measured on small corpora can be perfect and
+spurious at once.
+
 \begin{table}[t]
 \centering
-\caption{Representative datasets (of 31). Sample and feature counts are after
-         preprocessing and any subsampling.}
+\caption{Representative datasets (of 31). Sample and feature counts are the
+         original sizes after preprocessing; datasets larger than 30k
+         samples are subsampled to 30k for the attack grid.}
 \label{tab:datasets}
 \small
+\setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{llrrr}
 \toprule
 \textbf{Dataset} & \textbf{Domain} & \textbf{Samples} & \textbf{Feat.} & \textbf{Cls.} \\
@@ -87,7 +99,7 @@ features are rank-transformed and the prediction target is a ranking.
 
 \subsection{Reproducibility}
 
-All code and data-processing scripts are available at
-\url{https://github.com/ShuyaFeng/dataset_privacy}.
+All code and data-processing scripts are provided as an anonymized
+artifact and will be released publicly upon publication.
 All random seeds are fixed, and results are deterministic given the same
 hardware.

@@ -19,7 +19,11 @@ Then for any sample $x \in D$:
   \label{eq:bound_app}
 \end{equation}
 where $u(x) = \min_{x' \neq x} \|x - x'\|_2$ and
-$\rho(x) = 1/r_k(x)$ is the $k$-NN density estimate.
+$\rho(x)$ is the $k$-NN density estimate of
+Equation~\eqref{eq:density}. In the DPRI implementation we use the
+monotone surrogate $1/r_k(x)$, which has the same rate under (A3) and
+avoids evaluating high-dimensional ball volumes, which underflow for
+large $d$.
 \end{theorem}
 
 \noindent\textbf{Assumptions.} We make three modeling assumptions. (A1) The
@@ -32,9 +36,9 @@ is approximately constant over the neighbourhood~\cite{biau2015lectures}.
 
 \begin{proof}
 \textbf{Step 1 (advantage to KL).}
-For the optimal test between $P_{\mathrm{in}}$ and $P_{\mathrm{out}}$, the
-Bretagnolle-Huber inequality~\cite{bretagnolle1979estimation} bounds the
-total variation, and hence the advantage, by the KL divergence:
+For the optimal test between $P_{\mathrm{in}}$ and $P_{\mathrm{out}}$,
+the advantage equals the total variation distance, which Pinsker's
+inequality~\cite{tsybakov2009introduction} bounds by the KL divergence:
 \begin{equation}
   \mathrm{Adv}(\mathcal{A}^*) \leq
   \sqrt{\tfrac{1}{2}\,\mathrm{KL}(P_{\mathrm{in}} \| P_{\mathrm{out}})}.
@@ -90,6 +94,45 @@ The Bayes-optimal MIA advantage for a uniformly distributed dataset
 also scales as $O(n^{-1/d})$ (from the Yatracos class bound).
 Hence the bound and the true advantage have the same rate.
 \end{proof}
+
+\subsection*{Synthetic Validation of Proposition~\ref{prop:tight}}
+\label{app:tightness_exp}
+
+We test Proposition~\ref{prop:tight} directly on its own terms. We draw
+$X \sim U[0,1]^d$ for $d \in \{2,4,8\}$ and
+$n \in \{250, \dots, 4000\}$, assign binary labels by a fixed random
+hyperplane with $10\%$ label noise (so the model has something to
+memorize), train the MLP family from our main grid, and measure the
+loss-threshold attack advantage. Each cell averages five seeds.
+
+\begin{figure}[t]
+  \centering
+  \dprifig{figures/tightness_plot.pdf}{\linewidth}
+  \caption{Synthetic validation of Proposition~\ref{prop:tight} on
+           uniform hypercube data (log-log). Left: the bound's geometric
+           factor $\bar{u}$ decays with fitted slopes $-0.515$, $-0.277$,
+           $-0.149$ for $d=2,4,8$, matching the predicted $-1/d$ rates of
+           $-0.500$, $-0.250$, $-0.125$ within $0.03$. Right: measured
+           MIA advantage of the loss-threshold attack on the MLP family.}
+  \label{fig:tightness}
+\end{figure}
+
+The results (Figure~\ref{fig:tightness}) support the proposition where
+it is directly testable and are honest about where it is not. The
+geometric law holds almost exactly: the fitted log-log slope of the
+bound factor matches the predicted $-1/d$ within $0.03$ in all three
+dimensions. The measured advantage respects the bound's ordering: at
+every $n$, higher-dimensional (sparser) data is more vulnerable, and
+across all 15 $(n,d)$ cells the bound factor ranks the measured
+advantage with Spearman $\rho = 0.893$ ($p < 10^{-5}$). The measured
+advantage decays with $n$ at least as fast as the bound in every
+dimension, as an upper bound requires; for $d \geq 4$ it decays faster
+than $n^{-1/d}$, which is expected since the loss-threshold attack is a
+lower bound on the Bayes-optimal adversary that
+Proposition~\ref{prop:tight} describes, and rate-tightness against that
+idealized adversary is not directly measurable. The experiment is
+self-contained, runs in minutes on a laptop, and ships with our
+artifact.
 
 % =============================================================================
 \section{Dataset Details}

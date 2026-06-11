@@ -40,6 +40,12 @@ subset. Random Forest regression does worse ($\rho=0.36$), overfitting the
 small sample. The prediction is moderate, not precise. Coefficients of
 determination are not an informative lens here, since the target is a
 ranking and the features are rank-transformed.
+To our knowledge this is the first quantified estimate of how far
+pre-training statistics alone can rank membership inference risk. Read as
+a triage signal, $\rho=0.61$ is operationally useful: it separates the
+high-risk tail from the low-risk bulk at zero training cost. Read as a
+calibration, it sets the bar that any future pre-training risk predictor
+must clear under equally strict validation.
 
 \begin{table}[t]
 \centering
@@ -183,3 +189,35 @@ on the single most important geometric axis, sample uniqueness, the two
 canonical MIA benchmarks sit at the extreme of the entire 31-dataset range.
 Corollary~\ref{cor:benchmark} explains why subsampled, class-balanced
 benchmarks are expected to have inflated uniqueness from first principles.
+
+\subsection{Statistical Power: A Cautionary Tale}
+\label{sec:power}
+
+Our unit of statistical analysis is the dataset, so every correlation in
+this paper is computed at $n=31$. We close with an observation about what
+that sample size buys, because it reframes a limitation as a measurement.
+
+An early version of this study used seven datasets, a corpus already
+larger than the two-to-four datasets typical of MIA evaluations. At
+$n=7$, the results looked spectacular: Random Forest regression reached a
+Spearman correlation of $0.93$, and sample uniqueness alone correlated
+perfectly with risk ($\rho = 1.0$). Both numbers were artifacts. When we
+grew the corpus to 31 datasets, they collapsed to $0.36$ and $0.506$
+respectively. Nothing about the pipeline was wrong at $n=7$; the sample
+was simply too small to constrain the hypothesis, and every additional
+degree of freedom in the estimator converted noise into apparent signal.
+
+This experience shaped the paper's reporting discipline. We report the
+nested cross-validated estimate as the headline because it is the only
+number that survives feature-subset selection without optimism. We report
+exact $p$-values for every standalone correlation. And we deliberately
+characterize the $\rho = 0.61$ result as moderate, because at $n=31$ the
+honest claim is a significant ranking signal, not a precise predictor.
+
+The cautionary tale generalizes beyond this paper. If seven datasets are
+enough to produce a perfect-looking but spurious correlation, then
+conclusions drawn from the two-benchmark evaluations that dominate the
+MIA literature rest on far less evidence than their point estimates
+suggest. We view the 31-dataset corpus, and the collapse we observed on
+the way to it, as independent support for Finding~1's call to treat the
+dataset as a first-class experimental factor.
