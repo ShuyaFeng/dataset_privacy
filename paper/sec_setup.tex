@@ -128,6 +128,22 @@ the Random Forest for every dataset (Section~\ref{sec:finding1}), which
 saturates near AUC $1.0$ and erases the contrast between datasets. The mean
 reflects the typical adversary across realistic and worst-case models alike.
 
+A second metric choice deserves justification. Carlini et
+al.~\cite{carlini2022lira} argue that individual attacks should be
+judged by true-positive rate at low false-positive rate, because an
+attacker who confidently identifies a few members matters more than one
+who is weakly right on average. That argument concerns evaluating
+\emph{attacks}; our target is a property of \emph{datasets}. We need a
+per-dataset scalar that is stable across nine heterogeneous
+attack-model configurations and comparable across datasets whose member
+sets range from a few hundred to fifteen thousand samples. AUC
+integrates over all thresholds, is invariant to the 50/50 class balance
+we fix by construction, and remains estimable at our smallest dataset
+sizes, where a TPR at $0.1\%$ FPR rests on a handful of samples and is
+dominated by noise. Because DPRI predicts a ranking, any monotone risk
+functional would do in principle; mean AUC is the one that is stable
+enough at $n = 31$ datasets to regress against.
+
 The three attacks span the spectrum from strongest to simplest.
 LiRA~\cite{carlini2022lira}, the current state of the art, uses 16
 shadow models to compute a per-sample likelihood ratio; the shadow-model

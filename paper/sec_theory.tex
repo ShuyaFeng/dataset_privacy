@@ -218,5 +218,19 @@ clustering increases class separation, both of which increase the RHS
 of~\eqref{eq:risk_bound}.
 \end{proof}
 
-This corollary provides the theoretical underpinning for our empirical
-Finding~2 (benchmark bias, Section~\ref{sec:finding2}).
+The corollary applies directly to how the canonical MIA benchmarks were
+built. Purchase100 and Texas100 were derived from large transaction and
+hospital-discharge corpora by clustering records into 100 balanced
+classes and retaining a subsample~\cite{shokri2017membership}; each
+step is one of the two operations the corollary identifies. Subsampling
+deletes a record's nearest neighbours, inflating $u(x)$ for the
+survivors, and class balancing selects well-separated clusters,
+inflating $S$. Two caveats bound the claim. The statement holds in
+expectation over the construction procedure, not for every dataset so
+constructed, and elevated uniqueness is not exclusive to benchmarks:
+any sufficiently high-dimensional dataset is sparse, which is why MNIST
+also sits high on this axis (Section~\ref{sec:finding2}). What the
+corollary explains is why the benchmark construction recipe
+\emph{systematically} lands its outputs in the high-risk tail rather
+than scattering them across the range. It provides the theoretical
+underpinning for our empirical Finding~2.

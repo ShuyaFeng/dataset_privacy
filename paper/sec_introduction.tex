@@ -61,59 +61,66 @@ high-risk regime.
 \resizebox{0.97\textwidth}{!}{%
 \begin{tikzpicture}[
   font=\small,
-  node distance=5mm and 8mm,
   box/.style={draw, rounded corners=2pt, align=center, inner sep=5pt,
-              minimum height=10mm},
-  dim/.style={box, fill=gray!12},
+              minimum height=10mm, minimum width=34mm},
+  dim/.style={box, fill=gray!12, minimum width=28mm},
   hot/.style={box, fill=gray!25, thick},
   lanelab/.style={font=\footnotesize\itshape},
   arr/.style={-{Stealth[length=2.5mm]}, semithick},
 ]
-\node[dim] (data) {Training data $D$\\[-1pt]\footnotesize raw features + labels};
+% left: the dataset, vertically centered between lanes
+\node[dim] (data) at (0,1.1)
+      {Training data $D$\\[-1pt]\footnotesize raw features + labels};
 
-% Top lane: standard post-training practice
-\node[box, above right=7mm and 9mm of data] (train)
+% top lane: standard post-training practice
+\node[box] (train)  at (4.9,2.2)
       {Train $f_\theta$\\[-1pt]\footnotesize MLP, XGBoost, RF};
-\node[box, right=of train] (attack)
+\node[box] (attack) at (9.2,2.2)
       {Attack grid\\[-1pt]\footnotesize LiRA, shadow, loss-thr.};
-\node[box, right=of attack] (risk)
+\node[box] (risk)   at (13.5,2.2)
       {$\mathrm{Risk}(D)$\\[-1pt]\footnotesize mean AUC, 9 configs};
 
-% Bottom lane: this work, pre-training
-\node[hot, below right=7mm and 9mm of data] (feat)
+% bottom lane: this work, pre-training
+\node[hot] (feat)  at (4.9,0)
       {Data geometry $\phi(D)$\\[-1pt]\footnotesize
        $\bar{u},\ \bar{\rho},\ \bar{o},\ H,\ S,\ \log d$};
-\node[hot, right=of feat] (ridge)
+\node[hot] (ridge) at (9.2,0)
       {Rank transform + ridge\\[-1pt]\footnotesize nested CV};
-\node[hot, right=of ridge] (dpri)
+\node[hot] (dpri)  at (13.5,0)
       {DPRI score\\[-1pt]\footnotesize predicted risk rank};
 
-% Downstream uses
-\node[box, right=9mm of dpri] (use)
+% downstream uses
+\node[box, minimum width=24mm] (use) at (17.1,0)
       {\footnotesize DP budget $\varepsilon$\\[-1pt]
        \footnotesize release decision\\[-1pt]
        \footnotesize benchmark design};
 
-\draw[arr] (data) |- (train);
+% lane arrows
+\draw[arr] (data.north) |- (train.west);
+\draw[arr] (data.south) |- (feat.west);
 \draw[arr] (train) -- (attack);
 \draw[arr] (attack) -- (risk);
-\draw[arr] (data) |- (feat);
 \draw[arr] (feat) -- (ridge);
 \draw[arr] (ridge) -- (dpri);
 \draw[arr] (dpri) -- (use);
-\draw[arr, {Stealth[length=2.5mm]}-{Stealth[length=2.5mm]}, dashed]
-     (dpri) -- (risk)
-     node[midway, right, font=\footnotesize, align=left]
-     {Spearman $0.61$\\($n{=}31$, $p{<}0.001$)};
-\draw[arr, dashed] (feat.north) to[bend left=12]
-     node[midway, left, font=\footnotesize, align=center]
-     {Theorem~\ref{thm:main}:\\
-      $\mathrm{Adv} \lesssim L\,u / (\sigma\sqrt{2}\,\rho^{1/d})$}
-     (train.south);
 
-\node[lanelab, above=1.5mm of attack.north]
+% theorem: geometry bounds the optimal advantage (label in the empty
+% band between the lanes, arrow passes below the attack box)
+\draw[arr, dashed] (feat.north east) -- (risk.south west)
+     node[pos=0.42, below=0.5mm, font=\footnotesize]
+     {Theorem~\ref{thm:main}:
+      $\mathrm{Adv} \lesssim L\,u / (\sigma\sqrt{2}\,\rho^{1/d})$};
+
+% validation: predicted vs measured ranking
+\draw[{Stealth[length=2.5mm]}-{Stealth[length=2.5mm]}, semithick, dashed]
+     (risk.south) -- (dpri.north)
+     node[midway, right=1mm, font=\footnotesize, align=left]
+     {Spearman $0.61$\\($n{=}31$, $p{<}0.001$)};
+
+% lane labels
+\node[lanelab] at (9.2,3.1)
       {standard practice: measure \emph{after} training, hours of compute};
-\node[lanelab, below=1.5mm of ridge.south]
+\node[lanelab] at (6.0,-1.0)
       {this work: predict \emph{before} training, minutes on a laptop};
 \end{tikzpicture}%
 }

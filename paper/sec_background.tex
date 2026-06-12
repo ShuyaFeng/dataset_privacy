@@ -33,6 +33,14 @@ We denote the dataset-level risk as the expected advantage over samples:
   \mathrm{Adv}(\mathcal{A}, f_\theta, D).
   \label{eq:risk}
 \end{equation}
+Advantage and AUC are interchangeable lenses on the same quantity: for
+a score-based attack evaluated on balanced member and non-member sets,
+$\mathrm{Adv} = 2\cdot\mathrm{AUC} - 1$ at the optimal threshold, so an
+AUC of $0.5$ is zero advantage and an AUC of $1.0$ is perfect
+membership disclosure. We report AUC in the measurements and advantage
+in the theory, converting where the two meet
+(Section~\ref{sec:tightness_main}).
+
 The supremum in Equation~\eqref{eq:risk} is not directly observable.
 In practice we estimate $\mathrm{Risk}(D)$ by the mean AUC over a grid of
 strong attacks and model families, a typical-adversary surrogate;

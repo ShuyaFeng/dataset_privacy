@@ -65,7 +65,18 @@ unbiased nested cross-validation that selects the feature subset on training
 folds only (Table~\ref{tab:regression}). The fixed-feature LOO estimate is
 $0.52$ with all features and $0.61$ with the geometric-core-plus-dimension
 subset. Random Forest regression does worse ($\rho=0.36$), overfitting the
-small sample. The prediction is moderate, not precise. Coefficients of
+small sample. The internal pattern of Table~\ref{tab:regression} is
+itself informative. The all-features model trails the subset model
+because the two features without standalone signal at this sample size,
+outlier score and entropy, contribute mostly variance that ridge
+shrinkage cannot fully suppress with 31 observations. The nested-CV
+estimate matching the best fixed subset, rather than falling below it,
+means the inner loop selects essentially the same subset in every fold;
+the feature selection is stable, not lucky. And the gap between ridge
+and Random Forest regression is the bias-variance trade-off at small
+$n$ in miniature: the flexible model finds spurious interactions that
+leave-one-out immediately punishes. The prediction is moderate, not
+precise. Coefficients of
 determination are not an informative lens here, since the target is a
 ranking and the features are rank-transformed.
 To our knowledge this is the first quantified estimate of how far
@@ -101,6 +112,22 @@ Mushroom). The relationship is a tendency rather than a law: Creditg has
 high uniqueness yet only moderate risk, and Mushroom has moderate uniqueness
 yet the lowest risk. These exceptions are why the correlation is $0.61$
 rather than $1.0$.
+
+The ordering also has a domain-level reading. The top of the risk range
+is occupied by sparse, high-dimensional record collections, the two
+benchmarks at $6{,}169$ and $600$ dimensions, where each individual's
+record is nearly unique by construction. The bottom is occupied by
+dense, low-dimensional behavioral data, mobility check-ins and movie
+ratings at five or six aggregate features, where thousands of users
+share nearly identical profiles and the geometry offers an attacker
+little to grip. General tabular and image data fall in between. This
+gradient matches the pre-ML re-identification literature, which found
+exactly this contrast between high-dimensional transactional
+data~\cite{narayanan2008robust,demontjoye2015unique} and aggregated
+low-dimensional summaries, and it suggests that a practitioner can
+often anticipate the risk tier of a data \emph{modality} before
+computing anything at all; DPRI then resolves the ordering within the
+tier.
 
 \begin{table}[t]
 \centering
@@ -266,6 +293,17 @@ and far more than the choice of attack. A deliberately overfit model can
 erase that margin, which is itself a caution. Reporting a single attack
 number on a single dataset conflates three distinct sources of variation,
 and the dataset is not the incidental one.
+
+The finding has a practical consequence for how the field evaluates
+progress. When a new attack improves AUC by a few points on one
+benchmark, or a defense reduces it by the same margin, that delta is
+small against the spread the dataset alone contributes, so
+single-dataset comparisons can reorder under a different choice of
+data. This is the dataset-side counterpart of the evaluation pitfalls
+Aerni et al.~\cite{aerni2024evaluations} document on the model side,
+and the remedy is the same in spirit: evaluate across a spread of
+conditions, here a spread of dataset geometries, before claiming an
+ordering between methods.
 
 \subsection{Finding 2: Benchmarks Are Geometric Outliers}
 \label{sec:finding2}

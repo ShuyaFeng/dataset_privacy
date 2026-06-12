@@ -148,8 +148,13 @@ optimism.
 
 \subsection{Computation Cost}
 
-All features require only standard nearest-neighbour and density-estimation
-routines. On a commodity laptop DPRI computation takes seconds for
+All features require only standard nearest-neighbour and
+density-estimation routines, and the asymptotics are dominated by the
+neighbour search: $O(nd\log n)$ with tree indices in low dimension,
+degrading toward $O(n^2 d)$ brute force in high dimension, with the
+Isolation Forest at $O(n\log n)$ per tree, the silhouette at $O(m^2 d)$
+on its $m = 5{,}000$ subsample, and entropy linear in $nd$. On a
+commodity laptop DPRI computation takes seconds for
 datasets up to roughly ten thousand samples, and a few minutes for the
 largest datasets we study (Purchase100 at 197k samples, Texas100 at 6169
 features), dominated by the nearest-neighbour search.
