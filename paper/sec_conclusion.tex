@@ -3,37 +3,25 @@
 \label{sec:conclusion}
 % =============================================================================
 
-We introduced DPRI, a pre-training dataset privacy risk estimator grounded
-in a formal bound on membership inference advantage.
-Across 31 datasets in five domains, DPRI ranks MIA vulnerability with an
-unbiased cross-validated Spearman correlation of $0.61$, using
-distributional features that require no model training.
-The prediction is moderate rather than precise, which is itself a finding.
-Privacy risk is significantly shaped by data geometry, yet no single
-pre-training statistic determines it.
-Two further findings challenge established practice. First, the benchmarks
-that anchor a decade of membership inference research are geometric outliers
-that do not represent typical deployed data. Second, among the regularized
-models practitioners actually deploy, dataset structure governs risk more
-than model architecture and far more than the choice of attack, so reporting
-an attack number on a single benchmark conflates three distinct sources of
-variation, of which the dataset is the largest.
+We introduced DPRI, a pre-training dataset privacy risk estimator
+grounded in a formal bound on membership inference advantage. Across 31
+datasets in five domains, DPRI ranks MIA vulnerability at an unbiased
+cross-validated Spearman correlation of $0.61$ from distributional
+features alone, a moderate rather than precise prediction, which is
+itself a finding: privacy risk is significantly shaped by data geometry
+yet determined by no single pre-training statistic. Two further results
+challenge established practice. The benchmarks that anchor a decade of
+membership inference research are geometric outliers unrepresentative of
+deployed data, and among realistic models dataset structure governs risk
+more than model architecture, so an attack number reported on a single
+benchmark conflates three distinct sources of variation.
 
-These results suggest a shift in how the community measures and reports
-membership inference risk.
-We call for benchmark diversity in MIA evaluations and for dataset-level
-risk assessment as a standard pre-training step, while cautioning that
-pre-training prediction is informative but not a substitute for direct
-measurement.
-
-The larger opportunity is to close the gap our failure analysis exposed.
-Geometry predicts leakage only insofar as the learning task is hard
-enough to force memorization; a pre-training proxy for label complexity,
-if one exists that does not itself require training, would compound with
-DPRI and raise the ceiling on pre-training prediction. Extending the
-corpus beyond tabular data, and testing whether differential-privacy
-budgets calibrated to DPRI deliver more uniform protection in practice,
-are the two follow-ups we consider most consequential.
-
-The DPRI tool is provided as an anonymized artifact and will be released
-as open source upon publication.
+We therefore call for benchmark diversity in MIA evaluations and for
+dataset-level risk assessment as a standard pre-training step, with
+direct measurement remaining the final arbiter for high-stakes releases.
+The most consequential follow-ups are a pre-training proxy for label
+complexity, which our failure analysis identifies as the main missing
+signal, and testing whether DPRI-calibrated differential-privacy budgets
+deliver more uniform protection. The DPRI tool is provided as an
+anonymized artifact and will be released as open source upon
+publication.

@@ -56,9 +56,83 @@ uniqueness is the highest among all 31 datasets we study, so results
 reported only on them measure privacy risk in an unrepresentatively
 high-risk regime.
 
+\begin{figure*}[t]
+\centering
+\resizebox{0.97\textwidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  node distance=5mm and 8mm,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=5pt,
+              minimum height=10mm},
+  dim/.style={box, fill=gray!12},
+  hot/.style={box, fill=gray!25, thick},
+  lanelab/.style={font=\footnotesize\itshape},
+  arr/.style={-{Stealth[length=2.5mm]}, semithick},
+]
+\node[dim] (data) {Training data $D$\\[-1pt]\footnotesize raw features + labels};
+
+% Top lane: standard post-training practice
+\node[box, above right=7mm and 9mm of data] (train)
+      {Train $f_\theta$\\[-1pt]\footnotesize MLP, XGBoost, RF};
+\node[box, right=of train] (attack)
+      {Attack grid\\[-1pt]\footnotesize LiRA, shadow, loss-thr.};
+\node[box, right=of attack] (risk)
+      {$\mathrm{Risk}(D)$\\[-1pt]\footnotesize mean AUC, 9 configs};
+
+% Bottom lane: this work, pre-training
+\node[hot, below right=7mm and 9mm of data] (feat)
+      {Data geometry $\phi(D)$\\[-1pt]\footnotesize
+       $\bar{u},\ \bar{\rho},\ \bar{o},\ H,\ S,\ \log d$};
+\node[hot, right=of feat] (ridge)
+      {Rank transform + ridge\\[-1pt]\footnotesize nested CV};
+\node[hot, right=of ridge] (dpri)
+      {DPRI score\\[-1pt]\footnotesize predicted risk rank};
+
+% Downstream uses
+\node[box, right=9mm of dpri] (use)
+      {\footnotesize DP budget $\varepsilon$\\[-1pt]
+       \footnotesize release decision\\[-1pt]
+       \footnotesize benchmark design};
+
+\draw[arr] (data) |- (train);
+\draw[arr] (train) -- (attack);
+\draw[arr] (attack) -- (risk);
+\draw[arr] (data) |- (feat);
+\draw[arr] (feat) -- (ridge);
+\draw[arr] (ridge) -- (dpri);
+\draw[arr] (dpri) -- (use);
+\draw[arr, {Stealth[length=2.5mm]}-{Stealth[length=2.5mm]}, dashed]
+     (dpri) -- (risk)
+     node[midway, right, font=\footnotesize, align=left]
+     {Spearman $0.61$\\($n{=}31$, $p{<}0.001$)};
+\draw[arr, dashed] (feat.north) to[bend left=12]
+     node[midway, left, font=\footnotesize, align=center]
+     {Theorem~\ref{thm:main}:\\
+      $\mathrm{Adv} \lesssim L\,u / (\sigma\sqrt{2}\,\rho^{1/d})$}
+     (train.south);
+
+\node[lanelab, above=1.5mm of attack.north]
+      {standard practice: measure \emph{after} training, hours of compute};
+\node[lanelab, below=1.5mm of ridge.south]
+      {this work: predict \emph{before} training, minutes on a laptop};
+\end{tikzpicture}%
+}
+\caption{Overview. Standard practice measures membership inference risk
+         by training models and attacking them (top). DPRI predicts the
+         risk \emph{ranking} before any training, from six
+         distributional statistics of the raw data (bottom);
+         Theorem~\ref{thm:main} grounds the link between geometry and
+         attack advantage, and across 31 datasets the predicted and
+         measured rankings correlate at Spearman $0.61$ under nested
+         cross-validation. The score then informs the
+         differential-privacy budget, the release decision, and
+         benchmark selection.}
+\label{fig:overview}
+\end{figure*}
+
 These observations motivate a temporally prior question: can the privacy
-risk of a dataset be anticipated before any model is trained? We give a
-qualified yes. We introduce the Dataset Privacy Risk Index (DPRI), a
+risk of a dataset be anticipated before any model is trained
+(Figure~\ref{fig:overview})? We give a qualified yes. We introduce the Dataset Privacy Risk Index (DPRI), a
 scalar risk estimator computed entirely from distributional statistics
 of the raw data: sample uniqueness, local density, outlier structure,
 feature entropy, class separability, and dimensionality. Each statistic
