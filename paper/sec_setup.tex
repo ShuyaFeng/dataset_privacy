@@ -68,21 +68,18 @@ the Random Forest for every dataset (Section~\ref{sec:finding1}), which
 saturates near AUC $1.0$ and erases the contrast between datasets. The mean
 reflects the typical adversary across realistic and worst-case models alike.
 
-\paragraph{MIA attacks.}
-LiRA~\cite{carlini2022lira} is the current state of the art, using 16 shadow
-models to compute a per-sample likelihood ratio.
-The shadow-model attack~\cite{shokri2017membership} trains 4 shadow models
-and learns a binary meta-classifier.
-The loss-threshold attack~\cite{yeom2018privacy} thresholds the model's
-confidence on the correct class, the Bayes-optimal attack under a Gaussian
-assumption.
-
-\paragraph{Model families.}
-MLP (two hidden layers, 128-64, trained with Adam~\cite{kingma2015adam}
-for 100 epochs on GPU), XGBoost~\cite{chen2016xgboost} (300 trees,
-depth 6), and Random Forest~\cite{breiman2001random} (300 trees,
-unbounded depth).
-All models use a 50\%/50\% member/non-member split. Seeds are fixed at 42.
+The three attacks span the spectrum from strongest to simplest.
+LiRA~\cite{carlini2022lira}, the current state of the art, uses 16
+shadow models to compute a per-sample likelihood ratio; the shadow-model
+attack~\cite{shokri2017membership} trains 4 shadow models and learns a
+binary meta-classifier; and the loss-threshold
+attack~\cite{yeom2018privacy} thresholds the model's confidence on the
+correct class, which is Bayes-optimal under a Gaussian assumption. The
+three model families are an MLP (two hidden layers, 128-64, trained with
+Adam~\cite{kingma2015adam} for 100 epochs on GPU),
+XGBoost~\cite{chen2016xgboost} (300 trees, depth 6), and a Random
+Forest~\cite{breiman2001random} (300 trees, unbounded depth). All models
+use a 50\%/50\% member/non-member split, with seeds fixed at 42.
 
 \subsection{DPRI Computation}
 

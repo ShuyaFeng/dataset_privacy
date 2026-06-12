@@ -81,17 +81,16 @@ rare training examples verbatim, and the onion
 effect~\cite{carlini2022onion} shows that removing the most vulnerable
 outliers exposes the next layer, underscoring that vulnerability is a
 property of the data distribution.
-Our work differs along three dimensions.
-Unit of analysis: we study dataset-level statistics rather than
-per-sample certificates.
-Timing: we operate before training, with no trained model.
-Output: a dataset-level risk score used to rank datasets, not a post-hoc
-per-sample memorization label.
-Our results are consistent with this line. The datasets we find most at
-risk are those with high sample uniqueness, the aggregate counterpart of
-atypical, memorization-prone examples. We complement that work by
-asking, at the dataset level and before training, how far this geometry
-predicts risk, and we find that it does so moderately but significantly.
+Our work differs in unit of analysis, studying dataset-level statistics
+rather than per-sample certificates; in timing, operating before
+training with no trained model; and in output, producing a risk score
+that ranks datasets rather than a post-hoc per-sample memorization
+label. Our results are nonetheless consistent with this line: the
+datasets we find most at risk are those with high sample uniqueness, the
+aggregate counterpart of atypical, memorization-prone examples. We
+complement that work by asking, at the dataset level and before
+training, how far this geometry predicts risk, and we find that it does
+so moderately but significantly.
 
 \paragraph{Differential privacy.}
 DP-SGD~\cite{abadi2016deep} is the standard mechanism for training

@@ -6,22 +6,21 @@
 Over the past decade, membership inference attacks
 (MIA)~\cite{homer2008resolving,shokri2017membership} have become the
 standard tool for measuring how much a trained model leaks about its
-training data.
-Hundreds of papers have proposed stronger
+training data. Hundreds of papers have proposed stronger
 attacks~\cite{salem2019ml,nasr2019comprehensive,choquette2021label,song2021systematic,carlini2022lira,ye2022enhanced,watson2022importance,zarifzadeh2024rmia},
 dedicated defenses~\cite{nasr2018machine,jia2019memguard,abadi2016deep},
 tighter theoretical
 bounds~\cite{yeom2018privacy,sablayrolles2019whitebox}, and
 systematizations of the resulting
-landscape~\cite{papernot2018sok,hu2022membership}.
-The same model-centric view organizes the sibling lines of work:
-attribute and property
-inference~\cite{fredrikson2015model,ganju2018property}, training-data
+landscape~\cite{papernot2018sok,hu2022membership}. The same
+model-centric view organizes the sibling lines of work: attribute and
+property inference~\cite{fredrikson2015model,ganju2018property},
+training-data
 extraction~\cite{carlini2019secret,carlini2021extracting}, differential
 privacy~\cite{dwork2006calibrating,abadi2016deep}, and machine
 unlearning~\cite{cao2015towards,bourtoule2021machine,chen2021unlearning}
-all quantify or remove leakage from a trained model.
-Yet a more fundamental question has gone largely unanswered:
+all quantify, bound, or remove leakage from a trained model. Yet a more
+fundamental question has gone largely unanswered:
 
 \smallskip
 \begin{center}
@@ -30,117 +29,87 @@ independent of the model trained on them?
 \end{center}
 \smallskip
 
-This is not only an engineering question.
-It is also a question about the nature of data itself.
-The pre-ML privacy literature established that re-identification risk is
-driven by intrinsic properties of the data: the sparsity of the Netflix
-ratings matrix~\cite{narayanan2008robust}, the uniqueness of mobility
+The question is not only an engineering one. Long before machine
+learning, the privacy literature understood that re-identification risk
+lives in the data itself: in the sparsity of the Netflix ratings
+matrix~\cite{narayanan2008robust}, in the uniqueness of mobility
 traces~\cite{demontjoye2013unique} and credit-card
-metadata~\cite{demontjoye2015unique}, and the incompleteness that
+metadata~\cite{demontjoye2015unique}, and in the incompleteness that
 defeats naive anonymization~\cite{sweeney2002k,rocher2019estimating}.
-Machine learning privacy has largely set this lesson aside, treating the
-dataset as a fixed backdrop behind the model. We argue that membership
-inference is, in part, a symptom of how the training data is shaped.
+Machine learning privacy has largely set this lesson aside. The
+prevailing experimental template picks a dataset, trains a model,
+reports an AUC, and attributes the number to the attack or the defense,
+with the dataset as inert backdrop.
 
-\paragraph{The problem with current practice.}
-Every MIA paper chooses a dataset, trains a model, and reports an AUC.
-The AUC is then attributed to the attack method or the defense mechanism.
-But when we decompose the variation in AUC across 31 datasets, three
-attacks, and three model families, the dataset is anything but a fixed
-backdrop. Among the regularized models that practitioners actually deploy,
-dataset choice explains $49.5\%$ of the variation in AUC, twice the share
-of model architecture ($24.4\%$) and well above the attack method
-($26.1\%$). Only a deliberately overfit model, an unbounded-depth Random
-Forest that memorizes its training set outright, erases this margin
-(Section~\ref{sec:finding1}).
-Dataset structure is a first-class driver of privacy risk,
-yet it is rarely reported or controlled for.
+Our measurements say otherwise. When we decompose the variation in
+attack AUC across 31 datasets, three attacks, and three model families,
+the dataset emerges as a first-class experimental factor: among the
+regularized models that practitioners actually deploy, dataset choice
+explains $49.5\%$ of the variation, twice the share of model
+architecture ($24.4\%$) and well above the attack method ($26.1\%$).
+Only a deliberately overfit model, an unbounded-depth Random Forest that
+memorizes its training set outright, erases this margin
+(Section~\ref{sec:finding1}). Benchmark practice compounds the problem:
+Purchase100 and Texas100~\cite{shokri2017membership}, the two most
+common MIA benchmarks, turn out to be geometric outliers whose sample
+uniqueness is the highest among all 31 datasets we study, so results
+reported only on them measure privacy risk in an unrepresentatively
+high-risk regime.
 
-A second pathology is benchmark reliance.
-Purchase100 and Texas100~\cite{shokri2017membership} are the two most
-common MIA benchmarks.
-We show that both are geometric outliers. Their sample uniqueness is the
-highest among all 31 datasets we study, placing them far outside the range
-of typical deployed data, so papers that report results only on these
-benchmarks measure privacy risk in an unrepresentatively high-risk regime.
+These observations motivate a temporally prior question: can the privacy
+risk of a dataset be anticipated before any model is trained? We give a
+qualified yes. We introduce the Dataset Privacy Risk Index (DPRI), a
+scalar risk estimator computed entirely from distributional statistics
+of the raw data: sample uniqueness, local density, outlier structure,
+feature entropy, class separability, and dimensionality. Each statistic
+is motivated by a theoretical result (Theorem~\ref{thm:main}) showing
+that the advantage of a Bayes-optimal membership adversary is bounded by
+a function of local data geometry. Across the 31 datasets, DPRI ranks
+risk with a Spearman correlation of $0.61$ ($p<0.001$) under a nested
+cross-validation that selects features on training folds only, an
+estimate free of the selection optimism that inflates small-sample
+results; the same discipline exposed our own early estimates, on fewer
+datasets, as artifacts (Section~\ref{sec:power}). Data geometry thus
+significantly shapes privacy risk without fully determining it. We treat
+this calibrated, qualified finding as a result in its own right: it
+bounds what any pre-training predictor can achieve.
 
-\paragraph{Our approach.}
-We ask a temporally prior question:
-Can the privacy risk of a dataset be anticipated before any model is trained?
-If so, practitioners gain an actionable signal: estimate risk at data
-collection time, before committing to a training pipeline or a privacy budget.
+Our question is related to, but distinct from, memorization theory.
+Feldman~\cite{feldman2020memorization} showed that rare individual
+samples must be memorized for good generalization, a phenomenon
+observable only after training. Where that line of work identifies which
+samples a given model will memorize, we predict how much a dataset will
+leak, before training and at the dataset level, when a practitioner can
+still act on the answer.
 
-We give a qualified yes. We introduce the Dataset Privacy Risk Index (DPRI),
-a scalar pre-training risk estimator derived from distributional statistics:
-sample uniqueness, local density, outlier score, feature entropy, class
-cluster separation, and data dimensionality.
-Each statistic is motivated by a theoretical result
-(Theorem~\ref{thm:main}) showing that MIA advantage is bounded by a
-function of local data geometry.
-Across 31 datasets, DPRI ranks datasets by risk with a Spearman correlation
-of $0.61$ ($p < 0.001$). We report this number under nested cross-validation
-that selects features on training folds only, so it is free of the selection
-optimism that inflates small-$n$ results; the same discipline is what
-exposed our own early estimates, on fewer datasets, as artifacts.
-Data geometry significantly shapes privacy risk without fully determining
-it.
+In summary, this paper makes the following contributions:
 
-Our question is related to, but distinct from, the memorization literature.
-Feldman~\cite{feldman2020memorization} showed that rare individual samples
-must be memorized for good generalization, a phenomenon observable only
-after training. We ask the complementary and temporally prior question:
-can dataset-level structural statistics predict aggregate membership
-inference risk before any model is trained? Where that line of work
-identifies which samples a given model will memorize (post-training,
-sample-level), we predict how much a dataset will leak (pre-training,
-dataset-level), a distinction that is both scientific and operational. A
-pre-training score is the only kind a practitioner can act on at data
-collection time.
-
-\paragraph{Contributions.}
 \begin{itemize}
 
-\item \textbf{Theoretical foundation.}
-We prove that the Bayes-optimal MIA advantage for a sample $x$ is
-upper-bounded by $O(u(x) / \rho(x)^{1/d})$, where $u(x)$ is sample
-uniqueness and $\rho(x)$ is local density, both computable from raw data
-(Theorem~\ref{thm:main}).
-This provides the first formal link between pre-training data geometry
-and membership inference risk.
+\item \textbf{Theory.} The first formal bound linking the advantage of
+an optimal membership inference adversary to pre-training data geometry,
+namely sample uniqueness and local density (Theorem~\ref{thm:main});
+its predicted scaling law holds almost exactly on synthetic data.
 
-\item \textbf{Dataset Privacy Risk Index (DPRI).}
-We define a dataset-level risk score from six distributional features and
-validate it across 31 datasets in five domains using three MIA attacks and
-three model families. DPRI ranks datasets by risk with an unbiased nested
-cross-validated Spearman correlation of $0.61$ ($p < 0.001$).
+\item \textbf{DPRI.} A pre-training risk index over six distributional
+features that ranks the MIA risk of 31 datasets across five domains at
+Spearman $0.61$ under unbiased nested cross-validation.
 
-\item \textbf{A calibrated, qualified finding.}
-The prediction is moderate, not precise, and no single statistic suffices.
-Sample uniqueness, local density, class separability, and dimensionality
-are each significant predictors, yet privacy risk is shaped by data geometry
-without being determined by it. We argue this nuance is itself a
-contribution. It bounds what any pre-training predictor can achieve.
+\item \textbf{Finding 1.} Among realistic models, dataset structure
+governs MIA risk more than model architecture and far more than the
+choice of attack, so single-benchmark attack numbers conflate three
+sources of variation.
 
-\item \textbf{Two measurement findings.}
-(F1)~Among realistic, regularized models, dataset structure governs MIA
-risk more than model architecture ($49.5\%$ vs.\ $24.4\%$ of AUC variation)
-and far more than the choice of attack ($26.1\%$), so an attack number
-reported on a single benchmark conflates three distinct sources of
-variation, and the dataset is the largest of them.
-(F2)~The benchmarks that anchor a decade of MIA research are geometric
-outliers, casting doubt on the external validity of results reported only
-on them.
+\item \textbf{Finding 2.} The benchmarks anchoring a decade of MIA
+research are geometric outliers, an effect Corollary~\ref{cor:benchmark}
+predicts from how those benchmarks were constructed.
 
-\item \textbf{Open-source tool.}
-We release DPRI as a Python package that audits any tabular dataset in
-minutes on a laptop, with no model training and no GPU, outputting a risk
-score and its distributional breakdown.
+\item \textbf{Tool.} An open-source auditor that scores any tabular
+dataset in minutes on a laptop, with no model training and no GPU.
 
 \end{itemize}
 
-\paragraph{Scope.}
-We study 31 public datasets spanning tabular, image, network, medical, and
-recommendation domains, in the centralized training setting.
-Extensions to federated learning and generative models are left as future
-work.
-All datasets used are publicly available. No proprietary data was accessed.
+We study 31 public datasets spanning tabular, image, network, medical,
+and recommendation domains, in the centralized training setting;
+extensions to federated learning and generative models are discussed as
+future work in Section~\ref{sec:implications}.

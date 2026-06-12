@@ -47,16 +47,13 @@ inexpensive instance.
 
 \subsection{Extensions}
 
-\paragraph{Federated learning.}
-In federated settings, where unintended feature leakage is already
+Two settings extend naturally beyond our centralized scope. In federated
+learning, where unintended feature leakage is already
 documented~\cite{melis2019exploiting}, each client holds a local dataset
-with its own DPRI. A high-DPRI client could be asked to contribute more
-noise in the local differential-privacy step. We leave this to future
-work.
-
-\paragraph{Generative models.}
-Membership inference applies to generative models as
-well~\cite{hayes2019logan,carlini2021extracting}. DPRI is defined on the
-training data distribution and is model-agnostic, so it applies in
-principle to GANs, diffusion models, and language models. We leave
-empirical validation on generative training data to future work.
+with its own DPRI, and a high-DPRI client could be asked to contribute
+more noise in the local differential-privacy step. Generative models are
+the second: membership inference applies to them as
+well~\cite{hayes2019logan,carlini2021extracting}, and because DPRI is
+defined on the training data distribution rather than on any model, it
+applies in principle to GANs, diffusion models, and language models. We
+leave the empirical validation of both extensions to future work.

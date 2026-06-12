@@ -56,39 +56,29 @@ Section~\ref{sec:implications}.
 \subsection{Threat Model}
 \label{sec:threat}
 
-We consider two principals: a data holder who trains a model on
-$D$ and may later publish it, and an adversary who infers membership.
+We consider two principals: a data holder who trains a model on $D$ and
+may later publish it, and an adversary who, given a target sample
+$(x,y)$ and oracle access to $f_\theta$, seeks to determine whether
+$(x,y) \in D$. The adversary operates in the black-box setting: it
+submits inputs and observes predicted class probabilities, but cannot
+inspect model weights. This is the standard setting for deployed APIs
+and MLaaS platforms~\cite{shokri2017membership,truex2019demystifying}
+and the weakest, hence most broadly applicable, adversary
+model~\cite{salem2019ml}; white-box access only strengthens the attacks
+we consider~\cite{nasr2019comprehensive,leino2020stolen}. We assume the
+adversary knows the data domain distribution $\mathcal{P}$, for example
+that the dataset contains medical records of a specific demographic, but
+not the exact set $D$.
 
-\paragraph{Adversary goal.}
-Given $(x,y)$ and oracle access to $f_\theta$, determine whether
-$(x,y) \in D$.
+The defender's goal is to compute $\mathrm{DPRI}(D)$ before training,
+from raw data alone and with no model required, in order to estimate
+$\mathrm{Risk}(D)$ and to inform the choice of differential-privacy
+budget and the release decision. The same capability cuts the other way:
+an adversary with access to several candidate target datasets can
+compute DPRI pre-attack and prioritize the high-risk ones, maximizing
+attack return on a fixed query budget. We analyze this reconnaissance
+threat and its mitigations in Section~\ref{sec:implications}.
 
-\paragraph{Adversary capability.}
-Black-box access: the adversary submits inputs and observes
-predicted class probabilities, but cannot inspect model weights.
-This is the standard setting for deployed APIs and MLaaS
-platforms~\cite{shokri2017membership,truex2019demystifying}, and the
-weakest, hence most broadly applicable, adversary
-model~\cite{salem2019ml}; white-box access only strengthens the
-attacks we consider~\cite{nasr2019comprehensive,leino2020stolen}.
-
-\paragraph{Adversary knowledge.}
-The adversary knows the data domain distribution $\mathcal{P}$
-(e.g., that the dataset contains medical records of a specific demographic)
-but does not know the exact set $D$.
-
-\paragraph{Defender goal.}
-Before training, compute $\mathrm{DPRI}(D)$ from raw data alone, with no
-model required, to estimate $\mathrm{Risk}(D)$ and to inform the choice
-of differential-privacy budget and the release decision.
-
-\paragraph{Dual use.}
-DPRI also has an offensive application: an adversary with access to
-candidate target datasets can compute DPRI pre-attack and prioritize
-high-risk datasets to maximize attack return on query budget.
-We analyze this reconnaissance threat and its mitigations in
+Throughout, we assume centralized training and a passive adversary (no
+data poisoning); extensions to federated learning are discussed in
 Section~\ref{sec:implications}.
-
-\paragraph{Scope.}
-Centralized training, passive adversary (no data poisoning).
-Extensions to federated learning are discussed in Section~\ref{sec:implications}.

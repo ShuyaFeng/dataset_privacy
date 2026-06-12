@@ -64,19 +64,18 @@ At the dataset level, the aggregate advantage satisfies:
 \end{equation}
 \end{theorem}
 
-\paragraph{Interpretation.}
-The bound says that privacy risk increases when samples are
-far from their neighbours ($u(x)$ large, i.e.\ isolated)
-and when the local population is sparse ($\rho(x)$ small).
-Both quantities are computable directly from $D$, with no model training required.
-The Lipschitz constant $L$ and noise level $\sigma$ are model-family
-constants that can be estimated or treated as fixed hyperparameters.
-We state Theorem~\ref{thm:main} as a modeling result under explicit,
-standard distributional assumptions (made precise in
-Appendix~\ref{app:proofs}), not as a worst-case guarantee.
-Its value is the falsifiable qualitative prediction it makes, that risk
-rises with uniqueness and falls with density, which
-Section~\ref{sec:results} tests directly against measured attack AUC.
+The bound reads naturally: privacy risk increases when a sample is far
+from its neighbours ($u(x)$ large, i.e.\ isolated) and when the local
+population is sparse ($\rho(x)$ small). Both quantities are computable
+directly from $D$, with no model training, while the Lipschitz constant
+$L$ and noise level $\sigma$ are model-family constants that can be
+estimated or treated as fixed hyperparameters. We state
+Theorem~\ref{thm:main} as a modeling result under explicit, standard
+distributional assumptions (made precise in Appendix~\ref{app:proofs}),
+not as a worst-case guarantee. Its value lies in the falsifiable
+qualitative prediction it makes, that risk rises with uniqueness and
+falls with density, which Section~\ref{sec:results} tests directly
+against measured attack AUC.
 
 \begin{proof}[Proof sketch]
 We proceed in three steps.
@@ -121,39 +120,34 @@ Averaging over all $x \in D$ gives~\eqref{eq:risk_bound}.
 
 \subsection{Discussion of the Bound}
 
-\paragraph{Tightness.}
-The bound is tight up to constants for datasets with a uniform distribution
-over a compact manifold (Proposition~\ref{prop:tight}, Appendix~\ref{app:proofs}).
-For real-world datasets, the bound overestimates risk by a factor that
-decreases as the data distribution becomes more regular.
-Section~\ref{sec:results} tests the bound's prediction empirically: the
-geometric quantities it identifies are each individually significant
-predictors of observed AUC (standalone Spearman $|\rho|$ of $0.51$ to
-$0.57$, all $p<0.005$), and the combined index ranks datasets at
-$\rho = 0.61$ under unbiased cross-validation, confirming that the bound
-is predictively useful even where it is loose.
-A synthetic experiment on uniform hypercube data validates
-Proposition~\ref{prop:tight} directly: the bound factor decays with
-fitted log-log slopes within $0.03$ of the predicted $-1/d$ for
-$d \in \{2,4,8\}$, and it ranks the measured attack advantage across all
-$(n,d)$ configurations with Spearman $\rho = 0.89$
+How tight is the bound, and what does it leave out? For datasets drawn
+uniformly from a compact manifold it is tight up to constants
+(Proposition~\ref{prop:tight}, Appendix~\ref{app:proofs}); for
+real-world datasets it overestimates risk by a factor that shrinks as
+the distribution becomes more regular. Looseness, however, does not
+preclude predictive value. The geometric quantities the bound identifies
+are each individually significant predictors of observed AUC (standalone
+Spearman $|\rho|$ of $0.51$ to $0.57$, all $p<0.005$), and the combined
+index ranks datasets at $\rho = 0.61$ under unbiased cross-validation
+(Section~\ref{sec:results}). A synthetic experiment on uniform hypercube
+data validates Proposition~\ref{prop:tight} directly: the bound factor
+decays with fitted log-log slopes within $0.03$ of the predicted $-1/d$
+for $d \in \{2,4,8\}$, and it ranks the measured attack advantage across
+all $(n,d)$ configurations with Spearman $\rho = 0.89$
 (Appendix~\ref{app:proofs}, Figure~\ref{fig:tightness}).
 
-\paragraph{What the bound cannot capture.}
-The bound depends on $L$ (Lipschitz constant of the loss) and $\sigma$
-(out-distribution noise), which are model-family properties.
-The bound separates a data-geometry term from model-family constants
-($L$ and $\sigma$). The data term varies widely across datasets while the
-model contributes a bounded multiplicative factor. This is consistent with
-our empirical finding that dataset structure influences risk comparably to
-model architecture (Section~\ref{sec:finding1}).
-
-\paragraph{Relationship to differential privacy.}
-If the training mechanism is $(\epsilon,\delta)$-DP, then
-$\mathrm{Adv}(\mathcal{A}^*) \leq e^\epsilon - 1 + \delta$~\cite{yeom2018privacy}.
-Combined with Theorem~\ref{thm:main}, high-DPRI datasets would require a
-smaller $\epsilon$ to achieve the same risk reduction, motivating the
-data-aware DP direction we discuss in Section~\ref{sec:implications}.
+The bound also makes explicit what data alone cannot determine. It
+factors into a data-geometry term, which varies widely across datasets,
+and the model-family constants $L$ and $\sigma$, which contribute a
+bounded multiplicative factor. This separation anticipates our empirical
+decomposition, in which dataset structure and model architecture are
+both substantial drivers of risk (Section~\ref{sec:finding1}). Finally,
+the bound composes with differential privacy: if the training mechanism
+is $(\epsilon,\delta)$-DP, then
+$\mathrm{Adv}(\mathcal{A}^*) \leq e^\epsilon - 1 + \delta$~\cite{yeom2018privacy},
+so a high-DPRI dataset requires a smaller $\epsilon$ to reach the same
+residual risk. This motivates the data-aware DP direction we discuss in
+Section~\ref{sec:implications}.
 
 \subsection{Corollary: Benchmark Bias is Predictable}
 
