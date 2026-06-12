@@ -71,14 +71,40 @@ mean nearest-class distance.
 Well-separated classes ($S$ near $1$) place decision boundary samples
 in high-contrast regions, increasing their MIA risk.
 
+\begin{algorithm}[t]
+\caption{DPRI feature extraction}
+\label{alg:dpri}
+\begin{algorithmic}[1]
+\Require standardized feature matrix $X \in \mathbb{R}^{n \times d}$, labels $y$
+\Ensure descriptor $\phi(D) \in \mathbb{R}^{6}$
+\State build a $k$-NN index on $X$ \hfill ($k = 5$)
+\For{$i = 1, \dots, n$}
+  \State $u_i \gets$ distance from $x_i$ to its $k$-th nearest neighbour
+  \State $\rho_i \gets 1 / \max\bigl(r_k(x_i),\ \epsilon_D\bigr)$
+         \hfill (floor $\epsilon_D$: Sec.~\ref{sec:design})
+  \State $o_i \gets \tfrac{1}{2}\bigl(\mathrm{LOF}_{\mathrm{norm}}(x_i)
+         + \mathrm{iForest}_{\mathrm{norm}}(x_i)\bigr)$
+\EndFor
+\State $H \gets \frac{1}{d}\sum_{j=1}^{d}$ entropy of a 50-bin histogram
+       of feature $j$
+\State $S \gets$ silhouette$(X, y)$
+       \hfill (5{,}000-point subsample if $n > 5{,}000$)
+\State \Return $\phi(D) = (\bar{u},\ \bar{\rho},\ \bar{o},\ H,\ S,\ \log d)$
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Aggregation and Risk Prediction}
 \label{sec:aggregation}
 
-Per-sample scores ($u$, $\rho$, $o$) are aggregated to the dataset level by
-their mean. To these five geometric statistics we append the data
-dimensionality $\log d$, which captures that high-dimensional data is sparser
-and therefore more memorizable, giving a six-dimensional descriptor
-$\phi(D)$.
+Per-sample scores ($u$, $\rho$, $o$) are aggregated to the dataset level
+by their mean. The choice is not arbitrary: the dataset-level bound in
+Equation~\eqref{eq:risk_bound} is itself an average of per-sample
+geometric factors, so mean aggregation is the statistic the theorem
+directly speaks about. To these five geometric statistics we append the
+data dimensionality $\log d$, which captures that high-dimensional data
+is sparser and therefore more memorizable, giving a six-dimensional
+descriptor $\phi(D)$. Algorithm~\ref{alg:dpri} summarizes the full
+extraction.
 
 To predict $\mathrm{Risk}(D)$ from $\phi(D)$ we use ridge regression with two
 deliberate choices. First, the geometric features are heavily right-skewed
@@ -89,6 +115,36 @@ cross-validation rather than fitting one fixed high-dimensional model.
 Section~\ref{sec:results} reports the resulting unbiased rank correlation.
 We emphasize ranking over absolute prediction. A pre-training index needs to
 order datasets by risk, not to estimate an exact AUC.
+
+\subsection{Design Choices and Robustness}
+\label{sec:design}
+
+Real datasets stress geometric statistics in ways that uniform theory
+does not, and three implementation choices matter in practice. First,
+the density surrogate $1/r_k(x)$ diverges on duplicated rows, which are
+common in categorical data: COMPAS and Gowalla both contain many exact
+repeats, for which $r_k(x) \approx 0$. We therefore floor $r_k$ at
+$10\%$ of its median over the dataset, which keeps duplicates ``very
+dense'' without letting a handful of repeated rows dominate the dataset
+mean. Second, the outlier ensemble combines two detectors with
+complementary failure modes: LOF (20 neighbours) is local and misses
+globally displaced clusters, while Isolation Forest (200 trees) is
+global and misses locally anomalous points inside dense regions;
+each score is min-max normalized to $[0,1]$ before averaging so that
+neither scale dominates. Third, feature entropy uses a fixed 50-bin
+histogram per feature, which is coarse enough to be stable at
+$n$ of a few hundred yet fine enough to separate near-constant from
+high-variability features.
+
+The regression stage is deliberately conservative. With 31 observations
+and six collinear features, a flexible model memorizes the sample;
+Section~\ref{sec:results} shows Random Forest regression doing exactly
+that. Ridge regression on rank-transformed features, with the feature
+subset chosen by an inner cross-validation loop that never sees the
+held-out dataset, is the least expressive estimator that still captures
+the monotone relationships our theory predicts, and the nested protocol
+guarantees that the reported correlation contains no selection
+optimism.
 
 \subsection{Computation Cost}
 

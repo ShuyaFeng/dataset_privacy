@@ -95,51 +95,17 @@ also scales as $O(n^{-1/d})$ (from the Yatracos class bound).
 Hence the bound and the true advantage have the same rate.
 \end{proof}
 
-\subsection*{Synthetic Validation of Proposition~\ref{prop:tight}}
-\label{app:tightness_exp}
-
-We test Proposition~\ref{prop:tight} directly on its own terms. We draw
-$X \sim U[0,1]^d$ for $d \in \{2,4,8\}$ and
-$n \in \{250, \dots, 4000\}$, assign binary labels by a fixed random
-hyperplane with $10\%$ label noise (so the model has something to
-memorize), train the MLP family from our main grid, and measure the
-loss-threshold attack advantage. Each cell averages five seeds.
-
-\begin{figure}[t]
-  \centering
-  \dprifig{figures/tightness_plot.pdf}{\linewidth}
-  \caption{Synthetic validation of Proposition~\ref{prop:tight} on
-           uniform hypercube data (log-log). Left: the bound's geometric
-           factor $\bar{u}$ decays with fitted slopes $-0.515$, $-0.277$,
-           $-0.149$ for $d=2,4,8$, matching the predicted $-1/d$ rates of
-           $-0.500$, $-0.250$, $-0.125$ within $0.03$. Right: measured
-           MIA advantage of the loss-threshold attack on the MLP family.}
-  \label{fig:tightness}
-\end{figure}
-
-The results (Figure~\ref{fig:tightness}) support the proposition where
-it is directly testable and are honest about where it is not. The
-geometric law holds almost exactly: the fitted log-log slope of the
-bound factor matches the predicted $-1/d$ within $0.03$ in all three
-dimensions. The measured advantage respects the bound's ordering: at
-every $n$, higher-dimensional (sparser) data is more vulnerable, and
-across all 15 $(n,d)$ cells the bound factor ranks the measured
-advantage with Spearman $\rho = 0.893$ ($p < 10^{-5}$). The measured
-advantage decays with $n$ at least as fast as the bound in every
-dimension, as an upper bound requires; for $d \geq 4$ it decays faster
-than $n^{-1/d}$, which is expected since the loss-threshold attack is a
-lower bound on the Bayes-optimal adversary that
-Proposition~\ref{prop:tight} describes, and rate-tightness against that
-idealized adversary is not directly measurable. The experiment is
-self-contained, runs in minutes on a laptop, and ships with our
-artifact.
+Section~\ref{sec:tightness_main} validates
+Proposition~\ref{prop:tight} empirically on uniform hypercube data:
+the bound factor's fitted decay slopes match the predicted $-1/d$
+within $0.03$ for $d \in \{2,4,8\}$.
 
 % =============================================================================
 \section{Dataset Details}
 \label{app:datasets}
 % =============================================================================
 
-The 31 datasets span medical (e.g.\ Breast-W, NHANES), image (MNIST,
+The 31 datasets span medical (e.g.\ Breast-W, Pima Diabetes), image (MNIST,
 Fashion-MNIST, Digits, OptDigits, PenDigits), network (KDDCup), forest
 cover (CovType), credit (German Credit), and a range of tabular sources
 (OpenML), together with the canonical MIA benchmarks Purchase100 and

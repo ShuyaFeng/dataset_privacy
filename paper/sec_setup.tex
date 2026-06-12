@@ -13,9 +13,55 @@ we include specifically to test Finding~2. Datasets larger than 30k samples
 are subsampled to 30k to keep the attack-model grid tractable. Most are
 loaded through scikit-learn~\cite{pedregosa2011scikit},
 OpenML~\cite{vanschoren2014openml}, or the UCI
-repository~\cite{dua2019uci}. Table~\ref{tab:datasets} shows a
-representative selection, and the full list is in
-Appendix~\ref{app:datasets}.
+repository~\cite{dua2019uci}. Table~\ref{tab:all_datasets} lists the
+full corpus with sources, and Table~\ref{tab:datasets} details a
+representative selection.
+
+\begin{table}[t]
+\centering
+\caption{The full 31-dataset corpus. OpenML datasets are identified by
+         their stable numeric \texttt{data\_id}; the remainder come from
+         scikit-learn loaders or their original public releases.}
+\label{tab:all_datasets}
+\small
+\setlength{\tabcolsep}{2.2pt}
+\begin{tabular}{lll}
+\toprule
+\textbf{Dataset} & \textbf{Domain} & \textbf{Source} \\
+\midrule
+Texas100      & hospital benchmark   & Shokri et al.~\cite{shokri2017membership} \\
+Purchase100   & retail benchmark     & Shokri et al.~\cite{shokri2017membership} \\
+Adult         & census income        & UCI~\cite{adult1996} \\
+COMPAS        & criminal justice     & ProPublica~\cite{compas2016} \\
+Pima Diabetes & clinical             & UCI~\cite{smith1988pima} \\
+Breast-W      & clinical             & OpenML 15 \\
+JM1, KC1      & software defects     & OpenML 1053, 1067 \\
+MovieLens-1M  & recommendation       & GroupLens~\cite{movielens} \\
+Gowalla       & mobility             & SNAP~\cite{cho2011friendship} \\
+MNIST         & image                & OpenML 554~\cite{lecun1998gradient} \\
+Fashion-MNIST & image                & OpenML 40996 \\
+Digits        & image                & scikit-learn \\
+OptDigits     & image                & OpenML 28 \\
+PenDigits     & image                & OpenML 32 \\
+Letter        & image                & OpenML 6 \\
+Segment       & image segmentation   & OpenML 36 \\
+SatImage      & remote sensing       & OpenML 182 \\
+CovType       & forest cover         & scikit-learn~\cite{blackard1999comparative} \\
+German Credit & credit               & OpenML 31~\cite{dua2019uci} \\
+Bank Marketing& marketing            & OpenML 1461 \\
+Spambase      & e-mail               & OpenML 44 \\
+Nomao         & web entities         & OpenML 1486 \\
+Electricity   & energy               & OpenML 151 \\
+Mushroom      & categorical          & OpenML 24 \\
+Magic         & gamma telescope      & OpenML 1120 \\
+Phoneme       & speech               & OpenML 1489 \\
+HAR           & motion sensors       & OpenML 1478 \\
+Gas Drift     & chemical sensors     & OpenML 1476 \\
+Vehicle       & silhouettes          & OpenML 54 \\
+Ionosphere    & radar                & OpenML 59 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 The corpus size is a deliberate design choice. Because the dataset is our
 unit of statistical analysis, every dataset added to the corpus requires
@@ -51,6 +97,20 @@ Gowalla~\cite{cho2011friendship}& Mobility    & 107,092 &  6 & 2 \\
 \end{tabular}
 \end{table}
 
+\subsection{Preprocessing}
+
+All datasets pass through one deterministic pipeline. Categorical
+features and labels are integer-encoded, every feature is standardized
+to zero mean and unit variance, and datasets above 30k samples are
+subsampled once, with a fixed seed, before any further processing.
+Standardization matters twice over: it is conventional for the models,
+and it puts the geometric features of Section~\ref{sec:dpri} on a
+common scale so that nearest-neighbour distances are comparable across
+datasets. Each dataset is then split 50\%/50\% into members and
+non-members by a stratified split with a fixed seed, the standard MIA
+evaluation convention; the target model trains on the member half, and
+attack AUC is computed over the full member and non-member sets.
+
 \subsection{Ground Truth: Risk(D)}
 
 For each dataset we run three MIA attacks against three model families,
@@ -80,6 +140,12 @@ Adam~\cite{kingma2015adam} for 100 epochs on GPU),
 XGBoost~\cite{chen2016xgboost} (300 trees, depth 6), and a Random
 Forest~\cite{breiman2001random} (300 trees, unbounded depth). All models
 use a 50\%/50\% member/non-member split, with seeds fixed at 42.
+The grid is chosen for coverage rather than exhaustiveness: the attacks
+span the simplest baseline to the published state of the art
+(Section~\ref{sec:attack_families}), and the model families span the
+three regimes that dominate tabular practice, a regularized neural
+network, a regularized boosted ensemble, and a deliberately
+unregularized memorizer that serves as the adversarial worst case.
 
 \subsection{DPRI Computation}
 

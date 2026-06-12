@@ -118,6 +118,44 @@ Averaging over all $x \in D$ gives~\eqref{eq:risk_bound}.
 \qed
 \end{proof}
 
+\subsection{Assumptions and Their Plausibility}
+\label{sec:assumptions}
+
+The proof rests on three modeling assumptions, stated formally in
+Appendix~\ref{app:proofs}; here we discuss when each holds and when it
+fails, because the failure modes are themselves informative.
+
+The first assumption (A1) models the member and non-member loss-score
+distributions as Gaussian with common variance. For regularized models,
+whose loss scores aggregate many weakly dependent contributions, the
+score distributions are unimodal and the approximation is reasonable;
+it is the same assumption under which the loss-threshold attack is
+Bayes-optimal~\cite{sablayrolles2019whitebox,carlini2022lira}. The
+assumption breaks for a model that interpolates its training set: an
+unbounded-depth Random Forest drives member losses to near zero,
+producing a degenerate, sharply bimodal score distribution. This is
+precisely the model that dominates our grid as an adversarial worst
+case (Section~\ref{sec:finding1}), so the theory predicts its own
+boundary of applicability.
+
+The second assumption (A2), Lipschitz continuity of the loss in the
+input, holds for the cross-entropy of a softmax network with bounded
+weights on a bounded domain; our preprocessing standardizes every
+feature (Section~\ref{sec:setup}), keeping inputs bounded in practice.
+The third (A3), the classical relation $r_k(x) \asymp \rho(x)^{-1/d}$
+between nearest-neighbour distance and local
+density~\cite{biau2015lectures}, requires the density to be
+approximately constant over the $k$-NN neighbourhood and degrades near
+manifold boundaries, one reason we expect, and observe, a moderate
+rather than perfect correlation on real data.
+
+Equally important is what the theorem does not claim. It is not a
+per-sample certificate, not a worst-case guarantee over all training
+algorithms, and not a substitute for differential privacy. It is a
+falsifiable statement about which distributional quantities govern
+membership leakage, and Sections~\ref{sec:results}
+and~\ref{sec:tightness_main} test it.
+
 \subsection{Discussion of the Bound}
 
 How tight is the bound, and what does it leave out? For datasets drawn
@@ -134,7 +172,21 @@ data validates Proposition~\ref{prop:tight} directly: the bound factor
 decays with fitted log-log slopes within $0.03$ of the predicted $-1/d$
 for $d \in \{2,4,8\}$, and it ranks the measured attack advantage across
 all $(n,d)$ configurations with Spearman $\rho = 0.89$
-(Appendix~\ref{app:proofs}, Figure~\ref{fig:tightness}).
+(Section~\ref{sec:tightness_main}, Figure~\ref{fig:tightness}).
+
+A worked comparison makes the bound concrete. Texas100, the riskiest
+dataset in our corpus, has mean uniqueness $\bar{u} = 55.7$ and mean
+density $\bar{\rho} = 0.03$ in $d = 6{,}169$ dimensions
+(Table~\ref{tab:dpri_features}); at that dimensionality the density
+correction $\rho^{1/d}$ is essentially $1$, so the geometric factor is
+dominated by uniqueness and sits near $56$. Gowalla, the least risky,
+has $\bar{u} = 0.1$ and $\bar{\rho} = 34.9$ in $d = 6$ dimensions,
+giving $\rho^{1/d} \approx 1.8$ and a geometric factor near $0.06$,
+three orders of magnitude smaller. The measured risks, $0.92$ against
+$0.51$, preserve exactly this ordering. The bound's absolute scale is
+loose, as upper bounds tend to be, but the contrast it draws between a
+sparse, high-dimensional record collection and a dense, low-dimensional
+one is the contrast the attacks actually realize.
 
 The bound also makes explicit what data alone cannot determine. It
 factors into a data-geometry term, which varies widely across datasets,

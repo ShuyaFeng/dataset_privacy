@@ -39,6 +39,39 @@ strong attacks and model families, a typical-adversary surrogate;
 Section~\ref{sec:setup} defines the grid and explains why the mean,
 rather than the maximum, is the informative estimator.
 
+\subsection{Attack Families}
+\label{sec:attack_families}
+
+Practical MIAs fall into three families, ordered here from simplest to
+strongest; our evaluation uses one representative of each.
+
+The \emph{loss-threshold} attack~\cite{yeom2018privacy} exploits the
+fact that models fit their training points more closely than fresh
+points: it predicts membership whenever the model's loss on the target
+falls below a threshold,
+\begin{equation}
+  \mathcal{A}_{\tau}(x,y) = \mathbb{1}\bigl[\ell(f_\theta,(x,y)) \leq \tau\bigr],
+\end{equation}
+and is Bayes-optimal when the member and non-member loss distributions
+are Gaussian with equal variance, the same modeling assumption our
+theory adopts (Section~\ref{sec:theory}).
+
+The \emph{shadow-model} attack~\cite{shokri2017membership} removes the
+need to pick $\tau$ by learning the decision rule. The adversary trains
+$k$ shadow models on auxiliary data drawn from $\mathcal{P}$, labels
+each shadow prediction vector with its known membership status, and
+trains a meta-classifier on these pairs. Salem et
+al.~\cite{salem2019ml} showed the attack survives substantial
+relaxations of the auxiliary-data assumption.
+
+The \emph{likelihood-ratio} attack (LiRA)~\cite{carlini2022lira}
+sharpens both: it fits per-sample Gaussians to the model's confidence,
+in logit space, under shadow models trained with and without the target
+sample, and tests the likelihood ratio
+$\Lambda(x) = p(\phi(x) \mid \mathrm{in}) / p(\phi(x) \mid \mathrm{out})$.
+LiRA is the strongest published black-box attack and serves as the
+anchor of our ground-truth grid.
+
 \subsection{Differential Privacy}
 
 An algorithm $\mathcal{M}$ is $(\varepsilon,\delta)$-differentially
@@ -46,12 +79,18 @@ private~\cite{dwork2006calibrating,dwork2014algorithmic} if for all
 adjacent datasets $D, D'$
 differing in one record and all outputs $S$:
 $\Pr[\mathcal{M}(D)\in S] \leq e^\varepsilon \Pr[\mathcal{M}(D')\in S] + \delta$.
-Yeom et al.~\cite{yeom2018privacy} showed that
-$\mathrm{Adv}(\mathcal{A}^*) \leq e^\varepsilon - 1 + \delta$
-for $(\varepsilon,\delta)$-DP mechanisms.
-This worst-case bound does not capture how the practical risk varies with
-data geometry across datasets, a question we take up in
-Section~\ref{sec:implications}.
+In machine learning the standard instantiation is
+DP-SGD~\cite{abadi2016deep}, which clips per-example gradients and adds
+Gaussian noise, and whose nominal guarantees empirical audits show to be
+tight~\cite{jagielski2020auditing,nasr2021adversary}.
+Yeom et al.~\cite{yeom2018privacy} connected the two worlds, showing
+that $\mathrm{Adv}(\mathcal{A}^*) \leq e^\varepsilon - 1 + \delta$ for
+any $(\varepsilon,\delta)$-DP mechanism.
+The guarantee is worst-case over all datasets, which is its strength
+and its blind spot: it cannot say whether a \emph{given} dataset sits
+near or far from that worst case before noise is added, which is
+exactly the quantity a budget-setting practitioner needs and the one
+DPRI estimates. We return to this in Section~\ref{sec:implications}.
 
 \subsection{Threat Model}
 \label{sec:threat}

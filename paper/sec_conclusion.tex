@@ -26,5 +26,14 @@ risk assessment as a standard pre-training step, while cautioning that
 pre-training prediction is informative but not a substitute for direct
 measurement.
 
+The larger opportunity is to close the gap our failure analysis exposed.
+Geometry predicts leakage only insofar as the learning task is hard
+enough to force memorization; a pre-training proxy for label complexity,
+if one exists that does not itself require training, would compound with
+DPRI and raise the ceiling on pre-training prediction. Extending the
+corpus beyond tabular data, and testing whether differential-privacy
+budgets calibrated to DPRI deliver more uniform protection in practice,
+are the two follow-ups we consider most consequential.
+
 The DPRI tool is provided as an anonymized artifact and will be released
 as open source upon publication.

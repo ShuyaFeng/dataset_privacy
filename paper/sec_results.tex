@@ -16,12 +16,40 @@ collapses onto the Random Forest for every dataset. Random Forest with no
 depth limit memorizes its training set, so its AUC saturates near $1.0$ and
 erases all contrast between datasets. The mean preserves that contrast.
 
-Aggregated over the grid, LiRA is the strongest attack (mean AUC $0.71$)
-ahead of loss-threshold and shadow ($0.61$ each), and Random Forest is the
-most vulnerable model (mean AUC $0.75$) ahead of XGBoost ($0.62$) and MLP
-($0.56$). $\mathrm{Risk}(D)$ ranges almost two-fold across datasets, from
-$0.92$ (Texas100) down to $0.51$ (Gowalla, Mushroom), confirming that the
-choice of dataset alone moves privacy risk substantially.
+Aggregated over the grid (Table~\ref{tab:marginals}), LiRA is the
+strongest attack (mean AUC $0.71$) ahead of loss-threshold and shadow
+($0.61$ each), and Random Forest is the most vulnerable model (mean AUC
+$0.75$) ahead of XGBoost ($0.62$) and MLP ($0.56$). Both orderings match
+expectation: LiRA's per-sample calibration is what makes it the
+state of the art, and the unregularized Random Forest is the only model
+in the grid that interpolates its training set. More striking is the
+third margin: $\mathrm{Risk}(D)$ ranges almost two-fold across datasets,
+from $0.92$ (Texas100) down to $0.51$ (Gowalla, Mushroom). The choice of
+dataset alone moves privacy risk by more than swapping either the attack
+or the model.
+
+\begin{table}[t]
+\centering
+\caption{Marginal mean AUC of each attack (over all datasets and models)
+         and each model (over all datasets and attacks).}
+\label{tab:marginals}
+\small
+\begin{tabular}{llc}
+\toprule
+ & & \textbf{Mean AUC} \\
+\midrule
+\multirow{3}{*}{Attack}
+ & LiRA~\cite{carlini2022lira}            & $0.71$ \\
+ & Loss threshold~\cite{yeom2018privacy}  & $0.61$ \\
+ & Shadow models~\cite{shokri2017membership} & $0.61$ \\
+\midrule
+\multirow{3}{*}{Model}
+ & Random Forest (unregularized)          & $0.75$ \\
+ & XGBoost                                & $0.62$ \\
+ & MLP                                    & $0.56$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \subsection{DPRI Ranks Privacy Risk}
 
@@ -145,6 +173,75 @@ Feature entropy $H$             & $-0.084$ & $0.654$ \\
 \end{tabular}
 \end{table}
 
+\subsection{Where the Index Fails}
+\label{sec:failures}
+
+The exceptions in Table~\ref{tab:dpri_features} are not noise; they mark
+the boundary of what geometry alone can know, and both have instructive
+explanations. Creditg has the third-highest sample uniqueness
+($\bar{u}=6.9$) yet only moderate risk ($0.77$). With $n=1{,}000$
+samples in 74 dimensions, its uniqueness is inflated by sample size
+rather than by genuinely atypical records: in so small a sample,
+\emph{every} point is far from its neighbours, but the underlying
+population is not unusually exposed. Uniqueness conflates ``rare in the
+population'' with ``rare in this sample,'' and at small $n$ the two
+diverge.
+
+Mushroom fails in the opposite direction: moderate uniqueness
+($\bar{u}=3.8$, well above Adult or Magic) yet the lowest risk in the
+corpus ($0.51$). The dataset is famously perfectly separable, so every
+model in our grid generalizes essentially without error, the
+member and non-member loss distributions coincide, and there is no
+membership signal for any attack to find, regardless of geometry. This
+is the case our theory anticipates but cannot price: the bound's
+geometric factor is necessary for leakage, not sufficient, because
+leakage also requires the learning problem to be hard enough that the
+model fits members more closely than non-members. A label-complexity
+term would close this gap, but every candidate we know of requires
+training a model, which is exactly what a pre-training index must avoid.
+These two failure modes, small-sample uniqueness inflation and
+perfectly learnable tasks, bound the achievable accuracy of any
+geometry-only predictor and explain why we report $\rho = 0.61$ rather
+than something closer to $1$.
+
+\subsection{The Bound's Scaling Law on Synthetic Data}
+\label{sec:tightness_main}
+
+Before the two headline findings, we close the loop on the theory.
+Proposition~\ref{prop:tight} makes a concrete, testable claim: for data
+uniform on a $d$-dimensional hypercube, the bound's geometric factor
+should decay as $n^{-1/d}$. We test it directly, drawing
+$X \sim U[0,1]^d$ for $d \in \{2,4,8\}$ and $n$ from $250$ to $4{,}000$,
+assigning binary labels by a fixed random hyperplane with $10\%$ label
+noise so the model has something to memorize, training the MLP family
+from our main grid, and measuring the loss-threshold attack advantage,
+with five seeds per cell.
+
+\begin{figure}[t]
+  \centering
+  \dprifig{figures/tightness_plot.pdf}{\linewidth}
+  \caption{Scaling-law validation on uniform hypercube data (log-log).
+           Left: the bound's geometric factor $\bar{u}$ decays with
+           fitted slopes $-0.515$, $-0.277$, $-0.149$ for $d=2,4,8$,
+           matching the predicted $-1/d$ rates of $-0.500$, $-0.250$,
+           $-0.125$ within $0.03$. Right: measured advantage of the
+           loss-threshold attack on the MLP family.}
+  \label{fig:tightness}
+\end{figure}
+
+The geometric law holds almost exactly (Figure~\ref{fig:tightness}):
+the fitted log-log slope of the bound factor matches the predicted
+$-1/d$ within $0.03$ in all three dimensions. The measured advantage
+respects the bound's ordering, with higher-dimensional, sparser data
+more vulnerable at every $n$, and across all 15 $(n,d)$ cells the bound
+factor ranks the measured advantage with Spearman $\rho = 0.893$
+($p < 10^{-5}$). The advantage also decays at least as fast as the
+bound in every dimension, as an upper bound requires; for $d \geq 4$ it
+decays faster than $n^{-1/d}$, which is expected because the
+loss-threshold attack lower-bounds the Bayes-optimal adversary the
+proposition describes. The experiment is self-contained, runs in
+minutes on a laptop, and ships with our artifact.
+
 \subsection{Finding 1: Dataset Structure Governs Risk Among Realistic Models}
 \label{sec:finding1}
 
@@ -228,3 +325,42 @@ MIA literature rest on far less evidence than their point estimates
 suggest. We view the 31-dataset corpus, and the collapse we observed on
 the way to it, as independent support for Finding~1's call to treat the
 dataset as a first-class experimental factor.
+
+\subsection{Limitations and Threats to Validity}
+\label{sec:limitations}
+
+We close the results with the boundaries of what they establish.
+
+\emph{Construct validity.} $\mathrm{Risk}(D)$ is the mean AUC over a
+nine-configuration grid, a typical-adversary surrogate rather than the
+worst case. We argued in Section~\ref{sec:setup} that the per-dataset
+maximum is uninformative because it collapses onto the memorizing
+Random Forest everywhere, but other aggregations (a regularized-models
+mean, an attack-specific risk) are defensible, and the DPRI correlation
+will vary somewhat with that choice. Our attack grid is black-box;
+white-box attacks~\cite{nasr2019comprehensive,leino2020stolen} could
+shift the ground truth, though they generally strengthen, not reorder,
+membership signal.
+
+\emph{Internal validity.} The relationship between geometry and risk is
+correlational. We do not intervene on a dataset's geometry while
+holding its learning task fixed, so we cannot claim that lowering
+uniqueness causally lowers risk; the onion
+effect~\cite{carlini2022onion} suggests such interventions have
+non-obvious consequences. The six features are also collinear, which is
+why we report standalone correlations and a regularized combined model
+rather than coefficient-level attributions.
+
+\emph{External validity.} Our corpus is tabular-centric: image data
+enters flattened, and text, graph, and time-series data are absent.
+Datasets above 30k samples are subsampled, which inflates uniqueness
+relative to their full-size deployments; the effect is shared across
+datasets but not identical. All training is centralized, and we do not
+evaluate DP-SGD, so the data-aware DP direction of
+Section~\ref{sec:implications} remains a hypothesis.
+
+\emph{Statistical power.} Every correlation rests on $n = 31$ datasets.
+The nested cross-validation removes selection optimism but cannot
+shrink confidence intervals; at this sample size the honest claim is a
+significant ranking signal, and Section~\ref{sec:power} documents why
+we do not claim more.

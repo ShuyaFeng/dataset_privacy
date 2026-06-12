@@ -12,13 +12,51 @@ DPRI to decide which to attack, focusing effort on the highest-uniqueness,
 highest-risk targets rather than attacking blindly. Because DPRI requires no
 model and no queries, this reconnaissance is essentially free.
 
-The same property serves defenders. A data holder can compute DPRI before
-releasing a dataset or a model trained on it. A high score, driven by high
-sample uniqueness or dimensionality, signals that the data is intrinsically
-more exposed and should trigger stronger safeguards such as data
-minimization, stricter access controls, or a tighter differential-privacy
-budget. The asymmetry favors the defender, who computes DPRI once at
-collection time, while the attacker still has to mount the actual attack.
+Consider a concrete scenario. A research consortium publishes a suite of
+de-identified hospital datasets, and models trained on them are served
+through an API. An adversary planning a membership campaign against the
+API computes DPRI on each published dataset in minutes, observes that
+one sits in the high-uniqueness tail, and concentrates its shadow-model
+budget there, where our measurements say the expected AUC is highest.
+Nothing in this reconnaissance touches the victim's infrastructure, so
+no monitoring can observe it. The mitigation is correspondingly
+data-side rather than network-side: treat the geometric profile of a
+dataset as part of its release review, and pair high-DPRI releases with
+the safeguards below.
+
+The same property serves defenders, and the asymmetry favors them. A
+data holder can compute DPRI before releasing a dataset or a model
+trained on it. A high score, driven by high sample uniqueness or
+dimensionality, signals that the data is intrinsically more exposed and
+should trigger stronger safeguards: data minimization, stricter access
+controls, deduplication and outlier review (mindful that removing the
+most exposed records shifts exposure to the next
+layer~\cite{carlini2022onion}), or a tighter differential-privacy
+budget. The defender computes DPRI once at collection time; the
+attacker still has to mount the actual attack.
+
+\subsection{Using DPRI in Practice}
+
+A deployment workflow follows directly from how the index was
+validated. At data-collection or acquisition time, the holder runs the
+auditor (Algorithm~\ref{alg:dpri}) on the standardized feature matrix,
+at the cost of minutes on a laptop. The resulting score is interpreted
+by rank, not by absolute value: our tool ships the feature distributions
+of the 31-dataset reference corpus, and a new dataset is placed against
+them, with the high-uniqueness, low-density tail flagged for review.
+Because the prediction is a moderate ranking signal
+(Section~\ref{sec:results}), the flag is a triage signal, not a
+verdict: a flagged dataset warrants a direct MIA evaluation before
+release, while an unflagged one can proceed under default safeguards.
+Finally, the score and its distributional breakdown belong in the
+dataset's documentation alongside its provenance and intended
+use~\cite{gebru2021datasheets}, so that downstream trainers inherit the
+risk assessment rather than recomputing or, worse, ignoring it. For MIA
+researchers the same profile serves a different purpose: reporting the
+uniqueness and density of an evaluation dataset alongside attack
+numbers would make results comparable across papers, and benchmark
+suites should span the DPRI range rather than concentrate in its upper
+tail (Section~\ref{sec:finding2}).
 
 \subsection{Toward Data-Aware Differential Privacy}
 
@@ -37,13 +75,23 @@ independently of the privacy mechanism.
 
 \subsection{Policy Implication}
 
-Current regulatory frameworks for machine learning privacy, for example GDPR
-Article 22 and HIPAA de-identification, treat privacy largely as a property
-of the algorithm rather than the data. Our measurements indicate that the
-data itself is a comparable driver of membership inference risk. This
-suggests that data-release governance could benefit from a standardized,
-pre-training, data-level risk assessment, of which DPRI is one concrete and
-inexpensive instance.
+Current regulatory frameworks for machine learning privacy treat privacy
+largely as a property of the processing rather than of the data. GDPR's
+data protection impact assessments (Article 35) ask what processing is
+planned and what safeguards surround it; HIPAA's de-identification
+standard asks whether identifiers have been removed or an expert deems
+re-identification risk small. Neither asks the question our
+measurements show matters at comparable magnitude: how exposed is this
+particular dataset's structure once a model is trained on it? A
+pre-training, data-level risk score gives these assessments a
+quantitative input they currently lack. A DPIA for an ML system could
+record the dataset's DPRI profile and justify the chosen safeguards
+against it, and an expert-determination review could treat high sample
+uniqueness the way it already treats quasi-identifiers, as structural
+evidence of elevated risk. DPRI is one concrete and inexpensive
+instance of such a score, and the cost asymmetry, minutes on a laptop
+against the weeks of a full privacy evaluation, makes it deployable at
+the point where release decisions are actually made.
 
 \subsection{Extensions}
 
