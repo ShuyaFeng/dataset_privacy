@@ -42,7 +42,8 @@ rather than the maximum, is the informative estimator.
 \subsection{Differential Privacy}
 
 An algorithm $\mathcal{M}$ is $(\varepsilon,\delta)$-differentially
-private~\cite{dwork2006calibrating} if for all adjacent datasets $D, D'$
+private~\cite{dwork2006calibrating,dwork2014algorithmic} if for all
+adjacent datasets $D, D'$
 differing in one record and all outputs $S$:
 $\Pr[\mathcal{M}(D)\in S] \leq e^\varepsilon \Pr[\mathcal{M}(D')\in S] + \delta$.
 Yeom et al.~\cite{yeom2018privacy} showed that
@@ -65,7 +66,11 @@ $(x,y) \in D$.
 \paragraph{Adversary capability.}
 Black-box access: the adversary submits inputs and observes
 predicted class probabilities, but cannot inspect model weights.
-This is the standard setting for deployed APIs and MLaaS platforms.
+This is the standard setting for deployed APIs and MLaaS
+platforms~\cite{shokri2017membership,truex2019demystifying}, and the
+weakest, hence most broadly applicable, adversary
+model~\cite{salem2019ml}; white-box access only strengthens the
+attacks we consider~\cite{nasr2019comprehensive,leino2020stolen}.
 
 \paragraph{Adversary knowledge.}
 The adversary knows the data domain distribution $\mathcal{P}$

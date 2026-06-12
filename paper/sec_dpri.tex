@@ -55,12 +55,13 @@ its specific density assumption.
   H(X) = \frac{1}{d} \sum_{j=1}^{d} H(X_j), \quad
   H(X_j) = -\sum_b p_b \log_2 p_b
 \end{equation}
-The average Shannon entropy across all features $X_j$, computed over
-a histogram discretization.
+The average Shannon entropy~\cite{shannon1948mathematical} across all
+features $X_j$, computed over a histogram discretization.
 High-entropy features increase the dimensionality of the space in which
 samples are embedded, reducing density and increasing uniqueness.
 
 \paragraph{Feature 5: Cluster Separation $S$.}
+The silhouette score~\cite{rousseeuw1987silhouettes} on class labels:
 \begin{equation}
   S = \mathrm{Silhouette}(X, y)
   = \frac{1}{n}\sum_{i=1}^{n} \frac{b(x_i) - a(x_i)}{\max(a(x_i), b(x_i))}

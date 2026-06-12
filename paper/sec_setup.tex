@@ -11,7 +11,9 @@ several hundred to roughly 200k samples and from 5 to 6169 features. The set
 includes the two canonical MIA benchmarks, Purchase100 and Texas100, which
 we include specifically to test Finding~2. Datasets larger than 30k samples
 are subsampled to 30k to keep the attack-model grid tractable. Most are
-loaded through scikit-learn or OpenML. Table~\ref{tab:datasets} shows a
+loaded through scikit-learn~\cite{pedregosa2011scikit},
+OpenML~\cite{vanschoren2014openml}, or the UCI
+repository~\cite{dua2019uci}. Table~\ref{tab:datasets} shows a
 representative selection, and the full list is in
 Appendix~\ref{app:datasets}.
 
@@ -32,18 +34,18 @@ spurious at once.
          samples are subsampled to 30k for the attack grid.}
 \label{tab:datasets}
 \small
-\setlength{\tabcolsep}{3.5pt}
+\setlength{\tabcolsep}{2pt}
 \begin{tabular}{llrrr}
 \toprule
 \textbf{Dataset} & \textbf{Domain} & \textbf{Samples} & \textbf{Feat.} & \textbf{Cls.} \\
 \midrule
 Texas100~\cite{shokri2017membership}    & Benchmark/med.  & 67,330 & 6,169 & 100 \\
 Purchase100~\cite{shokri2017membership} & Benchmark/retail & 197,324 & 600 & 100 \\
-MNIST          & Image       & 30,000 & 784 & 10 \\
-CovType        & Forest      & 30,000 &  54 &  7 \\
+MNIST~\cite{lecun1998gradient}  & Image       & 30,000 & 784 & 10 \\
+CovType~\cite{blackard1999comparative} & Forest & 30,000 &  54 &  7 \\
 Adult~\cite{adult1996}          & Income      & 48,842 & 14 & 2 \\
-German Credit  & Credit      &  1,000 & 74 & 2 \\
-Spambase       & Spam        &  4,601 & 57 & 2 \\
+German Credit~\cite{dua2019uci} & Credit      &  1,000 & 74 & 2 \\
+Spambase~\cite{dua2019uci}      & Spam        &  4,601 & 57 & 2 \\
 Gowalla~\cite{cho2011friendship}& Mobility    & 107,092 &  6 & 2 \\
 \bottomrule
 \end{tabular}
@@ -76,8 +78,10 @@ confidence on the correct class, the Bayes-optimal attack under a Gaussian
 assumption.
 
 \paragraph{Model families.}
-MLP (two hidden layers, 128-64, trained with Adam for 100 epochs on GPU),
-XGBoost (300 trees, depth 6), and Random Forest (300 trees, unbounded depth).
+MLP (two hidden layers, 128-64, trained with Adam~\cite{kingma2015adam}
+for 100 epochs on GPU), XGBoost~\cite{chen2016xgboost} (300 trees,
+depth 6), and Random Forest~\cite{breiman2001random} (300 trees,
+unbounded depth).
 All models use a 50\%/50\% member/non-member split. Seeds are fixed at 42.
 
 \subsection{DPRI Computation}

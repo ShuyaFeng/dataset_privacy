@@ -4,16 +4,56 @@
 % =============================================================================
 
 \paragraph{Membership inference attacks.}
-Shokri et al.~\cite{shokri2017membership} introduced the shadow-model
-attack and established Purchase100 and Texas100 as standard benchmarks.
-Subsequent work strengthened attacks via label-only
-access~\cite{choquette2021label}, enhanced
-thresholds~\cite{ye2022enhanced}, and the likelihood-ratio
-formulation~\cite{carlini2022lira} that we use as ground truth.
-Salem et al.~\cite{salem2019ml} showed that attacks are robust to
-imperfect shadow model knowledge.
-Our work does not propose a new attack. Rather, it ranks datasets by their
-attack success from data properties alone, before any model is trained.
+Membership inference predates machine learning: Homer et
+al.~\cite{homer2008resolving} resolved an individual's presence in
+genomic aggregate statistics. Shokri et al.~\cite{shokri2017membership}
+brought the attack to ML models, introduced the shadow-model technique,
+and established Purchase100 and Texas100 as standard benchmarks.
+Subsequent work strengthened attacks via relaxed shadow-model
+assumptions~\cite{salem2019ml}, white-box
+access~\cite{nasr2019comprehensive,leino2020stolen}, label-only
+access~\cite{choquette2021label}, blind differential
+comparison~\cite{hui2021blindmi}, per-sample difficulty
+calibration~\cite{watson2022importance,carlini2022lira}, enhanced
+hypothesis tests~\cite{ye2022enhanced}, and low-cost
+reference-model designs~\cite{zarifzadeh2024rmia}; the likelihood-ratio
+attack LiRA~\cite{carlini2022lira} serves as our strongest ground-truth
+attack. Membership inference has also been demonstrated against
+aggregate location data~\cite{pyrgelis2018knock}, collaborative
+learning~\cite{melis2019exploiting}, and generative
+models~\cite{hayes2019logan}. Song and
+Mittal~\cite{song2021systematic} systematize the empirical evaluation of
+these risks, and surveys organize the field~\cite{hu2022membership,papernot2018sok}.
+Our work does not propose a new attack. Rather, it ranks datasets by
+their attack success from data properties alone, before any model is
+trained.
+
+\paragraph{Defenses and their evaluation.}
+Dedicated MIA defenses include adversarial
+regularization~\cite{nasr2018machine}, inference-time output
+perturbation~\cite{jia2019memguard}, and differentially private
+training~\cite{abadi2016deep}. Aerni et al.~\cite{aerni2024evaluations}
+show that defense evaluations are frequently misleading because of the
+evaluation choices made, and Duan et al.~\cite{duan2024membership} find
+that MIA results on large language models depend heavily on the
+evaluated data. Both critiques are adjacent to our Findings~1 and~2:
+the dataset is an unreported experimental factor large enough to change
+conclusions.
+
+\paragraph{Data uniqueness and re-identification.}
+A long pre-ML literature ties privacy risk to intrinsic data structure.
+Sweeney's $k$-anonymity~\cite{sweeney2002k} and its
+refinements~\cite{machanavajjhala2007diversity,li2007tcloseness} measure
+risk by record indistinguishability; Narayanan and
+Shmatikov~\cite{narayanan2008robust} exploited the sparsity of the
+Netflix ratings matrix for de-anonymization; de Montjoye et al.\ showed
+that a handful of points make mobility traces~\cite{demontjoye2013unique}
+and credit-card metadata~\cite{demontjoye2015unique} unique; and Rocher
+et al.~\cite{rocher2019estimating} predict re-identification success
+from generative models of the data. DPRI carries this lineage into
+machine learning: where these works score the re-identifiability of a
+\emph{released} dataset, we score the membership inference risk that a
+dataset induces in \emph{models trained on it}, before training.
 
 \paragraph{Privacy risk theory.}
 Yeom et al.~\cite{yeom2018privacy} proved that MIA advantage is bounded
@@ -27,37 +67,52 @@ assumptions, by pre-training distributional statistics, not only by
 post-training model properties.
 
 \paragraph{Memorization and long-tail data.}
+Zhang et al.~\cite{zhang2017understanding} showed that deep networks can
+memorize arbitrary labels; Carlini et al.~\cite{carlini2019secret}
+showed that such memorization is extractable.
 Feldman~\cite{feldman2020memorization} proved that learning algorithms
-must memorize atypical (long-tail) training examples to achieve near-optimal
-generalization, and connected this to per-sample privacy risk.
+must memorize atypical (long-tail) training examples to achieve
+near-optimal generalization, with theoretical
+extensions~\cite{brown2021memorization} and empirical confirmation via
+influence estimation~\cite{feldman2020neural} and counterfactual
+memorization~\cite{zhang2021counterfactual}.
 Carlini et al.~\cite{carlini2021extracting} showed that LLMs memorize
-rare training examples verbatim.
+rare training examples verbatim, and the onion
+effect~\cite{carlini2022onion} shows that removing the most vulnerable
+outliers exposes the next layer, underscoring that vulnerability is a
+property of the data distribution.
 Our work differs along three dimensions.
 Unit of analysis: we study dataset-level statistics rather than
 per-sample certificates.
 Timing: we operate before training, with no trained model.
 Output: a dataset-level risk score used to rank datasets, not a post-hoc
 per-sample memorization label.
-Our results are consistent with Feldman's. The datasets we find most at
+Our results are consistent with this line. The datasets we find most at
 risk are those with high sample uniqueness, the aggregate counterpart of
-atypical, memorization-prone examples. We complement that line of work by
+atypical, memorization-prone examples. We complement that work by
 asking, at the dataset level and before training, how far this geometry
 predicts risk, and we find that it does so moderately but significantly.
 
 \paragraph{Differential privacy.}
 DP-SGD~\cite{abadi2016deep} is the standard mechanism for training
-private neural networks.
-Jagielski et al.~\cite{jagielski2020auditing} show empirically that the
-privacy guarantees of DP-SGD are tight.
-Zanella-Béguelin et al.~\cite{zanella2023bayesian} propose Bayesian
-estimation of the actual $\varepsilon$ achieved.
+private neural networks~\cite{dwork2014algorithmic}.
+Empirical audits~\cite{jagielski2020auditing,nasr2021adversary,steinke2023privacy}
+show that its guarantees are tight, Bayesian estimation recovers the
+$\varepsilon$ actually achieved~\cite{zanella2023bayesian}, and
+Jayaraman and Evans~\cite{jayaraman2019evaluating} document the gap
+between nominal budgets and practical protection.
 None of these works ask how the benefit of a given $\varepsilon$
-varies with dataset structure. We raise this as a direction motivated by our
-bound (Section~\ref{sec:implications}), though we do not evaluate DP-SGD in
-this work.
+varies with dataset structure. We raise this as a direction motivated by
+our bound (Section~\ref{sec:implications}), though we do not evaluate
+DP-SGD in this work.
 
 \paragraph{Dataset auditing and data valuation.}
 Long et al.~\cite{long2020pragmatic} propose a pragmatic approach to
-membership inference that accounts for dataset characteristics.
-Our work goes further by predicting risk before training and providing a
-formal theoretical basis through Theorem~\ref{thm:main}.
+membership inference that accounts for dataset characteristics, and ML
+Privacy Meter~\cite{murakonda2020ml} quantifies model privacy risk for
+regulatory compliance, but both require trained (target or reference)
+models. Data valuation methods such as influence
+functions~\cite{koh2017understanding} and Data
+Shapley~\cite{ghorbani2019data} likewise score data through a model.
+Our work differs in requiring no model at all: DPRI predicts risk before
+training and provides a formal basis through Theorem~\ref{thm:main}.

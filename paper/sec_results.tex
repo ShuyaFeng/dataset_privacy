@@ -179,6 +179,13 @@ and $55.7$) is the highest of all datasets we study, far above the median
 of roughly $1.5$, and their risk ($0.85$ and $0.92$) is likewise the top
 two. A model evaluated only on these benchmarks is being attacked in an
 unrepresentatively high-risk regime.
+The finding has precedent in neighbouring fields: computer vision
+documented that canonical benchmarks carry strong dataset-specific
+bias~\cite{torralba2011unbiased} and that conclusions drawn on them
+shift on fresh data~\cite{recht2019imagenet}, and recent work on large
+language models finds that MIA success depends heavily on which data is
+evaluated~\cite{duan2024membership}. Our contribution is to give this
+effect a measurable geometric cause for MIA benchmarks.
 
 We temper this in two ways. First, the effect is not exclusive to
 benchmarks: high-dimensional image datasets such as MNIST and Fashion-MNIST

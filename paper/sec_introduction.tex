@@ -3,12 +3,24 @@
 \label{sec:intro}
 % =============================================================================
 
-Over the past decade, membership inference attacks (MIA)~\cite{shokri2017membership}
-have become the standard tool for measuring how much a trained model leaks
-about its training data.
-Hundreds of papers have proposed stronger attacks~\cite{carlini2022lira,ye2022enhanced},
-better defenses~\cite{nasr2019comprehensive}, and tighter theoretical
-bounds~\cite{yeom2018privacy,sablayrolles2019whitebox}.
+Over the past decade, membership inference attacks
+(MIA)~\cite{homer2008resolving,shokri2017membership} have become the
+standard tool for measuring how much a trained model leaks about its
+training data.
+Hundreds of papers have proposed stronger
+attacks~\cite{salem2019ml,nasr2019comprehensive,choquette2021label,song2021systematic,carlini2022lira,ye2022enhanced,watson2022importance,zarifzadeh2024rmia},
+dedicated defenses~\cite{nasr2018machine,jia2019memguard,abadi2016deep},
+tighter theoretical
+bounds~\cite{yeom2018privacy,sablayrolles2019whitebox}, and
+systematizations of the resulting
+landscape~\cite{papernot2018sok,hu2022membership}.
+The same model-centric view organizes the sibling lines of work:
+attribute and property
+inference~\cite{fredrikson2015model,ganju2018property}, training-data
+extraction~\cite{carlini2019secret,carlini2021extracting}, differential
+privacy~\cite{dwork2006calibrating,abadi2016deep}, and machine
+unlearning~\cite{cao2015towards,bourtoule2021machine,chen2021unlearning}
+all quantify or remove leakage from a trained model.
 Yet a more fundamental question has gone largely unanswered:
 
 \smallskip
@@ -20,7 +32,15 @@ independent of the model trained on them?
 
 This is not only an engineering question.
 It is also a question about the nature of data itself.
-Membership inference is, in part, a symptom of how the training data is shaped.
+The pre-ML privacy literature established that re-identification risk is
+driven by intrinsic properties of the data: the sparsity of the Netflix
+ratings matrix~\cite{narayanan2008robust}, the uniqueness of mobility
+traces~\cite{demontjoye2013unique} and credit-card
+metadata~\cite{demontjoye2015unique}, and the incompleteness that
+defeats naive anonymization~\cite{sweeney2002k,rocher2019estimating}.
+Machine learning privacy has largely set this lesson aside, treating the
+dataset as a fixed backdrop behind the model. We argue that membership
+inference is, in part, a symptom of how the training data is shaped.
 
 \paragraph{The problem with current practice.}
 Every MIA paper chooses a dataset, trains a model, and reports an AUC.

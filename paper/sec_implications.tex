@@ -24,11 +24,16 @@ collection time, while the attacker still has to mount the actual attack.
 
 Our results suggest, but do not establish, that a fixed differential-privacy
 budget protects different datasets unequally, because the underlying risk
-differs before any noise is added. A natural direction is a data-aware
-budget that tightens $\varepsilon$ for high-DPRI datasets. We do not evaluate
-DP-SGD in this work, so we state this only as a hypothesis, motivated by the
-DPRI ranking and by the bound in Theorem~\ref{thm:main}, which ties advantage
-to data geometry independently of the privacy mechanism.
+differs before any noise is added. This is consistent with two known
+observations: that the empirical protection delivered by a given
+$\varepsilon$ varies widely in practice~\cite{jayaraman2019evaluating},
+and that the cost of private learning depends strongly on how the data is
+represented~\cite{tramer2021differentially}. A natural direction is a
+data-aware budget that tightens $\varepsilon$ for high-DPRI datasets. We
+do not evaluate DP-SGD in this work, so we state this only as a
+hypothesis, motivated by the DPRI ranking and by the bound in
+Theorem~\ref{thm:main}, which ties advantage to data geometry
+independently of the privacy mechanism.
 
 \subsection{Policy Implication}
 
@@ -43,11 +48,15 @@ inexpensive instance.
 \subsection{Extensions}
 
 \paragraph{Federated learning.}
-In federated settings each client holds a local dataset with its own DPRI.
-A high-DPRI client could be asked to contribute more noise in the local
-differential-privacy step. We leave this to future work.
+In federated settings, where unintended feature leakage is already
+documented~\cite{melis2019exploiting}, each client holds a local dataset
+with its own DPRI. A high-DPRI client could be asked to contribute more
+noise in the local differential-privacy step. We leave this to future
+work.
 
 \paragraph{Generative models.}
-DPRI is defined on the training data distribution and is model-agnostic, so
-it applies in principle to GANs, diffusion models, and language models. We
-leave empirical validation on generative training data to future work.
+Membership inference applies to generative models as
+well~\cite{hayes2019logan,carlini2021extracting}. DPRI is defined on the
+training data distribution and is model-agnostic, so it applies in
+principle to GANs, diffusion models, and language models. We leave
+empirical validation on generative training data to future work.
