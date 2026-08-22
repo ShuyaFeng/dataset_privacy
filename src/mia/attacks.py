@@ -36,10 +36,15 @@ def _predict_proba_correct_class(model, X, y):
 
 # ── Attack 1: Loss Threshold ─────────────────────────────────────────────────
 
-def attack_loss_threshold(model, X_train, y_train, X_test, y_test):
+def attack_loss_threshold(model, X_train, y_train, X_test, y_test,
+                          return_details: bool = False):
     """
     Members have higher confidence on their true label.
     Score = confidence of correct class. Higher → more likely member.
+
+    With return_details=True a 4th value is returned: a dict with the
+    model's train/test accuracy (generalization gap), used by the rebuttal
+    failure analysis. Default behaviour is unchanged.
     """
     scores_mem = _predict_proba_correct_class(model, X_train, y_train)
     scores_non = _predict_proba_correct_class(model, X_test, y_test)
@@ -48,7 +53,21 @@ def attack_loss_threshold(model, X_train, y_train, X_test, y_test):
     scores = np.concatenate([scores_mem, scores_non])
     auc = roc_auc_score(labels, scores)
     fpr, tpr, _ = roc_curve(labels, scores)
+    if return_details:
+        details = {
+            "train_acc": float(accuracy(model, X_train, y_train)),
+            "test_acc": float(accuracy(model, X_test, y_test)),
+            "n_scores": int(len(scores)),
+        }
+        return fpr, tpr, float(auc), details
     return fpr, tpr, float(auc)
+
+
+def accuracy(model, X, y):
+    """Classification accuracy via predict_proba (works for all model families)."""
+    proba = model.predict_proba(X)
+    classes = np.array(model.classes_)
+    return float((classes[np.argmax(proba, axis=1)] == y).mean())
 
 
 # ── Attack 2: Shadow Model ───────────────────────────────────────────────────
@@ -59,6 +78,7 @@ def attack_shadow_model(
     y: np.ndarray,
     n_shadow: int = 4,
     seed: int = 42,
+    return_details: bool = False,
 ):
     """
     Train n_shadow models on disjoint subsets; collect (confidence, in/out) pairs;
@@ -71,6 +91,7 @@ def attack_shadow_model(
     half = n // 2
 
     meta_X, meta_y = [], []
+    tr_accs, te_accs = [], []
 
     for i in range(n_shadow):
         idx = rng.permutation(n)
@@ -78,6 +99,8 @@ def attack_shadow_model(
 
         shadow = get_model(model_name, n_classes=len(np.unique(y)), seed=seed + i)
         shadow.fit(X[train_idx], y[train_idx])
+        tr_accs.append(accuracy(shadow, X[train_idx], y[train_idx]))
+        te_accs.append(accuracy(shadow, X[test_idx], y[test_idx]))
 
         conf_in  = _predict_proba_correct_class(shadow, X[train_idx], y[train_idx])
         conf_out = _predict_proba_correct_class(shadow, X[test_idx],  y[test_idx])
@@ -108,6 +131,11 @@ def attack_shadow_model(
     preds = clf.predict_proba(meta_X[te])[:, 1]
     fpr, tpr, _ = roc_curve(meta_y[te], preds)
     auc = float(np.mean(aucs))
+    if return_details:
+        details = {"train_acc": float(np.mean(tr_accs)),
+                   "test_acc": float(np.mean(te_accs)),
+                   "n_scores": int(len(te))}
+        return fpr, tpr, auc, details
     return fpr, tpr, auc
 
 
@@ -119,6 +147,8 @@ def attack_lira(
     y: np.ndarray,
     n_shadow: int = 16,
     seed: int = 42,
+    eval_n: int = 500,
+    return_details: bool = False,
 ):
     """
     Online LiRA: Carlini et al. 2022.
@@ -142,19 +172,38 @@ def attack_lira(
     n_classes = len(np.unique(y))
 
     # Evaluate on a random subset of target samples for efficiency.
-    eval_n = min(500, n)
-    eval_idx = rng.choice(n, eval_n, replace=False)
+    # eval_n=500 reproduces the submitted grid; the rebuttal grid uses a
+    # larger eval_n so that TPR at 0.1% FPR rests on more than a handful of
+    # non-member scores.
+    # The first min(500, n) targets are drawn exactly as in the submitted
+    # grid, so the rng state (and hence every shadow model) is bit-identical
+    # to the submission for any eval_n. Extra targets come from a separate
+    # stream and are disjoint from the first batch.
+    base_n = min(500, n)
+    eval_idx = rng.choice(n, base_n, replace=False)
+    eval_n = min(eval_n, n)
+    if eval_n > base_n:
+        rng_extra = np.random.default_rng(seed + 7919)
+        rest = np.setdiff1d(np.arange(n), eval_idx)
+        extra = rng_extra.choice(rest, eval_n - base_n, replace=False)
+        eval_idx = np.concatenate([eval_idx, extra])
 
     # Train all shadow models; record membership masks and per-sample confidence.
     masks = np.zeros((n_shadow, n), dtype=bool)     # masks[i, j] = j in shadow i train set
     confs = np.zeros((n_shadow, n), dtype=np.float64)
+    tr_accs, te_accs = [], []
 
     for i in range(n_shadow):
         train_mask = rng.random(n) < 0.5
         masks[i] = train_mask
         shadow = get_model(model_name, n_classes=n_classes, seed=seed + i)
         shadow.fit(X[train_mask], y[train_mask])
-        confs[i] = _predict_proba_correct_class(shadow, X, y)
+        proba = shadow.predict_proba(X)
+        classes = np.array(shadow.classes_)
+        confs[i] = proba[np.arange(n), np.searchsorted(classes, y)]
+        pred_ok = classes[np.argmax(proba, axis=1)] == y
+        tr_accs.append(float(pred_ok[train_mask].mean()))
+        te_accs.append(float(pred_ok[~train_mask].mean()))
 
     # LiRA operates in logit space.
     eps = 1e-6
@@ -186,13 +235,31 @@ def attack_lira(
             labels.append(int(col_mask[t]))   # ground-truth membership
 
     if len(set(labels)) < 2:
+        if return_details:
+            return np.array([0, 1]), np.array([0, 1]), 0.5, {"degenerate": True}
         return np.array([0, 1]), np.array([0, 1]), 0.5
 
     scores = np.array(scores)
     labels = np.array(labels)
     auc = roc_auc_score(labels, scores)
     fpr, tpr, _ = roc_curve(labels, scores)
+    if return_details:
+        details = {"train_acc": float(np.mean(tr_accs)),
+                   "test_acc": float(np.mean(te_accs)),
+                   "n_scores": int(len(scores)),
+                   "n_nonmember_scores": int((labels == 0).sum()),
+                   "eval_n": int(eval_n)}
+        return fpr, tpr, float(auc), details
     return fpr, tpr, float(auc)
+
+
+def tpr_at_fpr(fpr, tpr, target_fpr: float) -> float:
+    """Largest TPR achievable at FPR <= target_fpr on a ROC curve (the
+    convention of Carlini et al. 2022; no interpolation above the target)."""
+    fpr = np.asarray(fpr)
+    tpr = np.asarray(tpr)
+    ok = fpr <= target_fpr
+    return float(tpr[ok].max()) if ok.any() else 0.0
 
 
 ATTACK_NAMES = ["loss_threshold", "shadow_model", "lira"]

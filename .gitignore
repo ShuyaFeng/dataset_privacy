@@ -39,3 +39,7 @@ paper/main.blg
 paper/main.aux
 paper/main.bbl
 paper/main.out
+
+# Rebuttal material and reviews: never push to the public GitHub repo
+rebuttal/
+\#1613*
