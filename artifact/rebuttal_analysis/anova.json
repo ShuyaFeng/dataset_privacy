@@ -1,0 +1,34 @@
+{
+  "eta2_all": {
+    "dataset": 0.34588452896570787,
+    "model": 0.33565569694183134,
+    "attack": 0.141057538453295,
+    "residual_and_interactions": 0.1774022356391658
+  },
+  "eta2_regularized": {
+    "dataset": 0.5250075809366961,
+    "model": 0.09530771457407392,
+    "attack": 0.1401636268705496,
+    "residual_and_interactions": 0.23952107761868047
+  },
+  "spread_all": {
+    "dataset": 0.3382617614623269,
+    "model": 0.4014761575259754,
+    "attack": 0.2602620810116976
+  },
+  "spread_regularized": {
+    "dataset": 0.4514089658620542,
+    "model": 0.2675754099898854,
+    "attack": 0.28101562414806036
+  },
+  "marginal_attack": {
+    "lira": 0.7053462785216166,
+    "loss_threshold": 0.5968089836816193,
+    "shadow_model": 0.5985377640698527
+  },
+  "marginal_model": {
+    "mlp": 0.5513295278114417,
+    "rf": 0.7389129749976096,
+    "xgboost": 0.6104505234640374
+  }
+}

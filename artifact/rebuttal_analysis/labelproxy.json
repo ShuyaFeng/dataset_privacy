@@ -1,0 +1,140 @@
+{
+  "n": 31,
+  "disagreement_standalone_rho": 0.7060483870967743,
+  "p": 9.096603286215508e-06,
+  "predictions_with_proxy": {
+    "adult": {
+      "measured": 0.5807158906312873,
+      "predicted": 0.6562103955763552
+    },
+    "bankmarketing": {
+      "measured": 0.5984552558724132,
+      "predicted": 0.6466952082643883
+    },
+    "breastw": {
+      "measured": 0.5463582701162026,
+      "predicted": 0.5389396400472943
+    },
+    "compas": {
+      "measured": 0.6678432352575684,
+      "predicted": 0.6549681439243807
+    },
+    "covtype": {
+      "measured": 0.6735931462086437,
+      "predicted": 0.668133586135009
+    },
+    "creditg": {
+      "measured": 0.7752301356008103,
+      "predicted": 0.7444902855601848
+    },
+    "digits": {
+      "measured": 0.6913411443462805,
+      "predicted": 0.5890196678481351
+    },
+    "electricity": {
+      "measured": 0.6133490392998796,
+      "predicted": 0.6318940424271878
+    },
+    "fashionmnist": {
+      "measured": 0.6752072628651423,
+      "predicted": 0.7165978178897141
+    },
+    "gasdrift": {
+      "measured": 0.5734130761037972,
+      "predicted": 0.5081433027634052
+    },
+    "gowalla": {
+      "measured": 0.5099028919799623,
+      "predicted": 0.5256521261053725
+    },
+    "har": {
+      "measured": 0.6365416090839608,
+      "predicted": 0.6569175999088126
+    },
+    "ionosphere": {
+      "measured": 0.6467097922553666,
+      "predicted": 0.6646785149291748
+    },
+    "jm1": {
+      "measured": 0.6390704633314189,
+      "predicted": 0.602366681923562
+    },
+    "kc1": {
+      "measured": 0.5940790526299602,
+      "predicted": 0.5786068171131931
+    },
+    "letter": {
+      "measured": 0.6145708219799823,
+      "predicted": 0.6136011570472646
+    },
+    "magic": {
+      "measured": 0.6246766578914659,
+      "predicted": 0.6322247550569606
+    },
+    "mnist": {
+      "measured": 0.6567817820925501,
+      "predicted": 0.6798123028365144
+    },
+    "movielens": {
+      "measured": 0.5294325555907425,
+      "predicted": 0.5221411949297847
+    },
+    "mushroom": {
+      "measured": 0.5084414056319163,
+      "predicted": 0.5935556179191778
+    },
+    "nhanes": {
+      "measured": 0.7167082129625775,
+      "predicted": 0.6899631753911579
+    },
+    "nomao": {
+      "measured": 0.5602692633900508,
+      "predicted": 0.6017920053527421
+    },
+    "optdigits": {
+      "measured": 0.6408292095448684,
+      "predicted": 0.5910569295942626
+    },
+    "pendigits": {
+      "measured": 0.5795622761350381,
+      "predicted": 0.5276252206586326
+    },
+    "phoneme": {
+      "measured": 0.6022648396438889,
+      "predicted": 0.5901220726205552
+    },
+    "purchase100": {
+      "measured": 0.8475979681449518,
+      "predicted": 0.7671328182005013
+    },
+    "satimage": {
+      "measured": 0.6107860241856796,
+      "predicted": 0.6212445244039781
+    },
+    "segment": {
+      "measured": 0.5782509503884665,
+      "predicted": 0.5570553584582288
+    },
+    "spambase": {
+      "measured": 0.6096169222059236,
+      "predicted": 0.6449206100259485
+    },
+    "texas100": {
+      "measured": 0.8175820869498365,
+      "predicted": 0.7727605790814939
+    },
+    "vehicle": {
+      "measured": 0.7213133625012824,
+      "predicted": 0.7189517712462001
+    }
+  },
+  "nested_without_proxy": 0.5891129032258066,
+  "nested_with_proxy_candidates_added": 0.8072580645161291,
+  "nested_proxy_candidates_only": 0.817741935483871,
+  "ci_with_proxy": [
+    0.6343778779477101,
+    0.9032336824640295
+  ],
+  "folds_selecting_proxy": 31,
+  "loo_geo_logd_proxy": 0.8254032258064518
+}

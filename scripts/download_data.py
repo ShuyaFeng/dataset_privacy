@@ -52,10 +52,14 @@ def load_adult(raw_dir: Path, out_dir: Path):
     train = pd.read_csv(raw_dir / "adult.data", names=cols, na_values=" ?", skipinitialspace=True)
     test  = pd.read_csv(raw_dir / "adult.test",  names=cols, na_values=" ?", skipinitialspace=True, skiprows=1)
     df = pd.concat([train, test], ignore_index=True).dropna()
+    # adult.test writes the labels as "<=50K." / ">50K." (trailing period);
+    # strip it so that the label has two classes, not four (camera-ready fix).
+    df["income"] = df["income"].astype(str).str.replace(".", "", regex=False).str.strip()
     for c in df.select_dtypes("object").columns:
         df[c] = LabelEncoder().fit_transform(df[c].astype(str))
     X = df.drop("income", axis=1).values.astype(np.float32)
     y = df["income"].values.astype(np.int32)
+    assert len(np.unique(y)) == 2, "Adult must have two income classes"
     X = StandardScaler().fit_transform(X)
     _save(out_dir / "adult", X, y)
     print(f"  saved: {X.shape}")
@@ -130,16 +134,22 @@ def load_texas100(raw_dir: Path, out_dir: Path):
         print("  SKIP — texas/100/feats or texas/100/labels not found in data/raw/")
         return
 
-    # feats: (67330, 6169) uint16 raw ICD procedure codes
-    # labels: 99370 uint16 entries (includes held-out test split)
-    # take first 67330 labels to align with feats rows
-    feats      = np.fromfile(str(feats_path),  dtype=np.uint16).reshape(67330, 6169)
-    labels_raw = np.fromfile(str(labels_path), dtype=np.uint16)[:67330]
+    # The release files are plain text, not binary: `feats` holds one row of
+    # 6169 comma-separated 0/1 attributes per record and `labels` one integer
+    # procedure class (1..100) per line. Reading them with np.fromfile(uint16)
+    # (the submitted loader) happened to reproduce the features up to a
+    # per-column affine map, which standardization removes, but scrambled the
+    # labels into 110 misaligned pseudo-classes; fixed for the camera-ready.
+    feats = pd.read_csv(feats_path, header=None, dtype=np.uint8).values
+    labels_raw = np.loadtxt(labels_path, dtype=np.int64)
+    assert feats.shape == (67330, 6169), feats.shape
+    assert len(labels_raw) == len(feats), (len(labels_raw), len(feats))
 
-    # map ICD codes → 0-indexed class labels
+    # map procedure codes (1..100) -> 0-indexed class labels
     unique_codes = np.unique(labels_raw)
     code_to_idx  = {c: i for i, c in enumerate(unique_codes)}
     y = np.array([code_to_idx[c] for c in labels_raw], dtype=np.int32)
+    assert len(unique_codes) == 100, len(unique_codes)
 
     X = StandardScaler().fit_transform(feats.astype(np.float32))
     _save(out_dir / "texas100", X, y)

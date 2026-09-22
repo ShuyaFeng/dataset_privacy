@@ -36,6 +36,8 @@ import time
 from pathlib import Path
 
 import numpy as np
+import math
+from scipy.special import gammaln
 from scipy.stats import spearmanr
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
@@ -151,6 +153,10 @@ def compute_all(X, y, n_jobs=-1, verbose=True):
             # surrogate this is mean r_k^{1 + 1/d} up to the floor.
             "formula_exact_mean": float(np.mean(r_k * np.power(rho_k, -1.0 / d))),
             "formula_exact_median": float(np.median(r_k * np.power(rho_k, -1.0 / d))),
+            # theorem's k-NN density rho_hat = k/(n V_d r^d): g = u * rho_hat^{-1/d}
+            # = r * r * (n V_d / k)^{1/d}; log V_d = (d/2) log pi - gammaln(d/2+1)
+            "formula_volume_mean": float(np.mean(r_k * np.exp(np.log(np.maximum(r_k, 1e-300)) + (math.log(X.shape[0]) + (d / 2.0) * math.log(math.pi) - gammaln(d / 2.0 + 1.0) - math.log(int(k))) / d))),
+            "formula_volume_median": float(np.median(r_k * np.exp(np.log(np.maximum(r_k, 1e-300)) + (math.log(X.shape[0]) + (d / 2.0) * math.log(math.pi) - gammaln(d / 2.0 + 1.0) - math.log(int(k))) / d))),
         }
     out["k_variants"] = kv
 

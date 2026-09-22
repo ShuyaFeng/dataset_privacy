@@ -1,0 +1,196 @@
+{
+ "w1": {
+  "rho_w1_vs_ubar_full": 0.9806451612903228,
+  "rho_w1_vs_ubar_sub": 0.994758064516129,
+  "rho_w1_vs_uout1_sub": 0.9879032258064517,
+  "ratio_w1_over_uout1_median": 1.226024348655868
+ },
+ "W1 (3000-point halves)": {
+  "rho": 0.4870967741935484,
+  "p": 0.005451431463745854,
+  "n": 31
+ },
+ "u-bar (paper)": {
+  "rho": 0.5318548387096774,
+  "p": 0.002074711823545391,
+  "n": 31
+ },
+ "Delta-bar = mean delta_i*iota_i, Gaussian kernel, h_median_r5": {
+  "rho": 0.2588709677419355,
+  "p": 0.15966303012682573,
+  "n": 31
+ },
+ "  kernel-weighted delta-bar, h_median_r5": {
+  "rho": 0.8338709677419357,
+  "p": 5.6919116284276315e-09,
+  "n": 31
+ },
+ "  iota-bar, h_median_r5": {
+  "rho": -0.5495967741935484,
+  "p": 0.0013623745190090798,
+  "n": 31
+ },
+ "Delta-bar = mean delta_i*iota_i, Gaussian kernel, h_median_pairwise": {
+  "rho": 0.8302419354838709,
+  "p": 7.596147124144995e-09,
+  "n": 31
+ },
+ "  kernel-weighted delta-bar, h_median_pairwise": {
+  "rho": 0.7862903225806452,
+  "p": 1.5808427744753041e-07,
+  "n": 31
+ },
+ "  iota-bar, h_median_pairwise": {
+  "rho": 0.42459677419354847,
+  "p": 0.01727531956393875,
+  "n": 31
+ },
+ "Delta-bar = mean delta_i*iota_i, Gaussian kernel, h_half_median_pairwise": {
+  "rho": 0.8266129032258065,
+  "p": 1.0070051282319618e-08,
+  "n": 31
+ },
+ "  kernel-weighted delta-bar, h_half_median_pairwise": {
+  "rho": 0.7786290322580645,
+  "p": 2.497253918967965e-07,
+  "n": 31
+ },
+ "  iota-bar, h_half_median_pairwise": {
+  "rho": 0.4629032258064517,
+  "p": 0.008734297945144227,
+  "n": 31
+ },
+ "k-NN-5 label disagreement (uniform kernel)": {
+  "rho": 0.6987903225806452,
+  "p": 1.2291548496605051e-05,
+  "n": 31
+ },
+ "log C (number of classes)": {
+  "rho": 0.4270446639733624,
+  "p": 0.016575119920833378,
+  "n": 31
+ },
+ "chance disagreement 1 - sum p_c^2": {
+  "rho": 0.3350806451612904,
+  "p": 0.06537849232777511,
+  "n": 31
+ },
+ "k-NN-5 label disagreement (rebuttal raw)": {
+  "rho": 0.7060483870967743,
+  "p": 9.096603286215508e-06,
+  "n": 31
+ },
+ "disagreement / chance": {
+  "rho": 0.5274193548387097,
+  "p": 0.0022966559093208255,
+  "n": 31
+ },
+ "disagreement - chance": {
+  "rho": 0.21048387096774193,
+  "p": 0.2557243839630785,
+  "n": 31
+ },
+ "normalized class entropy (balance)": {
+  "rho": -0.019354838709677424,
+  "p": 0.9176897838845379,
+  "n": 31
+ },
+ "nested::paper candidates": 0.5891129032258066,
+ "nested::+ log C offered": 0.5915322580645161,
+ "nested::+ disagreement offered (rebuttal)": 0.817741935483871,
+ "nested::+ disagreement + log C offered": 0.8774193548387097,
+ "nested::+ chance-normalized disagreement offered": 0.7588709677419356,
+ "nested::log C alone (LOO)": 0.03387096774193548,
+ "nested::disagreement alone (LOO)": 0.697983870967742,
+ "nested::chance-normalized disagreement alone (LOO)": 0.4669354838709678,
+ "nested::+ N2 offered": 0.8725806451612903,
+ "nested::+ N2 + disagreement offered": 0.8475806451612904,
+ "nested::N2 alone (LOO)": 0.8596774193548388,
+ "nested::N1 alone (LOO)": 0.672983870967742,
+ "nested::N3 alone (LOO)": 0.6741935483870969,
+ "nested::N2 + disagreement (LOO, fixed)": 0.8387096774193549,
+ "N1 (fraction of MST boundary points)": {
+  "rho": 0.697983870967742,
+  "p": 1.2702752587115407e-05,
+  "n": 31
+ },
+ "N2 (intra/inter-class NN distance ratio)": {
+  "rho": 0.8604838709677419,
+  "p": 5.421214086079948e-10,
+  "n": 31
+ },
+ "N3 (leave-one-out 1-NN error)": {
+  "rho": 0.6887096774193548,
+  "p": 1.8407982171367082e-05,
+  "n": 31
+ },
+ "F1 (1/(1+max Fisher ratio); lower = easier)": {
+  "rho": 0.039112903225806454,
+  "p": 0.8345247551697359,
+  "n": 31
+ },
+ "N3 on the full data (rebuttal nn1_error)": {
+  "rho": 0.640725806451613,
+  "p": 0.00010321130537034544,
+  "n": 31
+ },
+ "encoding": {
+  "rank_agreement_u": 0.6,
+  "rank_agreement_u_tilde": 0.6,
+  "headline_base": 0.5891129032258066,
+  "headline_submitted": 0.5487903225806452,
+  "headline_alternative": 0.6858870967741936
+ },
+ "corpus": {
+  "7": {
+   "median": 0.1785714285714286,
+   "mean": 0.13775000000000004,
+   "p05": -0.7142857142857144,
+   "p95": 0.8571428571428573,
+   "p25": -0.25,
+   "p75": 0.5446428571428572,
+   "P_neg": 0.374,
+   "n_ok": 1000
+  },
+  "10": {
+   "median": 0.33333333333333326,
+   "mean": 0.2734787878787878,
+   "p05": -0.4424242424242424,
+   "p95": 0.8187878787878783,
+   "p25": 0.006060606060606061,
+   "p75": 0.5757575757575757,
+   "P_neg": 0.249,
+   "n_ok": 1000
+  },
+  "15": {
+   "median": 0.4678571428571427,
+   "mean": 0.4167357142857142,
+   "p05": -0.09660714285714282,
+   "p95": 0.7787499999999997,
+   "p25": 0.2642857142857143,
+   "p75": 0.6142857142857142,
+   "P_neg": 0.083,
+   "n_ok": 1000
+  },
+  "20": {
+   "median": 0.5428571428571428,
+   "mean": 0.5233308270676691,
+   "p05": 0.21646616541353383,
+   "p95": 0.7413533834586465,
+   "p25": 0.43909774436090226,
+   "p75": 0.6406015037593984,
+   "P_neg": 0.007,
+   "n_ok": 1000
+  },
+  "25": {
+   "median": 0.5796153846153846,
+   "mean": 0.5749,
+   "p05": 0.41000000000000003,
+   "p95": 0.7184999999999999,
+   "p25": 0.5169230769230769,
+   "p75": 0.6417307692307692,
+   "P_neg": 0.0,
+   "n_ok": 1000
+  }
+ }
+}

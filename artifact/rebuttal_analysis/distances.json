@@ -1,0 +1,264 @@
+{
+  "summary": {
+    "mean_ratio": 0.999509796018793,
+    "median_ratio": 1.000205869042584,
+    "min_ratio": 0.9735521383191529,
+    "max_ratio": 1.0191245352693603,
+    "spearman_uin_uout": 0.9995967741935484,
+    "median_per_sample_spearman": 0.9369553518670829,
+    "n_outside_0.9_1.1": 0,
+    "n": 31,
+    "rho_uin_risk": 0.526209677419355,
+    "rho_uout_risk": 0.5233870967741936
+  },
+  "per_dataset": {
+    "adult": {
+      "u_in_mean": 1.1714428792359468,
+      "u_out_mean": 1.171090125256186,
+      "ratio_in_over_out": 1.0003012184734148,
+      "per_sample_spearman": 0.9634706467238836,
+      "ratio_k1": 0.9948760972121634,
+      "per_sample_spearman_k1": 0.8251876484627253
+    },
+    "bankmarketing": {
+      "u_in_mean": 2.8463491640269756,
+      "u_out_mean": 2.828460755880674,
+      "ratio_in_over_out": 1.006324432152403,
+      "per_sample_spearman": 0.9514419483459214,
+      "ratio_k1": 1.0052058372390877,
+      "per_sample_spearman_k1": 0.8082467151240998
+    },
+    "breastw": {
+      "u_in_mean": 1.112850159990888,
+      "u_out_mean": 1.141343521713439,
+      "ratio_in_over_out": 0.975035244708994,
+      "per_sample_spearman": 0.9524089358088692,
+      "ratio_k1": 1.0152594392860799,
+      "per_sample_spearman_k1": 0.8998300720694866
+    },
+    "compas": {
+      "u_in_mean": 0.5267438272528705,
+      "u_out_mean": 0.526681921496767,
+      "ratio_in_over_out": 1.0001175391703736,
+      "per_sample_spearman": 0.9230853895608625,
+      "ratio_k1": 0.9907916568433397,
+      "per_sample_spearman_k1": 0.7378296229429965
+    },
+    "covtype": {
+      "u_in_mean": 1.2780808254758518,
+      "u_out_mean": 1.312801621166865,
+      "ratio_in_over_out": 0.9735521383191529,
+      "per_sample_spearman": 0.841301540242716,
+      "ratio_k1": 1.0070241654038685,
+      "per_sample_spearman_k1": 0.3833500745535426
+    },
+    "creditg": {
+      "u_in_mean": 7.4923409948349,
+      "u_out_mean": 7.418858067512512,
+      "ratio_in_over_out": 1.009904883831674,
+      "per_sample_spearman": 0.944383869522416,
+      "ratio_k1": 1.008995825934264,
+      "per_sample_spearman_k1": 0.7574313428115571
+    },
+    "digits": {
+      "u_in_mean": 5.174218219478837,
+      "u_out_mean": 5.164633663831681,
+      "ratio_in_over_out": 1.0018558055171032,
+      "per_sample_spearman": 0.8893871752924851,
+      "ratio_k1": 1.0055996047540599,
+      "per_sample_spearman_k1": 0.684466225773012
+    },
+    "electricity": {
+      "u_in_mean": 0.5242418841949661,
+      "u_out_mean": 0.5223955936601187,
+      "ratio_in_over_out": 1.0035342766234139,
+      "per_sample_spearman": 0.89293390288716,
+      "ratio_k1": 1.0113455397451772,
+      "per_sample_spearman_k1": 0.6381150846657048
+    },
+    "fashionmnist": {
+      "u_in_mean": 15.964127181975046,
+      "u_out_mean": 15.963560886732738,
+      "ratio_in_over_out": 1.0000354742432673,
+      "per_sample_spearman": 0.9869531093748746,
+      "ratio_k1": 0.9975068272918718,
+      "per_sample_spearman_k1": 0.9290590160961816
+    },
+    "gasdrift": {
+      "u_in_mean": 1.3638001861951918,
+      "u_out_mean": 1.3382075879811213,
+      "ratio_in_over_out": 1.0191245352693603,
+      "per_sample_spearman": 0.9432476006055023,
+      "ratio_k1": 0.9927239377181009,
+      "per_sample_spearman_k1": 0.8854025612483951
+    },
+    "gowalla": {
+      "u_in_mean": 0.16870982095949236,
+      "u_out_mean": 0.16899185821981016,
+      "ratio_in_over_out": 0.9983310600682848,
+      "per_sample_spearman": 0.9884500531903355,
+      "ratio_k1": 1.0010812264640918,
+      "per_sample_spearman_k1": 0.9470927103630354
+    },
+    "har": {
+      "u_in_mean": 14.1888834491566,
+      "u_out_mean": 14.185962998535961,
+      "ratio_in_over_out": 1.000205869042584,
+      "per_sample_spearman": 0.9829313401421561,
+      "ratio_k1": 0.9996138844758915,
+      "per_sample_spearman_k1": 0.7917519159629207
+    },
+    "ionosphere": {
+      "u_in_mean": 3.5947086349555426,
+      "u_out_mean": 3.684744451386588,
+      "ratio_in_over_out": 0.975565248114516,
+      "per_sample_spearman": 0.9331044929523233,
+      "ratio_k1": 0.9997711185658985,
+      "per_sample_spearman_k1": 0.9183790683409019
+    },
+    "jm1": {
+      "u_in_mean": 0.7363767550658545,
+      "u_out_mean": 0.7289938542629752,
+      "ratio_in_over_out": 1.0101275213223073,
+      "per_sample_spearman": 0.9826215833389067,
+      "ratio_k1": 1.0245712099893083,
+      "per_sample_spearman_k1": 0.8753019753486311
+    },
+    "kc1": {
+      "u_in_mean": 0.8972815311066735,
+      "u_out_mean": 0.9045029904735779,
+      "ratio_in_over_out": 0.9920161022760983,
+      "per_sample_spearman": 0.9681776534491214,
+      "ratio_k1": 1.0316424445542454,
+      "per_sample_spearman_k1": 0.8878965441863955
+    },
+    "letter": {
+      "u_in_mean": 1.3692550270438195,
+      "u_out_mean": 1.3673346845269203,
+      "ratio_in_over_out": 1.00140444218861,
+      "per_sample_spearman": 0.9200738415180933,
+      "ratio_k1": 1.0029745989495482,
+      "per_sample_spearman_k1": 0.7192169422679542
+    },
+    "magic": {
+      "u_in_mean": 0.9021018928373156,
+      "u_out_mean": 0.9015695664171479,
+      "ratio_in_over_out": 1.0005904440877293,
+      "per_sample_spearman": 0.933410211348702,
+      "ratio_k1": 1.0005477577575488,
+      "per_sample_spearman_k1": 0.6729349082659507
+    },
+    "mnist": {
+      "u_in_mean": 17.13119911799431,
+      "u_out_mean": 17.156854869318007,
+      "ratio_in_over_out": 0.9985046355221214,
+      "per_sample_spearman": 0.9867111256028681,
+      "ratio_k1": 0.9978225594139037,
+      "per_sample_spearman_k1": 0.9355538775026176
+    },
+    "movielens": {
+      "u_in_mean": 0.28396227346595027,
+      "u_out_mean": 0.28168549369458845,
+      "ratio_in_over_out": 1.008082701531767,
+      "per_sample_spearman": 0.8484411230462174,
+      "ratio_k1": 1.0127494542942226,
+      "per_sample_spearman_k1": 0.5254114664809796
+    },
+    "mushroom": {
+      "u_in_mean": 4.670496349848884,
+      "u_out_mean": 4.667381201102662,
+      "ratio_in_over_out": 1.0006674296810139,
+      "per_sample_spearman": 0.4539269639396602,
+      "ratio_k1": 1.003551250819317,
+      "per_sample_spearman_k1": -0.5478380450453592
+    },
+    "nhanes": {
+      "u_in_mean": 1.664090825557946,
+      "u_out_mean": 1.6502861745888697,
+      "ratio_in_over_out": 1.0083650043135794,
+      "per_sample_spearman": 0.9369553518670829,
+      "ratio_k1": 1.0039473850536793,
+      "per_sample_spearman_k1": 0.7179244329418724
+    },
+    "nomao": {
+      "u_in_mean": 3.8482650890180112,
+      "u_out_mean": 3.8230717053801153,
+      "ratio_in_over_out": 1.00658982765153,
+      "per_sample_spearman": 0.9602414492162861,
+      "ratio_k1": 1.0134771366353608,
+      "per_sample_spearman_k1": 0.7727032968420324
+    },
+    "optdigits": {
+      "u_in_mean": 4.584736179329747,
+      "u_out_mean": 4.6086423983777545,
+      "ratio_in_over_out": 0.9948127415881903,
+      "per_sample_spearman": 0.9230003611575766,
+      "ratio_k1": 1.003945986957854,
+      "per_sample_spearman_k1": 0.7327064017228798
+    },
+    "pendigits": {
+      "u_in_mean": 1.0473933201961034,
+      "u_out_mean": 1.0494840376382746,
+      "ratio_in_over_out": 0.9980078616089522,
+      "per_sample_spearman": 0.9061958738056859,
+      "ratio_k1": 1.0008188527264297,
+      "per_sample_spearman_k1": 0.6865815986544264
+    },
+    "phoneme": {
+      "u_in_mean": 0.43822630083387754,
+      "u_out_mean": 0.4363802048840959,
+      "ratio_in_over_out": 1.0042304759224172,
+      "per_sample_spearman": 0.8429569161238577,
+      "ratio_k1": 1.0249233455046998,
+      "per_sample_spearman_k1": 0.36906666855754156
+    },
+    "purchase100": {
+      "u_in_mean": 28.240845352904845,
+      "u_out_mean": 28.23646016096842,
+      "ratio_in_over_out": 1.0001553024674987,
+      "per_sample_spearman": 0.9969565920376496,
+      "ratio_k1": 1.000169363031498,
+      "per_sample_spearman_k1": 0.9835319691920508
+    },
+    "satimage": {
+      "u_in_mean": 1.6074288645947516,
+      "u_out_mean": 1.6139660650612222,
+      "ratio_in_over_out": 0.9959496047606041,
+      "per_sample_spearman": 0.9712391010544822,
+      "ratio_k1": 0.996587478197281,
+      "per_sample_spearman_k1": 0.8598718684968865
+    },
+    "segment": {
+      "u_in_mean": 1.0221870966416933,
+      "u_out_mean": 1.0073871841936402,
+      "ratio_in_over_out": 1.0146913844848042,
+      "per_sample_spearman": 0.8830712764629269,
+      "ratio_k1": 1.091337693648786,
+      "per_sample_spearman_k1": 0.5054301801939974
+    },
+    "spambase": {
+      "u_in_mean": 3.7710412344595765,
+      "u_out_mean": 3.8174206051085875,
+      "ratio_in_over_out": 0.9878505998037144,
+      "per_sample_spearman": 0.9168363820489176,
+      "ratio_k1": 0.9809782622656967,
+      "per_sample_spearman_k1": 0.6647888444114154
+    },
+    "texas100": {
+      "u_in_mean": 59.37633190377407,
+      "u_out_mean": 59.37004112530902,
+      "ratio_in_over_out": 1.0001059588025512,
+      "per_sample_spearman": 0.9893749709041239,
+      "ratio_k1": 1.002543115023082,
+      "per_sample_spearman_k1": 0.9417552812176414
+    },
+    "vehicle": {
+      "u_in_mean": 1.9174539166421192,
+      "u_out_mean": 1.919826989760072,
+      "ratio_in_over_out": 0.9987639130345546,
+      "per_sample_spearman": 0.7518108646489783,
+      "ratio_k1": 0.9887690568927389,
+      "per_sample_spearman_k1": 0.4633400821225786
+    }
+  }
+}

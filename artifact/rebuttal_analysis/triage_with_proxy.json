@@ -1,0 +1,65 @@
+{
+  "n": 31,
+  "tercile_size_top": 11,
+  "recall_top_tercile": 0.8181818181818182,
+  "precision_top_tercile": 0.8181818181818182,
+  "recall_top_two_terciles": 0.9090909090909091,
+  "missed_high_risk_datasets": [
+    "compas",
+    "digits"
+  ],
+  "max_measured_in_bottom_tercile": 0.6913411443462805,
+  "argmax_measured_in_bottom_tercile": "digits",
+  "measured_by_pred_tercile": {
+    "top": {
+      "n": 11,
+      "mean": 0.7043619317542191,
+      "min": 0.5807158906312873,
+      "max": 0.8475979681449518
+    },
+    "middle": {
+      "n": 10,
+      "mean": 0.6047079089046298,
+      "min": 0.5084414056319163,
+      "max": 0.6678432352575684
+    },
+    "bottom": {
+      "n": 10,
+      "mean": 0.5845434266479207,
+      "min": 0.5099028919799623,
+      "max": 0.6913411443462805
+    }
+  },
+  "auc_pred_for_measured_ge_0.65": 0.919047619047619,
+  "auc_pred_for_measured_ge_0.7": 0.9923076923076923,
+  "auc_pred_for_measured_ge_0.75": 1.0,
+  "dp_by_tercile": {
+    "top": {
+      "mean_auc": {
+        "inf": 0.5558060261641073,
+        "1.0": 0.505549835113729,
+        "4.0": 0.5095245924047681,
+        "8.0": 0.511214283368179
+      },
+      "largest_eps_with_auc_le_0.55": "8.0"
+    },
+    "middle": {
+      "mean_auc": {
+        "inf": 0.5085841893107385,
+        "1.0": 0.4994954663464437,
+        "4.0": 0.5014918535920414,
+        "8.0": 0.5017901453983009
+      },
+      "largest_eps_with_auc_le_0.55": "8.0"
+    },
+    "bottom": {
+      "mean_auc": {
+        "inf": 0.5065647636672349,
+        "1.0": 0.5039874928866813,
+        "4.0": 0.5052193811057524,
+        "8.0": 0.5038113866385305
+      },
+      "largest_eps_with_auc_le_0.55": "8.0"
+    }
+  }
+}

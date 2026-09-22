@@ -1,0 +1,189 @@
+{
+  "Mean AUC, all nine configurations (paper)": {
+    "rho": 0.5891129032258066,
+    "ci": [
+      0.2967098822270843,
+      0.7805219307000092
+    ],
+    "n": 31,
+    "mean_metric": 0.6335643420910294,
+    "spearman_with_paper_risk": 1.0,
+    "frozen_oof_score_rho": 0.5891129032258066
+  },
+  "Mean AUC, regularized models only (MLP, XGBoost)": {
+    "rho": 0.5568548387096774,
+    "ci": [
+      0.25229694279428794,
+      0.7610313001934708
+    ],
+    "n": 31,
+    "mean_metric": 0.5808900256377396,
+    "spearman_with_paper_risk": 0.9629032258064517,
+    "frozen_oof_score_rho": 0.5322580645161291
+  },
+  "Median AUC over nine configurations": {
+    "rho": 0.5370967741935484,
+    "ci": [
+      0.2257132557395871,
+      0.7489084351759767
+    ],
+    "n": 31,
+    "mean_metric": 0.595916687884088,
+    "spearman_with_paper_risk": 0.9044354838709678,
+    "frozen_oof_score_rho": 0.5169354838709678
+  },
+  "Max AUC over nine configurations": {
+    "rho": 0.5806451612903226,
+    "ci": [
+      0.28492774850431646,
+      0.7754414102852785
+    ],
+    "n": 31,
+    "mean_metric": 0.8534953252931778,
+    "spearman_with_paper_risk": 0.9612903225806453,
+    "frozen_oof_score_rho": 0.6467741935483872
+  },
+  "Mean AUC, LiRA only": {
+    "rho": 0.6637096774193549,
+    "ci": [
+      0.4044992778470777,
+      0.8242123821210084
+    ],
+    "n": 31,
+    "mean_metric": 0.7053462785216168,
+    "spearman_with_paper_risk": 0.985483870967742,
+    "frozen_oof_score_rho": 0.6350806451612904
+  },
+  "Mean AUC, loss-threshold only": {
+    "rho": 0.5491935483870968,
+    "ci": [
+      0.24193412302329545,
+      0.7563474641156028
+    ],
+    "n": 31,
+    "mean_metric": 0.5968089836816193,
+    "spearman_with_paper_risk": 0.9754032258064516,
+    "frozen_oof_score_rho": 0.5625
+  },
+  "Mean AUC, shadow-model only": {
+    "rho": 0.5185483870967742,
+    "ci": [
+      0.20117213557173122,
+      0.7373972889306968
+    ],
+    "n": 31,
+    "mean_metric": 0.5985377640698527,
+    "spearman_with_paper_risk": 0.9879032258064517,
+    "frozen_oof_score_rho": 0.5391129032258064
+  },
+  "Mean AUC, MLP only": {
+    "rho": 0.5487903225806452,
+    "ci": [
+      0.2413906462517412,
+      0.7561003566667795
+    ],
+    "n": 31,
+    "mean_metric": 0.5513295278114417,
+    "spearman_with_paper_risk": 0.8854838709677421,
+    "frozen_oof_score_rho": 0.595967741935484
+  },
+  "Mean AUC, XGBoost only": {
+    "rho": 0.5048387096774194,
+    "ci": [
+      0.18328555171142027,
+      0.728806555521464
+    ],
+    "n": 31,
+    "mean_metric": 0.6104505234640375,
+    "spearman_with_paper_risk": 0.940725806451613,
+    "frozen_oof_score_rho": 0.4903225806451614
+  },
+  "Mean AUC, Random Forest only": {
+    "rho": 0.5919354838709677,
+    "ci": [
+      0.3006571422661661,
+      0.7822098371022216
+    ],
+    "n": 31,
+    "mean_metric": 0.7389129749976096,
+    "spearman_with_paper_risk": 0.9620967741935484,
+    "frozen_oof_score_rho": 0.5879032258064517
+  },
+  "Mean AUC, LiRA on regularized models": {
+    "rho": 0.5991935483870968,
+    "ci": [
+      0.3108532681464916,
+      0.7865373794918136
+    ],
+    "n": 31,
+    "mean_metric": 0.6315784227343408,
+    "spearman_with_paper_risk": 0.9415322580645161,
+    "frozen_oof_score_rho": 0.5875
+  },
+  "TPR at low FPR: mean TPR@10%FPR, LiRA": {
+    "rho": 0.5939516129032258,
+    "ci": [
+      0.3034827364363105,
+      0.7834137768013819
+    ],
+    "n": 31,
+    "mean_metric": 0.37136926881720417,
+    "spearman_with_paper_risk": 0.9883064516129033,
+    "frozen_oof_score_rho": 0.6330645161290324
+  },
+  "TPR at low FPR: mean TPR@1%FPR, LiRA": {
+    "rho": 0.6024193548387097,
+    "ci": [
+      0.31540628264626974,
+      0.7884548435692236
+    ],
+    "n": 31,
+    "mean_metric": 0.1262608817204301,
+    "spearman_with_paper_risk": 0.9620967741935484,
+    "frozen_oof_score_rho": 0.6411290322580645
+  },
+  "TPR at low FPR: mean TPR@0.1%FPR, LiRA": {
+    "rho": 0.5685483870967742,
+    "ci": [
+      0.2682497206151234,
+      0.7681395050112482
+    ],
+    "n": 31,
+    "mean_metric": 0.028368580645161293,
+    "spearman_with_paper_risk": 0.8629032258064516,
+    "frozen_oof_score_rho": 0.565725806451613
+  },
+  "TPR at low FPR: mean TPR@1%FPR, all nine configurations": {
+    "rho": 0.5737903225806452,
+    "ci": [
+      0.27545483175811986,
+      0.7713100509474354
+    ],
+    "n": 31,
+    "mean_metric": 0.0543364659498208,
+    "spearman_with_paper_risk": 0.9625000000000001,
+    "frozen_oof_score_rho": 0.6125
+  },
+  "TPR at low FPR: mean TPR@0.1%FPR, all nine configurations": {
+    "rho": 0.4713709677419356,
+    "ci": [
+      0.14049753728969466,
+      0.7075346567671268
+    ],
+    "n": 31,
+    "mean_metric": 0.009997874551971327,
+    "spearman_with_paper_risk": 0.8588709677419356,
+    "frozen_oof_score_rho": 0.4596774193548387
+  },
+  "TPR at low FPR: mean TPR@1%FPR, regularized models": {
+    "rho": 0.49435483870967745,
+    "ci": [
+      0.16974973573372548,
+      0.722189248152906
+    ],
+    "n": 31,
+    "mean_metric": 0.02260367204301075,
+    "spearman_with_paper_risk": 0.9197580645161291,
+    "frozen_oof_score_rho": 0.4983870967741937
+  }
+}

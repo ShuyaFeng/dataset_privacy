@@ -1,0 +1,262 @@
+{
+ "per_dataset": {
+  "adult": {
+   "integer": {
+    "n": 30000,
+    "d": 14,
+    "u5_mean": 1.121465408717006,
+    "median_pairwise": 4.857846433919015,
+    "u_tilde": 0.23085649659210736
+   },
+   "onehot": {
+    "n": 30000,
+    "d": 108,
+    "u5_mean": 2.9153394581067067,
+    "median_pairwise": 10.84810119249342,
+    "u_tilde": 0.2687419121904983
+   },
+   "submitted_encoding": "integer",
+   "dpri_from_rebuttal": {
+    "integer": {
+     "uniqueness_mean": 1.121465408717006,
+     "uniqueness_p90": 2.017920210657778,
+     "density_mean": 1.3266454177154001,
+     "density_p90": 2.4437744487703394,
+     "outlier_mean": 0.17807539230814462,
+     "outlier_p90": 0.31087391704879386,
+     "entropy": 2.197812221093676,
+     "cluster_sep": 0.04654226452112198
+    },
+    "onehot": {
+     "uniqueness_mean": 2.9153394581067067,
+     "uniqueness_p90": 6.637257099151611,
+     "density_mean": 0.9437518488615451,
+     "density_p90": 2.2452242781440646,
+     "outlier_mean": 0.14970267503919096,
+     "outlier_p90": 0.26585198327520465,
+     "entropy": 0.3590487721419856,
+     "cluster_sep": -0.0027779345400631428
+    }
+   },
+   "n_features_from_rebuttal": {
+    "integer": 14,
+    "onehot": 108
+   }
+  },
+  "compas": {
+   "integer": {
+    "n": 6907,
+    "d": 7,
+    "u5_mean": 0.4240250297863827,
+    "median_pairwise": 3.3500086012697565,
+    "u_tilde": 0.12657431077211687
+   },
+   "onehot": {
+    "n": 6907,
+    "d": 14,
+    "u5_mean": 0.4498827499145394,
+    "median_pairwise": 4.716724886408017,
+    "u_tilde": 0.09538032443040025
+   },
+   "submitted_encoding": "integer",
+   "dpri_from_rebuttal": {
+    "integer": {
+     "uniqueness_mean": 0.4240250297863827,
+     "uniqueness_p90": 0.8394285728014012,
+     "density_mean": 5.190375866547005,
+     "density_p90": 11.817004659968783,
+     "outlier_mean": 0.14894261835501282,
+     "outlier_p90": 0.28497490972339884,
+     "entropy": 2.2521077317438514,
+     "cluster_sep": 0.04050971195101738
+    },
+    "onehot": {
+     "uniqueness_mean": 0.4498827499145394,
+     "uniqueness_p90": 0.8882502968933028,
+     "density_mean": 5.181402381156269,
+     "density_p90": 11.817004659968783,
+     "outlier_mean": 0.15722289424665645,
+     "outlier_p90": 0.2996116161571679,
+     "entropy": 1.3219379557683797,
+     "cluster_sep": 0.025506002828478813
+    }
+   },
+   "n_features_from_rebuttal": {
+    "integer": 7,
+    "onehot": 14
+   }
+  },
+  "mushroom": {
+   "onehot": {
+    "n": 8124,
+    "d": 138,
+    "u5_mean": 3.758007744390468,
+    "median_pairwise": 13.22597302090032,
+    "u_tilde": 0.2841384704514279
+   },
+   "integer": {
+    "n": 8124,
+    "d": 22,
+    "u5_mean": 0.8354505154078139,
+    "median_pairwise": 6.335172470947715,
+    "u_tilde": 0.13187494409016998
+   },
+   "submitted_encoding": "onehot",
+   "dpri_from_rebuttal": {
+    "onehot": {
+     "uniqueness_mean": 3.758007744390468,
+     "uniqueness_p90": 4.460205078125,
+     "density_mean": 0.27675065930581705,
+     "density_p90": 0.3216704175545387,
+     "outlier_mean": 0.19225547727941614,
+     "outlier_p90": 0.2677946735611223,
+     "entropy": 0.37899606467953156,
+     "cluster_sep": 0.09363918751478195
+    },
+    "integer": {
+     "uniqueness_mean": 0.8354505154078139,
+     "uniqueness_p90": 1.4123730659484863,
+     "density_mean": 1.3664116017236334,
+     "density_p90": 1.9765766256123192,
+     "outlier_mean": 0.19235155501864942,
+     "outlier_p90": 0.30652139389210736,
+     "entropy": 1.4431669061503785,
+     "cluster_sep": 0.11291484534740448
+    }
+   },
+   "n_features_from_rebuttal": {
+    "onehot": 138,
+    "integer": 22
+   }
+  },
+  "creditg": {
+   "onehot": {
+    "n": 1000,
+    "d": 74,
+    "u5_mean": 6.894446247339249,
+    "median_pairwise": 10.738682279222182,
+    "u_tilde": 0.6420197625810216
+   },
+   "integer": {
+    "n": 1000,
+    "d": 20,
+    "u5_mean": 3.514091390490532,
+    "median_pairwise": 6.1239455202794435,
+    "u_tilde": 0.5738279968124503
+   },
+   "submitted_encoding": "onehot",
+   "dpri_from_rebuttal": {
+    "onehot": {
+     "uniqueness_mean": 6.894446247339249,
+     "uniqueness_p90": 8.640538692474365,
+     "density_mean": 0.1509335741996815,
+     "density_p90": 0.19208649677608208,
+     "outlier_mean": 0.29950511305702754,
+     "outlier_p90": 0.48292572552057794,
+     "entropy": 0.670867646709323,
+     "cluster_sep": 0.017617832869291306
+    },
+    "integer": {
+     "uniqueness_mean": 3.514091390490532,
+     "uniqueness_p90": 4.438090181350708,
+     "density_mean": 0.29608611934673057,
+     "density_p90": 0.37819957545945126,
+     "outlier_mean": 0.2776244940468434,
+     "outlier_p90": 0.4696204047501416,
+     "entropy": 1.8576016386413698,
+     "cluster_sep": 0.016518203541636467
+    }
+   },
+   "n_features_from_rebuttal": {
+    "onehot": 74,
+    "integer": 20
+   }
+  },
+  "bankmarketing": {
+   "onehot": {
+    "n": 30000,
+    "d": 60,
+    "u5_mean": 2.416550066369772,
+    "median_pairwise": 9.382453625432493,
+    "u_tilde": 0.2575605660143488
+   },
+   "integer": {
+    "n": 30000,
+    "d": 16,
+    "u5_mean": 1.337749883159995,
+    "median_pairwise": 5.106047363138808,
+    "u_tilde": 0.2619932382173691
+   },
+   "submitted_encoding": "onehot",
+   "dpri_from_rebuttal": {
+    "onehot": {
+     "uniqueness_mean": 2.416550066369772,
+     "uniqueness_p90": 4.798707914352418,
+     "density_mean": 0.7003557471779576,
+     "density_p90": 1.447848503008469,
+     "outlier_mean": 0.17203242698050908,
+     "outlier_p90": 0.29019056934393955,
+     "entropy": 0.6604301788964243,
+     "cluster_sep": 0.08623489737510681
+    },
+    "integer": {
+     "uniqueness_mean": 1.337749883159995,
+     "uniqueness_p90": 2.213946890830994,
+     "density_mean": 0.9437614924053062,
+     "density_p90": 1.5930174716436978,
+     "outlier_mean": 0.1934440043626991,
+     "outlier_p90": 0.3352398858265324,
+     "entropy": 1.9627538222645038,
+     "cluster_sep": 0.07125615328550339
+    }
+   },
+   "n_features_from_rebuttal": {
+    "onehot": 60,
+    "integer": 16
+   }
+  },
+  "nomao": {
+   "onehot": {
+    "n": 30000,
+    "d": 203,
+    "u5_mean": 3.2296150726184925,
+    "median_pairwise": 16.048300480792456,
+    "u_tilde": 0.20124343237988873
+   },
+   "integer": {
+    "n": 30000,
+    "d": 118,
+    "u5_mean": 2.7909688806284647,
+    "median_pairwise": 13.02013114778305,
+    "u_tilde": 0.21435796989676908
+   },
+   "submitted_encoding": "onehot",
+   "dpri_from_rebuttal": {
+    "onehot": {
+     "uniqueness_mean": 3.2296150726184925,
+     "uniqueness_p90": 7.139835834503176,
+     "density_mean": 0.7728581667026326,
+     "density_p90": 1.6689280709616134,
+     "outlier_mean": 0.11875070965551054,
+     "outlier_p90": 0.2447051786153115,
+     "entropy": 0.983147089335822,
+     "cluster_sep": 0.12489611655473709
+    },
+    "integer": {
+     "uniqueness_mean": 2.7909688806284647,
+     "uniqueness_p90": 5.852691125869751,
+     "density_mean": 0.7932745707860127,
+     "density_p90": 1.6689280709616134,
+     "outlier_mean": 0.11056477257709257,
+     "outlier_p90": 0.22733042589713398,
+     "entropy": 1.5094494418508664,
+     "cluster_sep": 0.14173345267772675
+    }
+   },
+   "n_features_from_rebuttal": {
+    "onehot": 203,
+    "integer": 118
+   }
+  }
+ }
+}

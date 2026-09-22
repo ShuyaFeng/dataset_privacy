@@ -10,6 +10,8 @@ torch and xgboost are imported lazily so that RF-only / test environments
 without those packages can still import this module.
 """
 
+import os
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
@@ -129,7 +131,7 @@ def get_model(name: str, n_classes: int, seed: int = 42):
             eval_metric="logloss",
             random_state=seed,
             verbosity=0,
-            n_jobs=4,
+            n_jobs=int(os.environ.get("XGB_NJOBS", 4)),   # 4 as submitted; override for big local runs
             device=device,
         )
     if name == "rf":
@@ -137,7 +139,7 @@ def get_model(name: str, n_classes: int, seed: int = 42):
             n_estimators=300,
             max_depth=None,
             min_samples_leaf=1,
-            n_jobs=4,
+            n_jobs=int(os.environ.get("RF_NJOBS", 4)),
             random_state=seed,
         )
     raise ValueError(f"Unknown model: {name}")

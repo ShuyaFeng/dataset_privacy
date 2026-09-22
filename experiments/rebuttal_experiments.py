@@ -279,7 +279,9 @@ def _normalize_feat(j):
                           "purity_mean": (1.0 - p["knn5_label_disagreement"]) if "knn5_label_disagreement" in p else None}
         k5 = j["k_variants"].get("5", {})
         out["formula"] = {"g_surrogate_mean": k5.get("formula_exact_mean"),
-                          "g_surrogate_median": k5.get("formula_exact_median")}
+                          "g_surrogate_median": k5.get("formula_exact_median"),
+                          "g_volume_mean": k5.get("formula_volume_mean"),
+                          "g_volume_median": k5.get("formula_volume_median")}
         out["normalized"] = j.get("normalized", {})
         if "distances" in j:
             s = j["distances"]
@@ -324,10 +326,10 @@ def load_json_dir(sub, skip_suffix="summary.json"):
     return out
 
 
-def load_dp():
+def load_dp(sub="dp"):
     """Normalize DP outputs of rebuttal_dp.py ({inf, '1', ...} with loss_auc) and
     the earlier format ({baseline, eps_1, ...} with auc) onto one schema."""
-    raw = load_json_dir("dp")
+    raw = load_json_dir(sub)
     out = {}
     for name, recs in raw.items():
         r = recs[0].get("results", {})
@@ -476,7 +478,7 @@ def exp_ci(F, y, yt, yp, names, extra_grid, n_boot, n_perm, n_sub, seed=0):
           [["Point estimate (nested CV)", f"{rho:.3f}"],
            ["95% CI, Fisher z", f"[{res['fisher_ci'][0]:.3f}, {res['fisher_ci'][1]:.3f}]"],
            ["95% CI, Bonett-Wright", f"[{res['bonett_wright_ci'][0]:.3f}, {res['bonett_wright_ci'][1]:.3f}]"],
-           [f"95% CI, dataset-pairs bootstrap (B={len(boots)})", f"[{ci_boot[0]:.3f}, {ci_boot[1]:.3f}]"],
+           [f"95% CI, pairs bootstrap of the honest out-of-fold predictions (no refit; B={len(boots)})", f"[{ci_boot[0]:.3f}, {ci_boot[1]:.3f}]"],
            [f"Permutation test of the full nested procedure (B={len(perm)})", f"p = {p_perm:.4f}; null 95th pct = {null95:.3f}"],
            ["Delete-one jackknife: SE; min / max rho; most influential", f"{jk_se:.3f}; {res['jackknife_min']:.3f} / {res['jackknife_max']:.3f}; {res['jackknife_most_influential']}"],
            ["Mean across-seed SD of AUC per configuration (extra seeds)", f"{seed_sd:.4f}"],
@@ -526,7 +528,8 @@ def _plot_ci(boots, perm, rho, curve, n):
         print(f"  CI plots skipped: {e}")
 
 
-def exp_robustness(F, grid, tpr_hi):
+def exp_robustness(F, grid, tpr_hi, names=None, yp=None):
+    frozen = dict(zip(names, yp)) if names is not None and yp is not None else {}
     defs = [
         ("Mean AUC, all nine configurations (paper)", dict(metric="auc")),
         ("Mean AUC, regularized models only (MLP, XGBoost)", dict(metric="auc", models=["mlp", "xgboost"])),
@@ -558,8 +561,10 @@ def exp_robustness(F, grid, tpr_hi):
         rho = nested_rho(Fa, CANDIDATES_PAPER, ya)
         ci = fisher_ci(rho, len(ya))
         agree = float(spearmanr(ya, base.loc[nm].values)[0])
-        res[label] = {"rho": rho, "ci": ci, "n": int(len(ya)), "mean_metric": float(np.mean(ya)), "spearman_with_paper_risk": agree}
-        rows.append([label, int(len(ya)), rho, f"[{ci[0]:.3f}, {ci[1]:.3f}]", float(np.mean(ya)), agree])
+        froz = float(spearmanr([frozen[x] for x in nm], ya)[0]) if frozen and all(x in frozen for x in nm) else float("nan")
+        res[label] = {"rho": rho, "ci": ci, "n": int(len(ya)), "mean_metric": float(np.mean(ya)), "spearman_with_paper_risk": agree,
+                      "frozen_oof_score_rho": froz}
+        rows.append([label, int(len(ya)), rho, f"[{ci[0]:.3f}, {ci[1]:.3f}]", froz, float(np.mean(ya)), agree])
     if tpr_hi:
         hi = pd.DataFrame([r for v in tpr_hi.values() for r in v])
         for metric, label in [("auc", "High-res LiRA (eval_n=2000): AUC"),
@@ -574,10 +579,12 @@ def exp_robustness(F, grid, tpr_hi):
             rho = nested_rho(Fa, CANDIDATES_PAPER, ya)
             ci = fisher_ci(rho, len(ya))
             agree = float(spearmanr(ya, base.loc[nm].values)[0])
-            res[label] = {"rho": rho, "ci": ci, "n": int(len(ya)), "mean_metric": float(np.mean(ya)), "spearman_with_paper_risk": agree}
-            rows.append([label, int(len(ya)), rho, f"[{ci[0]:.3f}, {ci[1]:.3f}]", float(np.mean(ya)), agree])
+            froz = float(spearmanr([frozen[x] for x in nm], ya)[0]) if frozen and all(x in frozen for x in nm) else float("nan")
+            res[label] = {"rho": rho, "ci": ci, "n": int(len(ya)), "mean_metric": float(np.mean(ya)), "spearman_with_paper_risk": agree,
+                          "frozen_oof_score_rho": froz}
+            rows.append([label, int(len(ya)), rho, f"[{ci[0]:.3f}, {ci[1]:.3f}]", froz, float(np.mean(ya)), agree])
     md("## Robustness to the definition of Risk(D): ground-truth robustness (Reviewer C: no RF; Reviewer B: TPR at low FPR)")
-    table(["Ground truth for Risk(D)", "n", "Nested-CV rho", "Fisher-z 95% CI", "mean of metric", "Spearman with paper Risk(D)"], rows)
+    table(["Ground truth for Risk(D)", "n", "Recalibrated nested-CV rho", "Fisher-z 95% CI", "Spearman(frozen OOF DPRI score, metric)", "mean of metric", "Spearman with paper Risk(D)"], rows)
     if "lira_eval_n" in grid.columns:
         g = grid[grid["attack"] == "lira"]
         md(f"LiRA scored targets per configuration (min/median): {int(g['lira_eval_n'].min())} / {int(g['lira_eval_n'].median())}; "
@@ -716,12 +723,12 @@ def exp_failures(F, y, yt, yp, names, grid, feats):
             modes.append("well predicted")
         elif r.residual < 0:
             easy = (np.isfinite(r.purity5) and r.purity5 >= pur_hi) or (np.isfinite(r.gen_gap) and r.gen_gap <= gap_lo)
-            modes.append("easy task, no leakage" if easy else "over-predicted, other")
+            modes.append("easy task, lower-than-predicted leakage" if easy else "over-predicted, other")
         else:
             if 0 < r.n < 2000:
                 modes.append("small-sample uniqueness inflation")
             elif np.isfinite(r.purity5) and r.purity5 <= pur_lo:
-                modes.append("noisy labels, unanticipated memorization")
+                modes.append("high local label disagreement, under-predicted")
             else:
                 modes.append("under-predicted, other")
     df["mode"] = modes
@@ -757,8 +764,8 @@ def _plot_residuals(df):
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
         fig, ax = plt.subplots(figsize=(4.6, 3.6))
-        markers = {"well predicted": "o", "easy task, no leakage": "v", "small-sample uniqueness inflation": "^",
-                   "noisy labels, unanticipated memorization": "D", "over-predicted, other": "x", "under-predicted, other": "+"}
+        markers = {"well predicted": "o", "easy task, lower-than-predicted leakage": "v", "small-sample uniqueness inflation": "^",
+                   "high local label disagreement, under-predicted": "D", "over-predicted, other": "x", "under-predicted, other": "+"}
         for mode, mk in markers.items():
             sub = df[df["mode"] == mode]
             if not sub.empty:
@@ -794,6 +801,7 @@ def exp_purity(F, y, names, feats):
     n_sel_p = sum(1 for s in sel if "disagree5" in s)
     loo_geo_p = float(spearmanr(yy, loo_predict(Fp[GEO + ["log_nfeatures", "disagree5"]].values, yy))[0])
     res = {"n": len(have), "disagreement_standalone_rho": float(rho_p), "p": float(p_p),
+           "predictions_with_proxy": {nm: {"measured": float(a), "predicted": float(b)} for nm, a, b in zip(have, yt, yp)},
            "nested_without_proxy": base, "nested_with_proxy_candidates_added": with_p,
            "nested_proxy_candidates_only": only_p, "ci_with_proxy": fisher_ci(with_p, len(have)),
            "folds_selecting_proxy": int(n_sel_p), "loo_geo_logd_proxy": loo_geo_p}
@@ -961,7 +969,7 @@ def exp_density(feats, names):
     return res
 
 
-def exp_guidance(yt, yp, names, dp):
+def exp_guidance(yt, yp, names, dp, label=""):
     n = len(yt)
     order_p, order_m = np.argsort(-yp), np.argsort(-yt)
     k_top, k_bot = int(math.ceil(n / 3)), n // 3
@@ -979,7 +987,7 @@ def exp_guidance(yt, yp, names, dp):
     for thr in (0.65, 0.70, 0.75):
         lab = (yt >= thr).astype(int)
         res[f"auc_pred_for_measured_ge_{thr}"] = float(roc_auc_score(lab, yp)) if 0 < lab.sum() < n else float("nan")
-    md("## Admin item 2: triage rule evaluated on the corpus (nested-CV predictions)")
+    md(f"## Admin item 2: triage rule evaluated on the corpus (nested-CV predictions{label})")
     table(["Rule", "Value"],
           [[f"Flag top tercile ({k_top}) -> recall of measured top tercile", f"{100*res['recall_top_tercile']:.0f}%"],
            ["Flag top tercile -> precision", f"{100*res['precision_top_tercile']:.0f}%"],
@@ -1016,10 +1024,10 @@ def exp_guidance(yt, yp, names, dp):
     return res
 
 
-def exp_dp(F, y, names, yp, dp):
+def exp_dp(F, y, names, yp, dp, label="dp"):
     have = [nm for nm in names if nm in dp]
     if len(have) < 10:
-        md("## Reviewer B: DP-trained models — SKIPPED (fewer than 10 datasets with DP results)")
+        md(f"## Reviewer B: DP-trained models ({label}) — SKIPPED (fewer than 10 datasets with DP results)")
         return {}
     eps_labels = [e for e in dp[have[0]].keys()]
     idx = [names.index(nm) for nm in have]
@@ -1040,9 +1048,23 @@ def exp_dp(F, y, names, yp, dp):
                   "nested_rho": nested, "ci": ci, "dpri_score_rho": score_rho, "nonDP_risk_rho": risk_rho,
                   "rho_dpri_vs_auc_drop": drop_rho, "mean_lira_auc": lira_mean}
         rows.append([e, float(auc.mean()), int((auc > 0.55).sum()), float(np.nanmean(acc)), nested, f"[{ci[0]:.3f}, {ci[1]:.3f}]", score_rho, risk_rho, drop_rho, lira_mean])
-    md("## Reviewer B: DPRI under DP-trained models (DP-SGD MLP, loss-threshold attack)")
-    table(["epsilon", "mean AUC", "# datasets AUC>0.55", "mean test acc", "nested-CV rho (features vs AUC)", "Fisher-z CI",
-           "Spearman(DPRI score, AUC)", "Spearman(non-DP Risk(D), AUC)", "Spearman(DPRI score, AUC drop)", "mean LiRA AUC"], rows)
+    md(f"## Reviewer B: DPRI under DP-trained models (DP-SGD MLP; results/rebuttal/{label}; {len(have)} datasets)")
+    table(["epsilon", "mean loss-thr. AUC", "# datasets AUC>0.55", "mean test acc", "nested-CV rho (features vs loss AUC)", "Fisher-z CI",
+           "Spearman(frozen OOF DPRI score, AUC)", "Spearman(non-DP Risk(D), AUC)", "Spearman(frozen OOF score, AUC drop)", "mean LiRA AUC"], rows)
+    # LiRA-based view when DP shadows were trained
+    lira_rows = []
+    for e in eps_labels:
+        la = np.array([dp[nm][e].get("lira_auc") if dp[nm][e].get("lira_auc") is not None else np.nan for nm in have], float)
+        if np.isfinite(la).sum() >= 10:
+            ok = np.isfinite(la)
+            nested_l = nested_rho(Fh[ok], CANDIDATES_PAPER, la[ok]) if np.std(la[ok]) > 0 else float("nan")
+            res[e]["lira_nested_rho"] = nested_l
+            res[e]["lira_dpri_score_rho"] = float(spearmanr(score[ok], la[ok])[0]) if np.std(la[ok]) > 0 else float("nan")
+            res[e]["n_lira_auc_gt_0.55"] = int((la[ok] > 0.55).sum())
+            lira_rows.append([e, float(np.nanmean(la)), int((la[ok] > 0.55).sum()), nested_l, f"[{fisher_ci(nested_l, int(ok.sum()))[0]:.3f}, {fisher_ci(nested_l, int(ok.sum()))[1]:.3f}]", res[e]["lira_dpri_score_rho"]])
+    if lira_rows:
+        md("LiRA with DP-trained shadow models (stronger attack):")
+        table(["epsilon", "mean LiRA AUC", "# datasets LiRA AUC>0.55", "nested-CV rho (features vs LiRA AUC)", "Fisher-z CI", "Spearman(DPRI score, LiRA AUC)"], lira_rows)
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -1209,7 +1231,8 @@ def main():
         sys.exit("Need results/dpri/dpri_features.csv and results/mia_grid[_v2]/*.json first.")
     feats = load_feats()
     tpr_hi = load_json_dir("tpr_at_fpr")
-    dp = load_dp()
+    dp = load_dp("dp")
+    dp_extra = {sub: load_dp(sub) for sub in ("dp_lira", "dp100") if (OUT / sub).exists()}
     enc = load_json_dir("encoding")
     rec = load_json_dir("recipe")
 
@@ -1231,7 +1254,7 @@ def main():
     if "ci" in todo:
         RESULTS["bootstrap"] = exp_ci(F31, y, yt, yp, names, extra_grid, args.n_boot, args.n_perm, n_sub)
     if "robustness" in todo:
-        RESULTS["robustness"] = exp_robustness(F, grid, tpr_hi)
+        RESULTS["robustness"] = exp_robustness(F, grid, tpr_hi, names=names, yp=yp)
     if "anova" in todo:
         RESULTS["anova"] = exp_anova(grid)
     if "formula" in todo:
@@ -1248,8 +1271,16 @@ def main():
         RESULTS["density_floor"] = exp_density(feats, names)
     if "guidance" in todo:
         RESULTS["triage"] = exp_guidance(yt, yp, names, dp)
+        pp = RESULTS.get("labelproxy", {}).get("predictions_with_proxy")
+        if pp:
+            nm2 = [nm for nm in names if nm in pp]
+            RESULTS["triage_with_proxy"] = exp_guidance(np.array([pp[nm]["measured"] for nm in nm2]),
+                                                       np.array([pp[nm]["predicted"] for nm in nm2]), nm2, dp,
+                                                       label=", geometric core + log d + label-disagreement proxy")
     if "dp" in todo:
-        RESULTS["dp"] = exp_dp(F31, y, names, yp, dp)
+        RESULTS["dp"] = exp_dp(F31, y, names, yp, dp, label="dp")
+        for sub, d2 in dp_extra.items():
+            RESULTS[f"dp_{sub}"] = exp_dp(F31, y, names, yp, d2, label=sub)
     if "encoding" in todo:
         RESULTS["encoding"] = exp_encoding(enc, F, y_all)
     if "recipe" in todo:

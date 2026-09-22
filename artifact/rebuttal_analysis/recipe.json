@@ -1,0 +1,76 @@
+{
+  "per_dataset": {
+    "adult": {
+      "u_ratio_recipe": 1.3492144237816324,
+      "dS_recipe": 0.05807795748114586,
+      "dAUC_recipe": 0.09823426152110104,
+      "u_ratio_control": 1.1935261112750455,
+      "dAUC_control": 0.006714794044532568
+    },
+    "bankmarketing": {
+      "u_ratio_recipe": 1.237333675443834,
+      "dS_recipe": 0.03815285116434097,
+      "dAUC_recipe": 0.06862552714209769,
+      "u_ratio_control": 1.1246565827365356,
+      "dAUC_control": 0.0009087965969318823
+    },
+    "covtype": {
+      "u_ratio_recipe": 1.2068195785607696,
+      "dS_recipe": 0.2694980682390451,
+      "dAUC_recipe": -0.03386738538598266,
+      "u_ratio_control": 1.1806616851967167,
+      "dAUC_control": 0.025521033639387958
+    },
+    "electricity": {
+      "u_ratio_recipe": 1.1983590721320232,
+      "dS_recipe": 0.18961395137012005,
+      "dAUC_recipe": 0.020975958535101924,
+      "u_ratio_control": 1.1748412434825344,
+      "dAUC_control": 0.003598540859466981
+    },
+    "gowalla": {
+      "u_ratio_recipe": 2.6002944182827887,
+      "dS_recipe": 0.10960479080677032,
+      "dAUC_recipe": 0.1004595192457759,
+      "u_ratio_control": 1.5110490511562364,
+      "dAUC_control": 0.0077207887412236165
+    },
+    "letter": {
+      "u_ratio_recipe": 1.0310475512418864,
+      "dS_recipe": 0.16293012793175876,
+      "dAUC_recipe": 0.030716368579985276,
+      "u_ratio_control": 1.0315848248501256,
+      "dAUC_control": 0.006872631874913271
+    },
+    "magic": {
+      "u_ratio_recipe": 1.106782775512587,
+      "dS_recipe": -0.013379491865634918,
+      "dAUC_recipe": 0.12217295965380737,
+      "u_ratio_control": 1.0424055824184095,
+      "dAUC_control": -0.0058749772189214955
+    },
+    "mnist": {
+      "u_ratio_recipe": 1.1809473668546722,
+      "dS_recipe": 0.05074449861422181,
+      "dAUC_recipe": 0.1627601628317411,
+      "u_ratio_control": 1.05517460159145,
+      "dAUC_control": 0.02121323572331346
+    },
+    "nomao": {
+      "u_ratio_recipe": 1.3358920191607233,
+      "dS_recipe": 0.04777102917432785,
+      "dAUC_recipe": 0.05330321737752719,
+      "u_ratio_control": 1.1621697275649627,
+      "dAUC_control": -0.0033992783669178905
+    }
+  },
+  "summary": {
+    "n": 9,
+    "median_u_ratio_recipe": 1.2068195785607696,
+    "median_dS_recipe": 0.05807795748114586,
+    "median_dAUC_recipe": 0.06862552714209769,
+    "n_dAUC_positive": 8,
+    "median_u_ratio_control": 1.1621697275649627,
+    "median_dAUC_control": 0.006714794044532568
+  }
+}

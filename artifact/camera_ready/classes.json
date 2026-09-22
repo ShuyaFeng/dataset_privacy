@@ -1,0 +1,281 @@
+{
+ "adult": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.36405200460016074,
+  "class_entropy_norm": 0.7938438393644257,
+  "knn5_label_disagreement": 0.20446746652471234,
+  "knn5_disagreement_over_chance": 0.5616435672405636,
+  "knn5_disagreement_minus_chance": -0.1595845380754484
+ },
+ "compas": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.4972202512064934,
+  "class_entropy_norm": 0.9959859460094322,
+  "knn5_label_disagreement": 0.38966266106848124,
+  "knn5_disagreement_over_chance": 0.7836822014448805,
+  "knn5_disagreement_minus_chance": -0.10755759013801214
+ },
+ "purchase100": {
+  "n_classes": 100,
+  "log_n_classes": 4.605170185988092,
+  "chance_disagreement": 0.9880285236286779,
+  "class_entropy_norm": 0.9794444922820476,
+  "knn5_label_disagreement": 0.8018010987006142,
+  "knn5_disagreement_over_chance": 0.8115161450560997,
+  "knn5_disagreement_minus_chance": -0.18622742492806366
+ },
+ "texas100": {
+  "n_classes": 100,
+  "log_n_classes": 4.605170185988092,
+  "chance_disagreement": 0.9813091703979387,
+  "class_entropy_norm": 0.9304479921137236,
+  "knn5_label_disagreement": 0.7162602109015298,
+  "knn5_disagreement_over_chance": 0.7299026978531885,
+  "knn5_disagreement_minus_chance": -0.26504895949640894
+ },
+ "nhanes": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.45437282986111116,
+  "class_entropy_norm": 0.9331343166407832,
+  "knn5_label_disagreement": 0.3104166666666667,
+  "knn5_disagreement_over_chance": 0.6831761194029851,
+  "knn5_disagreement_minus_chance": -0.1439561631944445
+ },
+ "movielens": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.499982237621157,
+  "class_entropy_norm": 0.9999743741524021,
+  "knn5_label_disagreement": 0.04728476821192053,
+  "knn5_disagreement_over_chance": 0.09457289610305877,
+  "knn5_disagreement_minus_chance": -0.4526974694092365
+ },
+ "gowalla": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.499397984939119,
+  "class_entropy_norm": 0.9991313014849282,
+  "knn5_label_disagreement": 0.04935569416949912,
+  "knn5_disagreement_over_chance": 0.09883038309719254,
+  "knn5_disagreement_minus_chance": -0.4500422907696199
+ },
+ "covtype": {
+  "n_classes": 7,
+  "log_n_classes": 1.9459101490553132,
+  "chance_disagreement": 0.6232295622222223,
+  "class_entropy_norm": 0.6201885913094769,
+  "knn5_label_disagreement": 0.23857333333333333,
+  "knn5_disagreement_over_chance": 0.38280169586735086,
+  "knn5_disagreement_minus_chance": -0.38465622888888895
+ },
+ "digits": {
+  "n_classes": 10,
+  "log_n_classes": 2.302585092994046,
+  "chance_disagreement": 0.8999789112442087,
+  "class_entropy_norm": 0.9999540203632464,
+  "knn5_label_disagreement": 0.04106844741235392,
+  "knn5_disagreement_over_chance": 0.04563267749860644,
+  "knn5_disagreement_minus_chance": -0.8589104638318548
+ },
+ "creditg": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.42000000000000004,
+  "class_entropy_norm": 0.8812908992306927,
+  "knn5_label_disagreement": 0.3278,
+  "knn5_disagreement_over_chance": 0.7804761904761903,
+  "knn5_disagreement_minus_chance": -0.09220000000000006
+ },
+ "spambase": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.47754697968997495,
+  "class_entropy_norm": 0.9673602371807668,
+  "knn5_label_disagreement": 0.12114757661377962,
+  "knn5_disagreement_over_chance": 0.2536872428602292,
+  "knn5_disagreement_minus_chance": -0.35639940307619533
+ },
+ "mushroom": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.49935405449893955,
+  "class_entropy_norm": 0.9990678968724604,
+  "knn5_label_disagreement": 0.0002461841457410143,
+  "knn5_disagreement_over_chance": 0.0004930052004645075,
+  "knn5_disagreement_minus_chance": -0.49910787035319853
+ },
+ "electricity": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.48770687999999995,
+  "class_entropy_norm": 0.9821913787266732,
+  "knn5_label_disagreement": 0.21476,
+  "knn5_disagreement_over_chance": 0.4403464638432003,
+  "knn5_disagreement_minus_chance": -0.27294687999999995
+ },
+ "letter": {
+  "n_classes": 26,
+  "log_n_classes": 3.258096538021482,
+  "chance_disagreement": 0.961504895,
+  "class_entropy_norm": 0.9998661845262039,
+  "knn5_label_disagreement": 0.08307,
+  "knn5_disagreement_over_chance": 0.08639581600882022,
+  "knn5_disagreement_minus_chance": -0.878434895
+ },
+ "optdigits": {
+  "n_classes": 10,
+  "log_n_classes": 2.302585092994046,
+  "chance_disagreement": 0.8999867656184699,
+  "class_entropy_norm": 0.9999712907631131,
+  "knn5_label_disagreement": 0.032348754448398576,
+  "knn5_disagreement_over_chance": 0.03594358904396616,
+  "knn5_disagreement_minus_chance": -0.8676380111700713
+ },
+ "pendigits": {
+  "n_classes": 10,
+  "log_n_classes": 2.302585092994046,
+  "chance_disagreement": 0.8998397372232074,
+  "class_entropy_norm": 0.999651902159307,
+  "knn5_label_disagreement": 0.009934497816593887,
+  "knn5_disagreement_over_chance": 0.01104029685024858,
+  "knn5_disagreement_minus_chance": -0.8899052394066136
+ },
+ "satimage": {
+  "n_classes": 6,
+  "log_n_classes": 1.791759469228055,
+  "chance_disagreement": 0.8103407191697163,
+  "class_entropy_norm": 0.9606955131275013,
+  "knn5_label_disagreement": 0.11359253499222395,
+  "knn5_disagreement_over_chance": 0.14017873260597352,
+  "knn5_disagreement_minus_chance": -0.6967481841774923
+ },
+ "segment": {
+  "n_classes": 7,
+  "log_n_classes": 1.9459101490553132,
+  "chance_disagreement": 0.8571428571428572,
+  "class_entropy_norm": 0.9999999999999999,
+  "knn5_label_disagreement": 0.06735930735930735,
+  "knn5_disagreement_over_chance": 0.07858585858585858,
+  "knn5_disagreement_minus_chance": -0.7897835497835498
+ },
+ "vehicle": {
+  "n_classes": 4,
+  "log_n_classes": 1.3862943611198906,
+  "chance_disagreement": 0.7496800406865293,
+  "class_entropy_norm": 0.9995333827671815,
+  "knn5_label_disagreement": 0.32600472813238773,
+  "knn5_disagreement_over_chance": 0.4348584868737397,
+  "knn5_disagreement_minus_chance": -0.42367531255414154
+ },
+ "ionosphere": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.460223537146614,
+  "class_entropy_norm": 0.9418285354475157,
+  "knn5_label_disagreement": 0.16695156695156696,
+  "knn5_disagreement_over_chance": 0.36276190476190484,
+  "knn5_disagreement_minus_chance": -0.293271970195047
+ },
+ "phoneme": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.41470418874414383,
+  "class_entropy_norm": 0.8731822577241407,
+  "knn5_label_disagreement": 0.14907475943745374,
+  "knn5_disagreement_over_chance": 0.3594725191681799,
+  "knn5_disagreement_minus_chance": -0.2656294293066901
+ },
+ "bankmarketing": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.20667306444444433,
+  "class_entropy_norm": 0.5207727203300394,
+  "knn5_label_disagreement": 0.13108666666666666,
+  "knn5_disagreement_over_chance": 0.6342706874697935,
+  "knn5_disagreement_minus_chance": -0.07558639777777768
+ },
+ "magic": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.4559726050723075,
+  "class_entropy_norm": 0.935515244546736,
+  "knn5_label_disagreement": 0.2007781282860147,
+  "knn5_disagreement_over_chance": 0.4403293663972983,
+  "knn5_disagreement_minus_chance": -0.2551944767862928
+ },
+ "nomao": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.4086931111111112,
+  "class_entropy_norm": 0.863937551062138,
+  "knn5_label_disagreement": 0.06282,
+  "knn5_disagreement_over_chance": 0.15370946632599627,
+  "knn5_disagreement_minus_chance": -0.3458731111111112
+ },
+ "har": {
+  "n_classes": 6,
+  "log_n_classes": 1.791759469228055,
+  "chance_disagreement": 0.8312825675333078,
+  "class_entropy_norm": 0.9965029959141158,
+  "knn5_label_disagreement": 0.06971550635984076,
+  "knn5_disagreement_over_chance": 0.08386499258213713,
+  "knn5_disagreement_minus_chance": -0.761567061173467
+ },
+ "gasdrift": {
+  "n_classes": 6,
+  "log_n_classes": 1.791759469228055,
+  "chance_disagreement": 0.8243010913849482,
+  "class_entropy_norm": 0.9848095792205207,
+  "knn5_label_disagreement": 0.008871315600287562,
+  "knn5_disagreement_over_chance": 0.010762227167966543,
+  "knn5_disagreement_minus_chance": -0.8154297757846607
+ },
+ "mnist": {
+  "n_classes": 10,
+  "log_n_classes": 2.302585092994046,
+  "chance_disagreement": 0.8996510777777778,
+  "class_entropy_norm": 0.9992573694919643,
+  "knn5_label_disagreement": 0.09182,
+  "knn5_disagreement_over_chance": 0.10206179069645976,
+  "knn5_disagreement_minus_chance": -0.8078310777777777
+ },
+ "fashionmnist": {
+  "n_classes": 10,
+  "log_n_classes": 2.302585092994046,
+  "chance_disagreement": 0.89998988,
+  "class_entropy_norm": 0.9999780359725289,
+  "knn5_label_disagreement": 0.19212,
+  "knn5_disagreement_over_chance": 0.21346906700773124,
+  "knn5_disagreement_minus_chance": -0.7078698800000001
+ },
+ "jm1": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.31208762253053113,
+  "class_entropy_norm": 0.7086892115305542,
+  "knn5_label_disagreement": 0.24935231970601746,
+  "knn5_disagreement_over_chance": 0.7989817657110821,
+  "knn5_disagreement_minus_chance": -0.06273530282451367
+ },
+ "kc1": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.26136400681582983,
+  "class_entropy_norm": 0.6211733422333799,
+  "knn5_label_disagreement": 0.1876718824087245,
+  "knn5_disagreement_over_chance": 0.7180479236414811,
+  "knn5_disagreement_minus_chance": -0.07369212440710532
+ },
+ "breastw": {
+  "n_classes": 2,
+  "log_n_classes": 0.6931471805599453,
+  "chance_disagreement": 0.4518124195406886,
+  "class_entropy_norm": 0.9293179372497983,
+  "knn5_label_disagreement": 0.046065808297567956,
+  "knn5_disagreement_over_chance": 0.10195781768105963,
+  "knn5_disagreement_minus_chance": -0.40574661124312067
+ }
+}
