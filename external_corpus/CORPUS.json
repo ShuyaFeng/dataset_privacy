@@ -1,0 +1,734 @@
+{
+ "rule": "OpenML-CC18 (study 99) classification datasets not in the main corpus (data_id not in [6, 15, 24, 28, 31, 32, 36, 37, 44, 54, 59, 151, 182, 554, 1053, 1067, 1120, 1461, 1476, 1478, 1486, 1489, 1590, 40996] and name not in ['fashion-mnist', 'mnist_784', 'segment']), NumberOfInstances >= 1000, NumberOfFeatures - 1 <= 2000; all of them, no further selection; ordered by data_id.",
+ "suite": 99,
+ "min_n": 1000,
+ "max_d": 2000,
+ "subsample": 30000,
+ "selected_at_utc": "2026-09-22T01:59:11+00:00",
+ "n_candidates": 72,
+ "n_selected": 37,
+ "selected": [
+  {
+   "did": 3,
+   "openml_name": "kr-vs-kp",
+   "n": 3196,
+   "d": 36,
+   "n_classes": 2,
+   "n_symbolic": 37,
+   "n_missing": 0,
+   "name": "krvskp"
+  },
+  {
+   "did": 12,
+   "openml_name": "mfeat-factors",
+   "n": 2000,
+   "d": 216,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatfactors"
+  },
+  {
+   "did": 14,
+   "openml_name": "mfeat-fourier",
+   "n": 2000,
+   "d": 76,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatfourier"
+  },
+  {
+   "did": 16,
+   "openml_name": "mfeat-karhunen",
+   "n": 2000,
+   "d": 64,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatkarhunen"
+  },
+  {
+   "did": 18,
+   "openml_name": "mfeat-morphological",
+   "n": 2000,
+   "d": 6,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatmorphological"
+  },
+  {
+   "did": 22,
+   "openml_name": "mfeat-zernike",
+   "n": 2000,
+   "d": 47,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatzernike"
+  },
+  {
+   "did": 23,
+   "openml_name": "cmc",
+   "n": 1473,
+   "d": 9,
+   "n_classes": 3,
+   "n_symbolic": 8,
+   "n_missing": 0,
+   "name": "cmc"
+  },
+  {
+   "did": 38,
+   "openml_name": "sick",
+   "n": 3772,
+   "d": 29,
+   "n_classes": 2,
+   "n_symbolic": 23,
+   "n_missing": 6064,
+   "name": "sick"
+  },
+  {
+   "did": 46,
+   "openml_name": "splice",
+   "n": 3190,
+   "d": 60,
+   "n_classes": 3,
+   "n_symbolic": 61,
+   "n_missing": 0,
+   "name": "splice"
+  },
+  {
+   "did": 300,
+   "openml_name": "isolet",
+   "n": 7797,
+   "d": 617,
+   "n_classes": 26,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "isolet"
+  },
+  {
+   "did": 1049,
+   "openml_name": "pc4",
+   "n": 1458,
+   "d": 37,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "pc4"
+  },
+  {
+   "did": 1050,
+   "openml_name": "pc3",
+   "n": 1563,
+   "d": 37,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "pc3"
+  },
+  {
+   "did": 1068,
+   "openml_name": "pc1",
+   "n": 1109,
+   "d": 21,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "pc1"
+  },
+  {
+   "did": 1462,
+   "openml_name": "banknote-authentication",
+   "n": 1372,
+   "d": 4,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "banknoteauthenticati"
+  },
+  {
+   "did": 1468,
+   "openml_name": "cnae-9",
+   "n": 1080,
+   "d": 856,
+   "n_classes": 9,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "cnae9"
+  },
+  {
+   "did": 1475,
+   "openml_name": "first-order-theorem-proving",
+   "n": 6118,
+   "d": 51,
+   "n_classes": 6,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "firstordertheorempro"
+  },
+  {
+   "did": 1485,
+   "openml_name": "madelon",
+   "n": 2600,
+   "d": 500,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "madelon"
+  },
+  {
+   "did": 1487,
+   "openml_name": "ozone-level-8hr",
+   "n": 2534,
+   "d": 72,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "ozonelevel8hr"
+  },
+  {
+   "did": 1494,
+   "openml_name": "qsar-biodeg",
+   "n": 1055,
+   "d": 41,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "qsarbiodeg"
+  },
+  {
+   "did": 1497,
+   "openml_name": "wall-robot-navigation",
+   "n": 5456,
+   "d": 24,
+   "n_classes": 4,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "wallrobotnavigation"
+  },
+  {
+   "did": 1501,
+   "openml_name": "semeion",
+   "n": 1593,
+   "d": 256,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "semeion"
+  },
+  {
+   "did": 4134,
+   "openml_name": "Bioresponse",
+   "n": 3751,
+   "d": 1776,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "bioresponse"
+  },
+  {
+   "did": 4534,
+   "openml_name": "PhishingWebsites",
+   "n": 11055,
+   "d": 30,
+   "n_classes": 2,
+   "n_symbolic": 31,
+   "n_missing": 0,
+   "name": "phishingwebsites"
+  },
+  {
+   "did": 4538,
+   "openml_name": "GesturePhaseSegmentationProcessed",
+   "n": 9873,
+   "d": 32,
+   "n_classes": 5,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "gesturephasesegmenta"
+  },
+  {
+   "did": 23517,
+   "openml_name": "numerai28.6",
+   "n": 96320,
+   "d": 21,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "numerai286"
+  },
+  {
+   "did": 40499,
+   "openml_name": "texture",
+   "n": 5500,
+   "d": 40,
+   "n_classes": 11,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "texture"
+  },
+  {
+   "did": 40668,
+   "openml_name": "connect-4",
+   "n": 67557,
+   "d": 42,
+   "n_classes": 3,
+   "n_symbolic": 43,
+   "n_missing": 0,
+   "name": "connect4"
+  },
+  {
+   "did": 40670,
+   "openml_name": "dna",
+   "n": 3186,
+   "d": 180,
+   "n_classes": 3,
+   "n_symbolic": 181,
+   "n_missing": 0,
+   "name": "dna"
+  },
+  {
+   "did": 40701,
+   "openml_name": "churn",
+   "n": 5000,
+   "d": 20,
+   "n_classes": 2,
+   "n_symbolic": 5,
+   "n_missing": 0,
+   "name": "churn"
+  },
+  {
+   "did": 40923,
+   "openml_name": "Devnagari-Script",
+   "n": 92000,
+   "d": 1024,
+   "n_classes": 46,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "devnagariscript"
+  },
+  {
+   "did": 40966,
+   "openml_name": "MiceProtein",
+   "n": 1080,
+   "d": 81,
+   "n_classes": 8,
+   "n_symbolic": 5,
+   "n_missing": 1396,
+   "name": "miceprotein"
+  },
+  {
+   "did": 40975,
+   "openml_name": "car",
+   "n": 1728,
+   "d": 6,
+   "n_classes": 4,
+   "n_symbolic": 7,
+   "n_missing": 0,
+   "name": "car"
+  },
+  {
+   "did": 40978,
+   "openml_name": "Internet-Advertisements",
+   "n": 3279,
+   "d": 1558,
+   "n_classes": 2,
+   "n_symbolic": 1556,
+   "n_missing": 0,
+   "name": "internetadvertisemen"
+  },
+  {
+   "did": 40979,
+   "openml_name": "mfeat-pixel",
+   "n": 2000,
+   "d": 240,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "mfeatpixel"
+  },
+  {
+   "did": 40982,
+   "openml_name": "steel-plates-fault",
+   "n": 1941,
+   "d": 27,
+   "n_classes": 7,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "steelplatesfault"
+  },
+  {
+   "did": 40983,
+   "openml_name": "wilt",
+   "n": 4839,
+   "d": 5,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "wilt"
+  },
+  {
+   "did": 41027,
+   "openml_name": "jungle_chess_2pcs_raw_endgame_complete",
+   "n": 44819,
+   "d": 6,
+   "n_classes": 3,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "name": "junglechess2pcsrawen"
+  }
+ ],
+ "excluded": [
+  {
+   "did": 6,
+   "openml_name": "letter",
+   "n": 20000,
+   "d": 16,
+   "n_classes": 26,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 11,
+   "openml_name": "balance-scale",
+   "n": 625,
+   "d": 4,
+   "n_classes": 3,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 15,
+   "openml_name": "breast-w",
+   "n": 699,
+   "d": 9,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 16,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 28,
+   "openml_name": "optdigits",
+   "n": 5620,
+   "d": 64,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 29,
+   "openml_name": "credit-approval",
+   "n": 690,
+   "d": 15,
+   "n_classes": 2,
+   "n_symbolic": 10,
+   "n_missing": 67,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 31,
+   "openml_name": "credit-g",
+   "n": 1000,
+   "d": 20,
+   "n_classes": 2,
+   "n_symbolic": 14,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 32,
+   "openml_name": "pendigits",
+   "n": 10992,
+   "d": 16,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 37,
+   "openml_name": "diabetes",
+   "n": 768,
+   "d": 8,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 44,
+   "openml_name": "spambase",
+   "n": 4601,
+   "d": 57,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 50,
+   "openml_name": "tic-tac-toe",
+   "n": 958,
+   "d": 9,
+   "n_classes": 2,
+   "n_symbolic": 10,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 54,
+   "openml_name": "vehicle",
+   "n": 846,
+   "d": 18,
+   "n_classes": 4,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 151,
+   "openml_name": "electricity",
+   "n": 45312,
+   "d": 8,
+   "n_classes": 2,
+   "n_symbolic": 2,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 182,
+   "openml_name": "satimage",
+   "n": 6430,
+   "d": 36,
+   "n_classes": 6,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 188,
+   "openml_name": "eucalyptus",
+   "n": 736,
+   "d": 19,
+   "n_classes": 5,
+   "n_symbolic": 6,
+   "n_missing": 448,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 307,
+   "openml_name": "vowel",
+   "n": 990,
+   "d": 12,
+   "n_classes": 11,
+   "n_symbolic": 3,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 458,
+   "openml_name": "analcatdata_authorship",
+   "n": 841,
+   "d": 70,
+   "n_classes": 4,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 469,
+   "openml_name": "analcatdata_dmft",
+   "n": 797,
+   "d": 4,
+   "n_classes": 6,
+   "n_symbolic": 5,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 554,
+   "openml_name": "mnist_784",
+   "n": 70000,
+   "d": 784,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1053,
+   "openml_name": "jm1",
+   "n": 10885,
+   "d": 21,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 25,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1063,
+   "openml_name": "kc2",
+   "n": 522,
+   "d": 21,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 1067,
+   "openml_name": "kc1",
+   "n": 2109,
+   "d": 21,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1461,
+   "openml_name": "bank-marketing",
+   "n": 45211,
+   "d": 16,
+   "n_classes": 2,
+   "n_symbolic": 10,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1464,
+   "openml_name": "blood-transfusion-service-center",
+   "n": 748,
+   "d": 4,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 1478,
+   "openml_name": "har",
+   "n": 10299,
+   "d": 561,
+   "n_classes": 6,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1480,
+   "openml_name": "ilpd",
+   "n": 583,
+   "d": 10,
+   "n_classes": 2,
+   "n_symbolic": 2,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 1486,
+   "openml_name": "nomao",
+   "n": 34465,
+   "d": 118,
+   "n_classes": 2,
+   "n_symbolic": 30,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1489,
+   "openml_name": "phoneme",
+   "n": 5404,
+   "d": 5,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 1510,
+   "openml_name": "wdbc",
+   "n": 569,
+   "d": 30,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 1590,
+   "openml_name": "adult",
+   "n": 48842,
+   "d": 14,
+   "n_classes": 2,
+   "n_symbolic": 9,
+   "n_missing": 6465,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 6332,
+   "openml_name": "cylinder-bands",
+   "n": 540,
+   "d": 39,
+   "n_classes": 2,
+   "n_symbolic": 22,
+   "n_missing": 999,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 23381,
+   "openml_name": "dresses-sales",
+   "n": 500,
+   "d": 12,
+   "n_classes": 2,
+   "n_symbolic": 12,
+   "n_missing": 835,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 40927,
+   "openml_name": "CIFAR_10",
+   "n": 60000,
+   "d": 3072,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "d > 2000"
+  },
+  {
+   "did": 40984,
+   "openml_name": "segment",
+   "n": 2310,
+   "d": 19,
+   "n_classes": 7,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  },
+  {
+   "did": 40994,
+   "openml_name": "climate-model-simulation-crashes",
+   "n": 540,
+   "d": 20,
+   "n_classes": 2,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "n < 1000"
+  },
+  {
+   "did": 40996,
+   "openml_name": "Fashion-MNIST",
+   "n": 70000,
+   "d": 784,
+   "n_classes": 10,
+   "n_symbolic": 1,
+   "n_missing": 0,
+   "reason": "in main corpus"
+  }
+ ]
+}
