@@ -1,0 +1,15 @@
+{
+  "dataset": "devnagariscript",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.7286569944564728,
+  "n_samples": 30000,
+  "n_features": 1024,
+  "n_classes": 46,
+  "seed": 42,
+  "elapsed_sec": 330.98,
+  "tpr_at_fpr_10": 0.3025,
+  "tpr_at_fpr_01": 0.016309,
+  "tpr_at_fpr_001": 0.00233,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "mfeatfactors",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.7136577499999999,
+  "n_samples": 2000,
+  "n_features": 216,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 3.07,
+  "tpr_at_fpr_10": 0.206,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

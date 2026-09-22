@@ -1,0 +1,15 @@
+{
+  "dataset": "dna",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9858161811354902,
+  "n_samples": 3186,
+  "n_features": 540,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 14.46,
+  "tpr_at_fpr_10": 0.970036,
+  "tpr_at_fpr_01": 0.794361,
+  "tpr_at_fpr_001": 0.229281,
+  "lira_eval_n": 2000
+}

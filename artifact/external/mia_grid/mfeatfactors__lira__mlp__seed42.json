@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatfactors",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.5916976440054493,
+  "n_samples": 2000,
+  "n_features": 216,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 46.36,
+  "tpr_at_fpr_10": 0.173541,
+  "tpr_at_fpr_01": 0.018297,
+  "tpr_at_fpr_001": 0.000377,
+  "lira_eval_n": 2000
+}

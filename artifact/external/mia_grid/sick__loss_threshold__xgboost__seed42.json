@@ -1,0 +1,17 @@
+{
+  "dataset": "sick",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5014226892580144,
+  "n_samples": 3772,
+  "n_features": 75,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.74,
+  "tpr_at_fpr_10": 0.093849,
+  "tpr_at_fpr_01": 0.008484,
+  "tpr_at_fpr_001": 0.001591,
+  "train_acc": 1.0,
+  "test_acc": 0.984093,
+  "gen_gap": 0.015907
+}

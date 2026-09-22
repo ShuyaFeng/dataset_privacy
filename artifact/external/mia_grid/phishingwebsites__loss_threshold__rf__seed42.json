@@ -1,0 +1,17 @@
+{
+  "dataset": "phishingwebsites",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.6010161732026204,
+  "n_samples": 11055,
+  "n_features": 98,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 0.76,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.99222,
+  "test_acc": 0.966534,
+  "gen_gap": 0.025686
+}

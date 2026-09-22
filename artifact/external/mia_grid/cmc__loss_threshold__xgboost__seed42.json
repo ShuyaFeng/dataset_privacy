@@ -1,0 +1,17 @@
+{
+  "dataset": "cmc",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.7317894224529526,
+  "n_samples": 1473,
+  "n_features": 31,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 3.0,
+  "tpr_at_fpr_10": 0.096467,
+  "tpr_at_fpr_01": 0.01087,
+  "tpr_at_fpr_001": 0.001359,
+  "train_acc": 0.951087,
+  "test_acc": 0.554953,
+  "gen_gap": 0.396134
+}

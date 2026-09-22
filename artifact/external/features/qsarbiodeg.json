@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 3.0928847295554327,
+ "uniqueness_p90": 5.621881771087646,
+ "density_mean": 0.44533651780183175,
+ "density_p90": 0.7251323622274022,
+ "outlier_mean": 0.1365780848705557,
+ "outlier_p90": 0.2935456925305446,
+ "entropy": 2.3478216702538655,
+ "cluster_sep": 0.016625406220555305,
+ "disagree5": 0.1981042654028436,
+ "disagree20": 0.23872037914691943,
+ "nn1_error": 0.15924170616113745,
+ "n_classes": 2,
+ "chance_disagreement": 0.4471489858718358,
+ "n_samples": 1055,
+ "n_features": 41,
+ "elapsed_sec": 1.2,
+ "dataset": "qsarbiodeg"
+}

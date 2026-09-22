@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 4.497027629393118,
+ "uniqueness_p90": 6.16810998916626,
+ "density_mean": 0.24111539362569007,
+ "density_p90": 0.31527124255579386,
+ "outlier_mean": 0.11108416181819829,
+ "outlier_p90": 0.19578857932110935,
+ "entropy": 4.383082398225184,
+ "cluster_sep": 0.017575014382600784,
+ "disagree5": 0.017592592592592594,
+ "disagree20": 0.3036111111111111,
+ "nn1_error": 0.001851851851851852,
+ "n_classes": 8,
+ "chance_disagreement": 0.8738425925925926,
+ "n_samples": 1080,
+ "n_features": 77,
+ "elapsed_sec": 0.4,
+ "dataset": "miceprotein"
+}

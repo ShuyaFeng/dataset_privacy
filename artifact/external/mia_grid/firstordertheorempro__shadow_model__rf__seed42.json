@@ -1,0 +1,14 @@
+{
+  "dataset": "firstordertheorempro",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.7801038682312046,
+  "n_samples": 6118,
+  "n_features": 51,
+  "n_classes": 6,
+  "seed": 42,
+  "elapsed_sec": 4.65,
+  "tpr_at_fpr_10": 0.200065,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

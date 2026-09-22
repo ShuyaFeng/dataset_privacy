@@ -1,0 +1,15 @@
+{
+  "dataset": "madelon",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.9950465434746354,
+  "n_samples": 2600,
+  "n_features": 500,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 49.51,
+  "tpr_at_fpr_10": 0.996215,
+  "tpr_at_fpr_01": 0.91224,
+  "tpr_at_fpr_001": 0.315394,
+  "lira_eval_n": 2000
+}

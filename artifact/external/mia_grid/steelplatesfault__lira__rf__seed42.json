@@ -1,0 +1,15 @@
+{
+  "dataset": "steelplatesfault",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.949447974863706,
+  "n_samples": 1941,
+  "n_features": 27,
+  "n_classes": 7,
+  "seed": 42,
+  "elapsed_sec": 15.0,
+  "tpr_at_fpr_10": 0.872724,
+  "tpr_at_fpr_01": 0.279567,
+  "tpr_at_fpr_001": 0.000259,
+  "lira_eval_n": 1941
+}

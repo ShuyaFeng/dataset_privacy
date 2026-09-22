@@ -1,0 +1,17 @@
+{
+  "dataset": "krvskp",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5058615196404768,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 19.75,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.989987,
+  "gen_gap": 0.010013
+}

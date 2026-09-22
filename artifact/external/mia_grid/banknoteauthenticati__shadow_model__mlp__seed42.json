@@ -1,0 +1,14 @@
+{
+  "dataset": "banknoteauthenticati",
+  "attack": "shadow_model",
+  "model": "mlp",
+  "auc": 0.5018202980900816,
+  "n_samples": 1372,
+  "n_features": 4,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 7.05,
+  "tpr_at_fpr_10": 0.104956,
+  "tpr_at_fpr_01": 0.001458,
+  "tpr_at_fpr_001": 0.001458
+}

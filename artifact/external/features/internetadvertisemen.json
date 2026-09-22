@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 23.717825517233155,
+ "uniqueness_p90": 50.72243728637696,
+ "density_mean": 0.1380361536510144,
+ "density_p90": 0.389898055276658,
+ "outlier_mean": 0.09101352885887629,
+ "outlier_p90": 0.19035315011029563,
+ "entropy": 0.04174434414664992,
+ "cluster_sep": 0.14573460817337036,
+ "disagree5": 0.05074717901799329,
+ "disagree20": 0.08504117108874656,
+ "nn1_error": 0.04239097285757853,
+ "n_classes": 2,
+ "chance_disagreement": 0.24077364983354954,
+ "n_samples": 3279,
+ "n_features": 4668,
+ "elapsed_sec": 6.1,
+ "dataset": "internetadvertisemen"
+}

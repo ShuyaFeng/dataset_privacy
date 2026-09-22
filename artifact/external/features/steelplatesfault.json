@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 1.9779846145436053,
+ "uniqueness_p90": 3.0112862586975098,
+ "density_mean": 0.7284956758077373,
+ "density_p90": 1.636524229991464,
+ "outlier_mean": 0.11099862062433585,
+ "outlier_p90": 0.19657777152734157,
+ "entropy": 3.437167126411052,
+ "cluster_sep": 0.014316258020699024,
+ "disagree5": 0.308397733127254,
+ "disagree20": 0.3767130345182895,
+ "nn1_error": 0.26275115919629055,
+ "n_classes": 7,
+ "chance_disagreement": 0.7779187207579813,
+ "n_samples": 1941,
+ "n_features": 27,
+ "elapsed_sec": 0.5,
+ "dataset": "steelplatesfault"
+}

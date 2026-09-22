@@ -1,0 +1,14 @@
+{
+  "dataset": "ozonelevel8hr",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.624961922744129,
+  "n_samples": 2534,
+  "n_features": 72,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.44,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

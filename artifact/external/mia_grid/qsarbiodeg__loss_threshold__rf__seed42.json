@@ -1,0 +1,17 @@
+{
+  "dataset": "qsarbiodeg",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.7148363377609108,
+  "n_samples": 1055,
+  "n_features": 41,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 0.47,
+  "tpr_at_fpr_10": 0.222011,
+  "tpr_at_fpr_01": 0.034156,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.867424,
+  "gen_gap": 0.132576
+}

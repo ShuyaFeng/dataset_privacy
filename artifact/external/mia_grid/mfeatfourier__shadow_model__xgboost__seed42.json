@@ -1,0 +1,14 @@
+{
+  "dataset": "mfeatfourier",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.6979223750000001,
+  "n_samples": 2000,
+  "n_features": 76,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 19.06,
+  "tpr_at_fpr_10": 0.162,
+  "tpr_at_fpr_01": 0.026,
+  "tpr_at_fpr_001": 0.006
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "krvskp",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.7039835170214332,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.17,
+  "tpr_at_fpr_10": 0.130788,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

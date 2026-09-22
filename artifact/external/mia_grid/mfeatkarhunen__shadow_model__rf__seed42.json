@@ -1,0 +1,14 @@
+{
+  "dataset": "mfeatkarhunen",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.8690167500000001,
+  "n_samples": 2000,
+  "n_features": 64,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 3.27,
+  "tpr_at_fpr_10": 0.492,
+  "tpr_at_fpr_01": 0.116,
+  "tpr_at_fpr_001": 0.05
+}

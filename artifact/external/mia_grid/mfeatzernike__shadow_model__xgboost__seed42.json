@@ -1,0 +1,14 @@
+{
+  "dataset": "mfeatzernike",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.6771254999999999,
+  "n_samples": 2000,
+  "n_features": 47,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 14.28,
+  "tpr_at_fpr_10": 0.182,
+  "tpr_at_fpr_01": 0.024,
+  "tpr_at_fpr_001": 0.003
+}

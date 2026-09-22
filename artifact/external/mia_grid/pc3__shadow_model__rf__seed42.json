@@ -1,0 +1,14 @@
+{
+  "dataset": "pc3",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.6150983148367068,
+  "n_samples": 1563,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.36,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

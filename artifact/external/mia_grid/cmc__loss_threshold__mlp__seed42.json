@@ -1,0 +1,17 @@
+{
+  "dataset": "cmc",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.6533132263583269,
+  "n_samples": 1473,
+  "n_features": 31,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 3.78,
+  "tpr_at_fpr_10": 0.164402,
+  "tpr_at_fpr_01": 0.014946,
+  "tpr_at_fpr_001": 0.001359,
+  "train_acc": 0.779891,
+  "test_acc": 0.53867,
+  "gen_gap": 0.241221
+}

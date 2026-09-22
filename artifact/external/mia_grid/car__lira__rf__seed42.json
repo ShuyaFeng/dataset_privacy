@@ -1,0 +1,15 @@
+{
+  "dataset": "car",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.8495753240490482,
+  "n_samples": 1728,
+  "n_features": 27,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 13.04,
+  "tpr_at_fpr_10": 0.586817,
+  "tpr_at_fpr_01": 0.067007,
+  "tpr_at_fpr_001": 0.000218,
+  "lira_eval_n": 1728
+}

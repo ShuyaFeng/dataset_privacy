@@ -1,0 +1,17 @@
+{
+  "dataset": "dna",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.7993887255487264,
+  "n_samples": 3186,
+  "n_features": 540,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 0.62,
+  "tpr_at_fpr_10": 0.391714,
+  "tpr_at_fpr_01": 0.041431,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.999372,
+  "test_acc": 0.948525,
+  "gen_gap": 0.050847
+}

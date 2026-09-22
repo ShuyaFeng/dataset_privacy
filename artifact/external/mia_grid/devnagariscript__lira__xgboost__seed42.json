@@ -1,0 +1,15 @@
+{
+  "dataset": "devnagariscript",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.9688121507010837,
+  "n_samples": 30000,
+  "n_features": 1024,
+  "n_classes": 46,
+  "seed": 42,
+  "elapsed_sec": 13120.0,
+  "tpr_at_fpr_10": 0.900636,
+  "tpr_at_fpr_01": 0.580127,
+  "tpr_at_fpr_001": 0.158743,
+  "lira_eval_n": 2000
+}

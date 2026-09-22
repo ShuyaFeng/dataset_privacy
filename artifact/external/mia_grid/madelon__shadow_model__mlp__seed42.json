@@ -1,0 +1,14 @@
+{
+  "dataset": "madelon",
+  "attack": "shadow_model",
+  "model": "mlp",
+  "auc": 0.8824333579881657,
+  "n_samples": 2600,
+  "n_features": 500,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 10.65,
+  "tpr_at_fpr_10": 0.304615,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

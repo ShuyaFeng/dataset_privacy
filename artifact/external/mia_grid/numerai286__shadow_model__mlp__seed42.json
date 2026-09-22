@@ -1,0 +1,14 @@
+{
+  "dataset": "numerai286",
+  "attack": "shadow_model",
+  "model": "mlp",
+  "auc": 0.69912683,
+  "n_samples": 30000,
+  "n_features": 21,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 81.14,
+  "tpr_at_fpr_10": 0.2058,
+  "tpr_at_fpr_01": 0.0206,
+  "tpr_at_fpr_001": 0.002467
+}

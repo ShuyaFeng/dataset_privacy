@@ -1,0 +1,14 @@
+{
+  "dataset": "steelplatesfault",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.6963487530126238,
+  "n_samples": 1941,
+  "n_features": 27,
+  "n_classes": 7,
+  "seed": 42,
+  "elapsed_sec": 7.29,
+  "tpr_at_fpr_10": 0.12268,
+  "tpr_at_fpr_01": 0.012371,
+  "tpr_at_fpr_001": 0.001031
+}

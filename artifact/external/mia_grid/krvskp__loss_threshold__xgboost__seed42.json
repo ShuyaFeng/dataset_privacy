@@ -1,0 +1,17 @@
+{
+  "dataset": "krvskp",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5013240110839425,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 12.94,
+  "tpr_at_fpr_10": 0.100751,
+  "tpr_at_fpr_01": 0.007509,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.997497,
+  "test_acc": 0.990613,
+  "gen_gap": 0.006884
+}

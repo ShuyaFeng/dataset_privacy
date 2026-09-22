@@ -1,0 +1,17 @@
+{
+  "dataset": "steelplatesfault",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.7627289328675931,
+  "n_samples": 1941,
+  "n_features": 27,
+  "n_classes": 7,
+  "seed": 42,
+  "elapsed_sec": 0.57,
+  "tpr_at_fpr_10": 0.127835,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.77034,
+  "gen_gap": 0.22966
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "gesturephasesegmenta",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9980798907238965,
+  "n_samples": 9873,
+  "n_features": 32,
+  "n_classes": 5,
+  "seed": 42,
+  "elapsed_sec": 39.71,
+  "tpr_at_fpr_10": 0.997421,
+  "tpr_at_fpr_01": 0.989305,
+  "tpr_at_fpr_001": 0.814281,
+  "lira_eval_n": 2000
+}

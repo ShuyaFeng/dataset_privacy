@@ -1,0 +1,15 @@
+{
+  "dataset": "wilt",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.5294839522075094,
+  "n_samples": 4839,
+  "n_features": 5,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 9.75,
+  "tpr_at_fpr_10": 0.119862,
+  "tpr_at_fpr_01": 0.013388,
+  "tpr_at_fpr_001": 0.001939,
+  "lira_eval_n": 2000
+}

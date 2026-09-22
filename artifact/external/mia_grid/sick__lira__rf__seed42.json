@@ -1,0 +1,15 @@
+{
+  "dataset": "sick",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.6825398104552336,
+  "n_samples": 3772,
+  "n_features": 75,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 13.1,
+  "tpr_at_fpr_10": 0.171598,
+  "tpr_at_fpr_01": 0.017728,
+  "tpr_at_fpr_001": 6.3e-05,
+  "lira_eval_n": 2000
+}

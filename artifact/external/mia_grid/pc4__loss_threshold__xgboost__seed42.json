@@ -1,0 +1,17 @@
+{
+  "dataset": "pc4",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5422624524641493,
+  "n_samples": 1458,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.42,
+  "tpr_at_fpr_10": 0.097394,
+  "tpr_at_fpr_01": 0.005487,
+  "tpr_at_fpr_001": 0.001372,
+  "train_acc": 1.0,
+  "test_acc": 0.903978,
+  "gen_gap": 0.096022
+}

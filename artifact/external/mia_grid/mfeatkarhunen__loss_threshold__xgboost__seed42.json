@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatkarhunen",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.6537285,
+  "n_samples": 2000,
+  "n_features": 64,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 9.85,
+  "tpr_at_fpr_10": 0.158,
+  "tpr_at_fpr_01": 0.016,
+  "tpr_at_fpr_001": 0.007,
+  "train_acc": 1.0,
+  "test_acc": 0.946,
+  "gen_gap": 0.054
+}

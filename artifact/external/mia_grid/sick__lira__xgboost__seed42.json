@@ -1,0 +1,15 @@
+{
+  "dataset": "sick",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.5312512800274147,
+  "n_samples": 3772,
+  "n_features": 75,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 11.17,
+  "tpr_at_fpr_10": 0.128509,
+  "tpr_at_fpr_01": 0.013879,
+  "tpr_at_fpr_001": 0.000757,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatfourier",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.668776,
+  "n_samples": 2000,
+  "n_features": 76,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 5.09,
+  "tpr_at_fpr_10": 0.123,
+  "tpr_at_fpr_01": 0.02,
+  "tpr_at_fpr_001": 0.008,
+  "train_acc": 1.0,
+  "test_acc": 0.822,
+  "gen_gap": 0.178
+}

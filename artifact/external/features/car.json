@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 3.000000238418579,
+ "uniqueness_p90": 3.000000238418579,
+ "density_mean": 0.3333333068423822,
+ "density_p90": 0.3333333068423822,
+ "outlier_mean": 0.26732508127246707,
+ "outlier_p90": 0.36668401618109536,
+ "entropy": 0.6666666666666666,
+ "cluster_sep": -0.00530404644086957,
+ "disagree5": 0.2965277777777778,
+ "disagree20": 0.2734375,
+ "nn1_error": 0.29282407407407407,
+ "n_classes": 4,
+ "chance_disagreement": 0.457283763074417,
+ "n_samples": 1728,
+ "n_features": 27,
+ "elapsed_sec": 0.5,
+ "dataset": "car"
+}

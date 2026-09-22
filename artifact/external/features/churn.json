@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 3.5523474807977675,
+ "uniqueness_p90": 4.485181474685669,
+ "density_mean": 0.29593682520446946,
+ "density_p90": 0.37304682508843867,
+ "outlier_mean": 0.18997438043833673,
+ "outlier_p90": 0.3064656521124085,
+ "entropy": 2.231847322457746,
+ "cluster_sep": 0.11230379343032837,
+ "disagree5": 0.14704,
+ "disagree20": 0.15643,
+ "nn1_error": 0.1356,
+ "n_classes": 2,
+ "chance_disagreement": 0.24281207999999999,
+ "n_samples": 5000,
+ "n_features": 37,
+ "elapsed_sec": 1.2,
+ "dataset": "churn"
+}

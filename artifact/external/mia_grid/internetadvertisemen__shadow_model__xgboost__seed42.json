@@ -1,0 +1,14 @@
+{
+  "dataset": "internetadvertisemen",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5194606690575752,
+  "n_samples": 3279,
+  "n_features": 4668,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 9.55,
+  "tpr_at_fpr_10": 0.09335,
+  "tpr_at_fpr_01": 0.013423,
+  "tpr_at_fpr_001": 0.00061
+}

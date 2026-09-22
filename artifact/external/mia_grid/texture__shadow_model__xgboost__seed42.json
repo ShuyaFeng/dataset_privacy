@@ -1,0 +1,14 @@
+{
+  "dataset": "texture",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5573442644628099,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 8.86,
+  "tpr_at_fpr_10": 0.125818,
+  "tpr_at_fpr_01": 0.012364,
+  "tpr_at_fpr_001": 0.002182
+}

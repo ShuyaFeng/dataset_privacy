@@ -1,0 +1,17 @@
+{
+  "dataset": "junglechess2pcsrawen",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.6455814822222222,
+  "n_samples": 30000,
+  "n_features": 6,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 1.37,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.809467,
+  "gen_gap": 0.190533
+}

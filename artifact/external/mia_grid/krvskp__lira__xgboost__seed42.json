@@ -1,0 +1,15 @@
+{
+  "dataset": "krvskp",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.536474014496661,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 14.09,
+  "tpr_at_fpr_10": 0.124356,
+  "tpr_at_fpr_01": 0.011751,
+  "tpr_at_fpr_001": 0.001571,
+  "lira_eval_n": 2000
+}

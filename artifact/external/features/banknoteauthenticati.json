@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 0.26406078241882575,
+ "uniqueness_p90": 0.3926631703240387,
+ "density_mean": 4.294765877804271,
+ "density_p90": 6.296073634120406,
+ "outlier_mean": 0.17271326583578128,
+ "outlier_p90": 0.3264631012163063,
+ "entropy": 5.152655319204862,
+ "cluster_sep": 0.2009347677230835,
+ "disagree5": 0.001749271137026239,
+ "disagree20": 0.012755102040816327,
+ "nn1_error": 0.002186588921282799,
+ "n_classes": 2,
+ "chance_disagreement": 0.49386310125882926,
+ "n_samples": 1372,
+ "n_features": 4,
+ "elapsed_sec": 0.5,
+ "dataset": "banknoteauthenticati"
+}

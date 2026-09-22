@@ -1,0 +1,14 @@
+{
+  "dataset": "isolet",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.6442636404382542,
+  "n_samples": 7797,
+  "n_features": 617,
+  "n_classes": 26,
+  "seed": 42,
+  "elapsed_sec": 325.3,
+  "tpr_at_fpr_10": 0.134684,
+  "tpr_at_fpr_01": 0.014366,
+  "tpr_at_fpr_001": 0.002822
+}

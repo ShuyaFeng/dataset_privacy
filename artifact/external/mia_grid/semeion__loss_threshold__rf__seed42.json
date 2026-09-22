@@ -1,0 +1,17 @@
+{
+  "dataset": "semeion",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.8495157720850173,
+  "n_samples": 1593,
+  "n_features": 256,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 0.63,
+  "tpr_at_fpr_10": 0.413317,
+  "tpr_at_fpr_01": 0.025126,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.934755,
+  "gen_gap": 0.065245
+}

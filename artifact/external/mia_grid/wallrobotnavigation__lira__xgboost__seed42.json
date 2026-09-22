@@ -1,0 +1,15 @@
+{
+  "dataset": "wallrobotnavigation",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.5228426477870337,
+  "n_samples": 5456,
+  "n_features": 24,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 18.47,
+  "tpr_at_fpr_10": 0.113116,
+  "tpr_at_fpr_01": 0.008111,
+  "tpr_at_fpr_001": 0.00044,
+  "lira_eval_n": 2000
+}

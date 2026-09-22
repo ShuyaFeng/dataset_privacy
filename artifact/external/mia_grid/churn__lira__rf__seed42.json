@@ -1,0 +1,15 @@
+{
+  "dataset": "churn",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.8972003145758767,
+  "n_samples": 5000,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 16.76,
+  "tpr_at_fpr_10": 0.719485,
+  "tpr_at_fpr_01": 0.192519,
+  "tpr_at_fpr_001": 0.010219,
+  "lira_eval_n": 2000
+}

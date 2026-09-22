@@ -1,0 +1,17 @@
+{
+  "dataset": "cnae9",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5477520576131687,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 2.63,
+  "tpr_at_fpr_10": 0.127778,
+  "tpr_at_fpr_01": 0.007407,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.987037,
+  "test_acc": 0.9,
+  "gen_gap": 0.087037
+}

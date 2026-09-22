@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatpixel",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.524615,
+  "n_samples": 2000,
+  "n_features": 240,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 4.12,
+  "tpr_at_fpr_10": 0.09,
+  "tpr_at_fpr_01": 0.014,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.968,
+  "gen_gap": 0.032
+}

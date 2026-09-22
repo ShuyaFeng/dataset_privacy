@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatmorphological",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.509398,
+  "n_samples": 2000,
+  "n_features": 6,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 3.68,
+  "tpr_at_fpr_10": 0.111,
+  "tpr_at_fpr_01": 0.009,
+  "tpr_at_fpr_001": 0.003,
+  "train_acc": 0.773,
+  "test_acc": 0.734,
+  "gen_gap": 0.039
+}

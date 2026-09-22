@@ -1,0 +1,15 @@
+{
+  "dataset": "cmc",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.8799842684332042,
+  "n_samples": 1473,
+  "n_features": 31,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 23.5,
+  "tpr_at_fpr_10": 0.605895,
+  "tpr_at_fpr_01": 0.17044,
+  "tpr_at_fpr_001": 0.017599,
+  "lira_eval_n": 1473
+}

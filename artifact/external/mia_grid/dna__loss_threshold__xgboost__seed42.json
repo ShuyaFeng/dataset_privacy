@@ -1,0 +1,17 @@
+{
+  "dataset": "dna",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5539398868795488,
+  "n_samples": 3186,
+  "n_features": 540,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 2.12,
+  "tpr_at_fpr_10": 0.1086,
+  "tpr_at_fpr_01": 0.009416,
+  "tpr_at_fpr_001": 0.001883,
+  "train_acc": 0.999372,
+  "test_acc": 0.962335,
+  "gen_gap": 0.037037
+}

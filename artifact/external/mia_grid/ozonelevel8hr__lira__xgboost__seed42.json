@@ -1,0 +1,15 @@
+{
+  "dataset": "ozonelevel8hr",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6227907033769793,
+  "n_samples": 2534,
+  "n_features": 72,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 12.42,
+  "tpr_at_fpr_10": 0.206399,
+  "tpr_at_fpr_01": 0.057819,
+  "tpr_at_fpr_001": 0.006361,
+  "lira_eval_n": 2000
+}

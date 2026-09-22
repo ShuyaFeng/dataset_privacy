@@ -1,0 +1,14 @@
+{
+  "dataset": "churn",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.7178929999999999,
+  "n_samples": 5000,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 3.46,
+  "tpr_at_fpr_10": 0.3276,
+  "tpr_at_fpr_01": 0.0596,
+  "tpr_at_fpr_001": 0.0
+}

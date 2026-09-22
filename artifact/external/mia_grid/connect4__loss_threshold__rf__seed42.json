@@ -1,0 +1,17 @@
+{
+  "dataset": "connect4",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.7725735555555556,
+  "n_samples": 30000,
+  "n_features": 168,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 3.06,
+  "tpr_at_fpr_10": 0.281667,
+  "tpr_at_fpr_01": 0.0394,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.803267,
+  "gen_gap": 0.196733
+}

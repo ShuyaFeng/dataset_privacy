@@ -1,0 +1,14 @@
+{
+  "dataset": "wilt",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5127662718355717,
+  "n_samples": 4839,
+  "n_features": 5,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.8,
+  "tpr_at_fpr_10": 0.11575,
+  "tpr_at_fpr_01": 0.015296,
+  "tpr_at_fpr_001": 0.000413
+}

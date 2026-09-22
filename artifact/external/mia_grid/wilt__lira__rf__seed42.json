@@ -1,0 +1,15 @@
+{
+  "dataset": "wilt",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.6338740072415462,
+  "n_samples": 4839,
+  "n_features": 5,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 14.24,
+  "tpr_at_fpr_10": 0.141132,
+  "tpr_at_fpr_01": 0.018079,
+  "tpr_at_fpr_001": 0.000188,
+  "lira_eval_n": 2000
+}

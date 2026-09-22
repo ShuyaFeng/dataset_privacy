@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatkarhunen",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.8693690000000001,
+  "n_samples": 2000,
+  "n_features": 64,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 0.72,
+  "tpr_at_fpr_10": 0.514,
+  "tpr_at_fpr_01": 0.098,
+  "tpr_at_fpr_001": 0.023,
+  "train_acc": 1.0,
+  "test_acc": 0.957,
+  "gen_gap": 0.043
+}

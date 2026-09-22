@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatfourier",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.9063004826231134,
+  "n_samples": 2000,
+  "n_features": 76,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 67.01,
+  "tpr_at_fpr_10": 0.67329,
+  "tpr_at_fpr_01": 0.331363,
+  "tpr_at_fpr_001": 0.037286,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 1.3020242909717055,
+ "uniqueness_p90": 3.336486077308655,
+ "density_mean": 5.225237650700635,
+ "density_p90": 19.267013109370154,
+ "outlier_mean": 0.10220282127877413,
+ "outlier_p90": 0.22204348590164527,
+ "entropy": 2.6067880401424626,
+ "cluster_sep": -0.09927003085613251,
+ "disagree5": 0.4887544949329846,
+ "disagree20": 0.5620954560313828,
+ "nn1_error": 0.38819875776397517,
+ "n_classes": 6,
+ "chance_disagreement": 0.7522142444104348,
+ "n_samples": 6118,
+ "n_features": 51,
+ "elapsed_sec": 4.0,
+ "dataset": "firstordertheorempro"
+}

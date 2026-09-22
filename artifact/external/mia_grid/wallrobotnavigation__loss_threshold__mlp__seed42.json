@@ -1,0 +1,17 @@
+{
+  "dataset": "wallrobotnavigation",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5323245118506033,
+  "n_samples": 5456,
+  "n_features": 24,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 6.21,
+  "tpr_at_fpr_10": 0.090909,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.990103,
+  "test_acc": 0.917155,
+  "gen_gap": 0.072947
+}

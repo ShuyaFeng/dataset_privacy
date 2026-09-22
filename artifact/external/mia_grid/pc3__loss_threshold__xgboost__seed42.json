@@ -1,0 +1,17 @@
+{
+  "dataset": "pc3",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5520342468669258,
+  "n_samples": 1563,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.81,
+  "tpr_at_fpr_10": 0.116517,
+  "tpr_at_fpr_01": 0.016645,
+  "tpr_at_fpr_001": 0.003841,
+  "train_acc": 0.996159,
+  "test_acc": 0.892583,
+  "gen_gap": 0.103576
+}

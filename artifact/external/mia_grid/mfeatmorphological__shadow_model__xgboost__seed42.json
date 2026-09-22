@@ -1,0 +1,14 @@
+{
+  "dataset": "mfeatmorphological",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.623039,
+  "n_samples": 2000,
+  "n_features": 6,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 6.21,
+  "tpr_at_fpr_10": 0.13,
+  "tpr_at_fpr_01": 0.017,
+  "tpr_at_fpr_001": 0.006
+}

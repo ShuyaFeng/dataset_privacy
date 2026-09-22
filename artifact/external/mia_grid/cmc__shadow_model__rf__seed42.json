@@ -1,0 +1,14 @@
+{
+  "dataset": "cmc",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.8669960013421036,
+  "n_samples": 1473,
+  "n_features": 31,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 1.94,
+  "tpr_at_fpr_10": 0.505435,
+  "tpr_at_fpr_01": 0.063859,
+  "tpr_at_fpr_001": 0.016304
+}

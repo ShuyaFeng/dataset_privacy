@@ -1,0 +1,14 @@
+{
+  "dataset": "churn",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.56463832,
+  "n_samples": 5000,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 16.72,
+  "tpr_at_fpr_10": 0.1188,
+  "tpr_at_fpr_01": 0.01,
+  "tpr_at_fpr_001": 0.0036
+}

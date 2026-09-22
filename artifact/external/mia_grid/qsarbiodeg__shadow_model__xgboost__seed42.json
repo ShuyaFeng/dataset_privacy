@@ -1,0 +1,14 @@
+{
+  "dataset": "qsarbiodeg",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.602500035938129,
+  "n_samples": 1055,
+  "n_features": 41,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.01,
+  "tpr_at_fpr_10": 0.106262,
+  "tpr_at_fpr_01": 0.01518,
+  "tpr_at_fpr_001": 0.00759
+}

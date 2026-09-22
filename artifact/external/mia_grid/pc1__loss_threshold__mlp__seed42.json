@@ -1,0 +1,17 @@
+{
+  "dataset": "pc1",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.48760529482551146,
+  "n_samples": 1109,
+  "n_features": 21,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 3.21,
+  "tpr_at_fpr_10": 0.095668,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.945848,
+  "test_acc": 0.924324,
+  "gen_gap": 0.021524
+}

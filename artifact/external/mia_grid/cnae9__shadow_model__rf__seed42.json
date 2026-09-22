@@ -1,0 +1,14 @@
+{
+  "dataset": "cnae9",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.674954561042524,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 2.17,
+  "tpr_at_fpr_10": 0.168519,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

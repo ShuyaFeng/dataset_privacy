@@ -1,0 +1,14 @@
+{
+  "dataset": "sick",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.49900952236100354,
+  "n_samples": 3772,
+  "n_features": 75,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.81,
+  "tpr_at_fpr_10": 0.099152,
+  "tpr_at_fpr_01": 0.009014,
+  "tpr_at_fpr_001": 0.00106
+}

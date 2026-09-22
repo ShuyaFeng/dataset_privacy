@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatzernike",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.791686,
+  "n_samples": 2000,
+  "n_features": 47,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 0.66,
+  "tpr_at_fpr_10": 0.256,
+  "tpr_at_fpr_01": 0.028,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.78,
+  "gen_gap": 0.22
+}

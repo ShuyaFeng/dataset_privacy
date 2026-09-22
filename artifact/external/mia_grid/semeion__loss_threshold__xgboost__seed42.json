@@ -1,0 +1,17 @@
+{
+  "dataset": "semeion",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.6591284528035408,
+  "n_samples": 1593,
+  "n_features": 256,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 2.21,
+  "tpr_at_fpr_10": 0.121859,
+  "tpr_at_fpr_01": 0.01005,
+  "tpr_at_fpr_001": 0.001256,
+  "train_acc": 1.0,
+  "test_acc": 0.915935,
+  "gen_gap": 0.084065
+}

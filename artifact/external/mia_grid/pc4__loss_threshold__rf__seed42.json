@@ -1,0 +1,17 @@
+{
+  "dataset": "pc4",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.6225451178964363,
+  "n_samples": 1458,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 0.52,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.901235,
+  "gen_gap": 0.098765
+}

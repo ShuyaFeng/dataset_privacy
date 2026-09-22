@@ -1,0 +1,15 @@
+{
+  "dataset": "texture",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.5170009326277246,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 73.96,
+  "tpr_at_fpr_10": 0.115399,
+  "tpr_at_fpr_01": 0.008674,
+  "tpr_at_fpr_001": 0.000943,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "splice",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6757281325696367,
+  "n_samples": 3190,
+  "n_features": 347,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 29.42,
+  "tpr_at_fpr_10": 0.245534,
+  "tpr_at_fpr_01": 0.055914,
+  "tpr_at_fpr_001": 0.009215,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "dna",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6858633886260226,
+  "n_samples": 3186,
+  "n_features": 540,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 20.63,
+  "tpr_at_fpr_10": 0.269486,
+  "tpr_at_fpr_01": 0.070042,
+  "tpr_at_fpr_001": 0.009419,
+  "lira_eval_n": 2000
+}

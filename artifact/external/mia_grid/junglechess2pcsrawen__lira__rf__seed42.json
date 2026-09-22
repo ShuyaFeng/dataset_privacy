@@ -1,0 +1,15 @@
+{
+  "dataset": "junglechess2pcsrawen",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.850147103042433,
+  "n_samples": 30000,
+  "n_features": 6,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 22.68,
+  "tpr_at_fpr_10": 0.587872,
+  "tpr_at_fpr_01": 0.051382,
+  "tpr_at_fpr_001": 0.000378,
+  "lira_eval_n": 2000
+}

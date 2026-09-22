@@ -1,0 +1,17 @@
+{
+  "dataset": "wallrobotnavigation",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5064043405629467,
+  "n_samples": 5456,
+  "n_features": 24,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 1.85,
+  "tpr_at_fpr_10": 0.102639,
+  "tpr_at_fpr_01": 0.008798,
+  "tpr_at_fpr_001": 0.000733,
+  "train_acc": 1.0,
+  "test_acc": 0.996334,
+  "gen_gap": 0.003666
+}

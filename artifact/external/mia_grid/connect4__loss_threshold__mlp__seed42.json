@@ -1,0 +1,17 @@
+{
+  "dataset": "connect4",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5564222088888889,
+  "n_samples": 30000,
+  "n_features": 168,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 23.04,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.973067,
+  "test_acc": 0.799133,
+  "gen_gap": 0.173933
+}

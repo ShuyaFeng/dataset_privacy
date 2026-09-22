@@ -1,0 +1,15 @@
+{
+  "dataset": "qsarbiodeg",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.5700762700675351,
+  "n_samples": 1055,
+  "n_features": 41,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 21.05,
+  "tpr_at_fpr_10": 0.158415,
+  "tpr_at_fpr_01": 0.013806,
+  "tpr_at_fpr_001": 0.001785,
+  "lira_eval_n": 1055
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "semeion",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.8645334608956528,
+  "n_samples": 1593,
+  "n_features": 256,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 27.93,
+  "tpr_at_fpr_10": 0.564998,
+  "tpr_at_fpr_01": 0.187806,
+  "tpr_at_fpr_001": 0.016348,
+  "lira_eval_n": 1593
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "dna",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.8061155719329192,
+  "n_samples": 3186,
+  "n_features": 540,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 3.47,
+  "tpr_at_fpr_10": 0.367232,
+  "tpr_at_fpr_01": 0.025738,
+  "tpr_at_fpr_001": 0.0
+}

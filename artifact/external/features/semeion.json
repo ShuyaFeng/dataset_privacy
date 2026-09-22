@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 15.384626339459224,
+ "uniqueness_p90": 17.368218612670898,
+ "density_mean": 0.06583478579784952,
+ "density_p90": 0.07670469268441699,
+ "outlier_mean": 0.24395878300985158,
+ "outlier_p90": 0.39398026945640224,
+ "entropy": 0.8750074779214245,
+ "cluster_sep": 0.0498666912317276,
+ "disagree5": 0.13684871311989957,
+ "disagree20": 0.24726930320150659,
+ "nn1_error": 0.0778405524168236,
+ "n_classes": 10,
+ "chance_disagreement": 0.899984986103279,
+ "n_samples": 1593,
+ "n_features": 256,
+ "elapsed_sec": 4.5,
+ "dataset": "semeion"
+}

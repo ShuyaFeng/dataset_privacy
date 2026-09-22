@@ -1,0 +1,15 @@
+{
+  "dataset": "pc1",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.537708973329567,
+  "n_samples": 1109,
+  "n_features": 21,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 23.28,
+  "tpr_at_fpr_10": 0.134948,
+  "tpr_at_fpr_01": 0.016755,
+  "tpr_at_fpr_001": 0.000453,
+  "lira_eval_n": 1109
+}

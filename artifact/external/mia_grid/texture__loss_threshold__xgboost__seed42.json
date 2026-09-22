@@ -1,0 +1,17 @@
+{
+  "dataset": "texture",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5579867768595042,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 3.48,
+  "tpr_at_fpr_10": 0.115273,
+  "tpr_at_fpr_01": 0.011636,
+  "tpr_at_fpr_001": 0.000364,
+  "train_acc": 1.0,
+  "test_acc": 0.978545,
+  "gen_gap": 0.021455
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "cnae9",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5403965192043896,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 7.52,
+  "tpr_at_fpr_10": 0.101852,
+  "tpr_at_fpr_01": 0.016667,
+  "tpr_at_fpr_001": 0.0
+}

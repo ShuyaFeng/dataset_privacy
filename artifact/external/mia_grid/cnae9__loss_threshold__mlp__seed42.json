@@ -1,0 +1,17 @@
+{
+  "dataset": "cnae9",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.7411865569272976,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 3.37,
+  "tpr_at_fpr_10": 0.227778,
+  "tpr_at_fpr_01": 0.059259,
+  "tpr_at_fpr_001": 0.035185,
+  "train_acc": 1.0,
+  "test_acc": 0.894444,
+  "gen_gap": 0.105556
+}

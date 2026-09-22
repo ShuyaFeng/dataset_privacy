@@ -1,0 +1,17 @@
+{
+  "dataset": "gesturephasesegmenta",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.6467944849019854,
+  "n_samples": 9873,
+  "n_features": 32,
+  "n_classes": 5,
+  "seed": 42,
+  "elapsed_sec": 9.88,
+  "tpr_at_fpr_10": 0.163695,
+  "tpr_at_fpr_01": 0.013169,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.774919,
+  "test_acc": 0.55317,
+  "gen_gap": 0.221749
+}

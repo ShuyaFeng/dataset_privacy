@@ -1,0 +1,15 @@
+{
+  "dataset": "krvskp",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.8108268235804548,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 13.31,
+  "tpr_at_fpr_10": 0.497549,
+  "tpr_at_fpr_01": 0.062775,
+  "tpr_at_fpr_001": 0.001634,
+  "lira_eval_n": 2000
+}

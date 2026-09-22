@@ -1,0 +1,17 @@
+{
+  "dataset": "churn",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5739817599999999,
+  "n_samples": 5000,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.53,
+  "tpr_at_fpr_10": 0.1224,
+  "tpr_at_fpr_01": 0.0124,
+  "tpr_at_fpr_001": 0.0008,
+  "train_acc": 1.0,
+  "test_acc": 0.9416,
+  "gen_gap": 0.0584
+}

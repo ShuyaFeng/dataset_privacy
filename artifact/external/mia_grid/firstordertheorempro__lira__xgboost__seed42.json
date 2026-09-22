@@ -1,0 +1,15 @@
+{
+  "dataset": "firstordertheorempro",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.8978969546663268,
+  "n_samples": 6118,
+  "n_features": 51,
+  "n_classes": 6,
+  "seed": 42,
+  "elapsed_sec": 59.7,
+  "tpr_at_fpr_10": 0.649407,
+  "tpr_at_fpr_01": 0.269332,
+  "tpr_at_fpr_001": 0.021362,
+  "lira_eval_n": 2000
+}

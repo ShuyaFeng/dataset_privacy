@@ -1,0 +1,17 @@
+{
+  "dataset": "bioresponse",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.8470574271499645,
+  "n_samples": 3751,
+  "n_features": 1776,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.37,
+  "tpr_at_fpr_10": 0.427733,
+  "tpr_at_fpr_01": 0.0688,
+  "tpr_at_fpr_001": 0.010667,
+  "train_acc": 1.0,
+  "test_acc": 0.779318,
+  "gen_gap": 0.220682
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "bioresponse",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.7302433191186922,
+  "n_samples": 3751,
+  "n_features": 1776,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 11.33,
+  "tpr_at_fpr_10": 0.176533,
+  "tpr_at_fpr_01": 0.018667,
+  "tpr_at_fpr_001": 0.0016
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "banknoteauthenticati",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.6569034958153002,
+  "n_samples": 1372,
+  "n_features": 4,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 10.93,
+  "tpr_at_fpr_10": 0.195506,
+  "tpr_at_fpr_01": 0.015103,
+  "tpr_at_fpr_001": 0.000184,
+  "lira_eval_n": 1372
+}

@@ -1,0 +1,17 @@
+{
+  "dataset": "miceprotein",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5702006172839507,
+  "n_samples": 1080,
+  "n_features": 77,
+  "n_classes": 8,
+  "seed": 42,
+  "elapsed_sec": 3.61,
+  "tpr_at_fpr_10": 0.12963,
+  "tpr_at_fpr_01": 0.007407,
+  "tpr_at_fpr_001": 0.001852,
+  "train_acc": 1.0,
+  "test_acc": 0.998148,
+  "gen_gap": 0.001852
+}

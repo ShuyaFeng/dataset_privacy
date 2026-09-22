@@ -1,0 +1,14 @@
+{
+  "dataset": "ozonelevel8hr",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5315389471926861,
+  "n_samples": 2534,
+  "n_features": 72,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.94,
+  "tpr_at_fpr_10": 0.097869,
+  "tpr_at_fpr_01": 0.009471,
+  "tpr_at_fpr_001": 0.0
+}

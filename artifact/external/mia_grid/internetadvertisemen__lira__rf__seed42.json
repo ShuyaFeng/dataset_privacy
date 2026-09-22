@@ -1,0 +1,15 @@
+{
+  "dataset": "internetadvertisemen",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.619500742595886,
+  "n_samples": 3279,
+  "n_features": 4668,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 22.91,
+  "tpr_at_fpr_10": 0.138492,
+  "tpr_at_fpr_01": 0.014585,
+  "tpr_at_fpr_001": 0.00088,
+  "lira_eval_n": 2000
+}

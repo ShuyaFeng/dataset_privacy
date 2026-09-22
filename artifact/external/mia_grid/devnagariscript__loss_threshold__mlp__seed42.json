@@ -1,0 +1,17 @@
+{
+  "dataset": "devnagariscript",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.6065039533333334,
+  "n_samples": 30000,
+  "n_features": 1024,
+  "n_classes": 46,
+  "seed": 42,
+  "elapsed_sec": 22.8,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.8396,
+  "gen_gap": 0.1604
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "texture",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.6238651074380166,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 4.86,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0
+}

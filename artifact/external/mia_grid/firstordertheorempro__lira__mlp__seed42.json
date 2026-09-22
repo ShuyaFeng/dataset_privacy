@@ -1,0 +1,15 @@
+{
+  "dataset": "firstordertheorempro",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.6486648998727705,
+  "n_samples": 6118,
+  "n_features": 51,
+  "n_classes": 6,
+  "seed": 42,
+  "elapsed_sec": 81.4,
+  "tpr_at_fpr_10": 0.229544,
+  "tpr_at_fpr_01": 0.022174,
+  "tpr_at_fpr_001": 0.000999,
+  "lira_eval_n": 2000
+}

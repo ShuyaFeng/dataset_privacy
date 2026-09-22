@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 2.3732691888698767,
+ "uniqueness_p90": 5.345143699645997,
+ "density_mean": 1.3472491323461409,
+ "density_p90": 4.138160796567815,
+ "outlier_mean": 0.11744416192390505,
+ "outlier_p90": 0.24156811546240667,
+ "entropy": 2.2767305195255467,
+ "cluster_sep": -0.15445378422737122,
+ "disagree5": 0.4626152132077383,
+ "disagree20": 0.5549022586853034,
+ "nn1_error": 0.3519700192444039,
+ "n_classes": 5,
+ "chance_disagreement": 0.7661933928459551,
+ "n_samples": 9873,
+ "n_features": 32,
+ "elapsed_sec": 1.0,
+ "dataset": "gesturephasesegmenta"
+}

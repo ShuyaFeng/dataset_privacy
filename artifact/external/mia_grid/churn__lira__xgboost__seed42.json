@@ -1,0 +1,15 @@
+{
+  "dataset": "churn",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6399113378100941,
+  "n_samples": 5000,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 13.42,
+  "tpr_at_fpr_10": 0.215921,
+  "tpr_at_fpr_01": 0.050716,
+  "tpr_at_fpr_001": 0.014698,
+  "lira_eval_n": 2000
+}

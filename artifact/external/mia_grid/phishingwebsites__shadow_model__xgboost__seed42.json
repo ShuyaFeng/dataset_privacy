@@ -1,0 +1,14 @@
+{
+  "dataset": "phishingwebsites",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5038513693925125,
+  "n_samples": 11055,
+  "n_features": 98,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 2.4,
+  "tpr_at_fpr_10": 0.089018,
+  "tpr_at_fpr_01": 0.008504,
+  "tpr_at_fpr_001": 0.001267
+}

@@ -1,0 +1,17 @@
+{
+  "dataset": "texture",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.509348826446281,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 6.4,
+  "tpr_at_fpr_10": 0.097455,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.999273,
+  "test_acc": 0.996,
+  "gen_gap": 0.003273
+}

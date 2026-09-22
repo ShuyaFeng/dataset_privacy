@@ -1,0 +1,15 @@
+{
+  "dataset": "miceprotein",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.6031093929269047,
+  "n_samples": 1080,
+  "n_features": 77,
+  "n_classes": 8,
+  "seed": 42,
+  "elapsed_sec": 21.64,
+  "tpr_at_fpr_10": 0.174701,
+  "tpr_at_fpr_01": 0.010454,
+  "tpr_at_fpr_001": 0.000348,
+  "lira_eval_n": 1080
+}

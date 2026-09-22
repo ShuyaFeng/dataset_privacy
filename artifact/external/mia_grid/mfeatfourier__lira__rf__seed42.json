@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatfourier",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9894828403384329,
+  "n_samples": 2000,
+  "n_features": 76,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 17.73,
+  "tpr_at_fpr_10": 0.987928,
+  "tpr_at_fpr_01": 0.841424,
+  "tpr_at_fpr_001": 0.036972,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "isolet",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9947352706638809,
+  "n_samples": 7797,
+  "n_features": 617,
+  "n_classes": 26,
+  "seed": 42,
+  "elapsed_sec": 96.92,
+  "tpr_at_fpr_10": 0.994328,
+  "tpr_at_fpr_01": 0.938367,
+  "tpr_at_fpr_001": 0.405533,
+  "lira_eval_n": 2000
+}

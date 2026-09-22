@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 1.6663179169228037,
+ "uniqueness_p90": 3.0844480991363525,
+ "density_mean": 1.1262263824097722,
+ "density_p90": 2.250200581574398,
+ "outlier_mean": 0.1692982807546658,
+ "outlier_p90": 0.28314038969612426,
+ "entropy": 4.2145980576827915,
+ "cluster_sep": -0.017822595313191414,
+ "disagree5": 0.17151759530791788,
+ "disagree20": 0.26359054252199415,
+ "nn1_error": 0.11088709677419355,
+ "n_classes": 4,
+ "chance_disagreement": 0.6624121336460815,
+ "n_samples": 5456,
+ "n_features": 24,
+ "elapsed_sec": 0.7,
+ "dataset": "wallrobotnavigation"
+}

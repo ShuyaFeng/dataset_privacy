@@ -1,0 +1,15 @@
+{
+  "dataset": "bioresponse",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.7333531598910161,
+  "n_samples": 3751,
+  "n_features": 1776,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 56.31,
+  "tpr_at_fpr_10": 0.229168,
+  "tpr_at_fpr_01": 0.021754,
+  "tpr_at_fpr_001": 0.004063,
+  "lira_eval_n": 2000
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "cnae9",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.872670452295728,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 22.94,
+  "tpr_at_fpr_10": 0.59705,
+  "tpr_at_fpr_01": 0.304797,
+  "tpr_at_fpr_001": 0.139505,
+  "lira_eval_n": 1080
+}

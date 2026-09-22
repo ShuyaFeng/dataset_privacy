@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 3.8524891834975623,
+ "uniqueness_p90": 6.345145988464355,
+ "density_mean": 0.5354013050156118,
+ "density_p90": 2.437902509567231,
+ "outlier_mean": 0.17408603021332317,
+ "outlier_p90": 0.3274029892930492,
+ "entropy": 0.4880357113662144,
+ "cluster_sep": 0.053808826953172684,
+ "disagree5": 0.05642695612844867,
+ "disagree20": 0.10377204884667571,
+ "nn1_error": 0.02532790592492085,
+ "n_classes": 2,
+ "chance_disagreement": 0.49351508973777547,
+ "n_samples": 11055,
+ "n_features": 98,
+ "elapsed_sec": 9.1,
+ "dataset": "phishingwebsites"
+}

@@ -1,0 +1,17 @@
+{
+  "dataset": "wilt",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5033212446916456,
+  "n_samples": 4839,
+  "n_features": 5,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 1.38,
+  "tpr_at_fpr_10": 0.105415,
+  "tpr_at_fpr_01": 0.012815,
+  "tpr_at_fpr_001": 0.003721,
+  "train_acc": 0.999587,
+  "test_acc": 0.981818,
+  "gen_gap": 0.017768
+}

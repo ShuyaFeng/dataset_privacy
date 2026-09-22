@@ -1,0 +1,17 @@
+{
+  "dataset": "connect4",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5228879599999999,
+  "n_samples": 30000,
+  "n_features": 168,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 3.02,
+  "tpr_at_fpr_10": 0.099467,
+  "tpr_at_fpr_01": 0.009667,
+  "tpr_at_fpr_001": 0.001467,
+  "train_acc": 0.8664,
+  "test_acc": 0.8176,
+  "gen_gap": 0.0488
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "phishingwebsites",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.698036748558264,
+  "n_samples": 11055,
+  "n_features": 98,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 15.25,
+  "tpr_at_fpr_10": 0.282504,
+  "tpr_at_fpr_01": 0.030611,
+  "tpr_at_fpr_001": 0.000694,
+  "lira_eval_n": 2000
+}

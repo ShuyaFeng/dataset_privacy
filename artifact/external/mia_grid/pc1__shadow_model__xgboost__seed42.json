@@ -1,0 +1,14 @@
+{
+  "dataset": "pc1",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5268916479656552,
+  "n_samples": 1109,
+  "n_features": 21,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 12.9,
+  "tpr_at_fpr_10": 0.106498,
+  "tpr_at_fpr_01": 0.00722,
+  "tpr_at_fpr_001": 0.0
+}

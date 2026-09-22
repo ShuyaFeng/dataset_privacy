@@ -1,0 +1,17 @@
+{
+  "dataset": "firstordertheorempro",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5813862192186123,
+  "n_samples": 6118,
+  "n_features": 51,
+  "n_classes": 6,
+  "seed": 42,
+  "elapsed_sec": 6.26,
+  "tpr_at_fpr_10": 0.118339,
+  "tpr_at_fpr_01": 0.011115,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.679961,
+  "test_acc": 0.55541,
+  "gen_gap": 0.124551
+}

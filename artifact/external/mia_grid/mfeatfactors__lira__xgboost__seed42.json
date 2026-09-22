@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatfactors",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.7447955816562514,
+  "n_samples": 2000,
+  "n_features": 216,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 60.0,
+  "tpr_at_fpr_10": 0.340669,
+  "tpr_at_fpr_01": 0.071491,
+  "tpr_at_fpr_001": 0.009494,
+  "lira_eval_n": 2000
+}

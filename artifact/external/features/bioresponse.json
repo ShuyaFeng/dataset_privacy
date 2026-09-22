@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 28.69518208878735,
+ "uniqueness_p90": 52.83926010131836,
+ "density_mean": 0.0514402916194356,
+ "density_p90": 0.09153367457453893,
+ "outlier_mean": 0.11681251689018586,
+ "outlier_p90": 0.25184081273188363,
+ "entropy": 0.6315148670295223,
+ "cluster_sep": 0.005692436825484037,
+ "disagree5": 0.2958677685950413,
+ "disagree20": 0.3478539056251666,
+ "nn1_error": 0.2482004798720341,
+ "n_classes": 2,
+ "chance_disagreement": 0.49642896258500624,
+ "n_samples": 3751,
+ "n_features": 1776,
+ "elapsed_sec": 2.5,
+ "dataset": "bioresponse"
+}

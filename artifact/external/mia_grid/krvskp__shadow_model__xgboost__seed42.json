@@ -1,0 +1,14 @@
+{
+  "dataset": "krvskp",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.5039767814430115,
+  "n_samples": 3196,
+  "n_features": 109,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 6.25,
+  "tpr_at_fpr_10": 0.088861,
+  "tpr_at_fpr_01": 0.005632,
+  "tpr_at_fpr_001": 0.000626
+}

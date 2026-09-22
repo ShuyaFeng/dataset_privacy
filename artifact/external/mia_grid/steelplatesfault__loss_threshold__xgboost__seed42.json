@@ -1,0 +1,17 @@
+{
+  "dataset": "steelplatesfault",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.7028507118816822,
+  "n_samples": 1941,
+  "n_features": 27,
+  "n_classes": 7,
+  "seed": 42,
+  "elapsed_sec": 2.35,
+  "tpr_at_fpr_10": 0.123711,
+  "tpr_at_fpr_01": 0.017526,
+  "tpr_at_fpr_001": 0.004124,
+  "train_acc": 1.0,
+  "test_acc": 0.764161,
+  "gen_gap": 0.235839
+}

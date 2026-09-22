@@ -1,0 +1,15 @@
+{
+  "dataset": "wallrobotnavigation",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.7882687284140983,
+  "n_samples": 5456,
+  "n_features": 24,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 20.43,
+  "tpr_at_fpr_10": 0.457118,
+  "tpr_at_fpr_01": 0.042694,
+  "tpr_at_fpr_001": 0.000755,
+  "lira_eval_n": 2000
+}

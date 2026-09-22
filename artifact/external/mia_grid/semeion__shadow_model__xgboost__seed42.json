@@ -1,0 +1,14 @@
+{
+  "dataset": "semeion",
+  "attack": "shadow_model",
+  "model": "xgboost",
+  "auc": 0.678262312188294,
+  "n_samples": 1593,
+  "n_features": 256,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 5.28,
+  "tpr_at_fpr_10": 0.128141,
+  "tpr_at_fpr_01": 0.018844,
+  "tpr_at_fpr_001": 0.001256
+}

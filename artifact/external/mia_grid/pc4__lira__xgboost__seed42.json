@@ -1,0 +1,15 @@
+{
+  "dataset": "pc4",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6720272094376691,
+  "n_samples": 1458,
+  "n_features": 37,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 9.82,
+  "tpr_at_fpr_10": 0.260952,
+  "tpr_at_fpr_01": 0.054869,
+  "tpr_at_fpr_001": 0.004752,
+  "lira_eval_n": 1458
+}

@@ -1,0 +1,14 @@
+{
+  "dataset": "bioresponse",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.8366033404406539,
+  "n_samples": 3751,
+  "n_features": 1776,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 3.96,
+  "tpr_at_fpr_10": 0.398933,
+  "tpr_at_fpr_01": 0.052267,
+  "tpr_at_fpr_001": 0.005333
+}

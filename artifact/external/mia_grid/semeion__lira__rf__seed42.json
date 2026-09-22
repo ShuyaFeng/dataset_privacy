@@ -1,0 +1,15 @@
+{
+  "dataset": "semeion",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9911901050552185,
+  "n_samples": 1593,
+  "n_features": 256,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 11.81,
+  "tpr_at_fpr_10": 0.988469,
+  "tpr_at_fpr_01": 0.891249,
+  "tpr_at_fpr_001": 0.045017,
+  "lira_eval_n": 1593
+}

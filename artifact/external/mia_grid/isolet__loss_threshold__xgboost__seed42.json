@@ -1,0 +1,17 @@
+{
+  "dataset": "isolet",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.6357420717130111,
+  "n_samples": 7797,
+  "n_features": 617,
+  "n_classes": 26,
+  "seed": 42,
+  "elapsed_sec": 73.11,
+  "tpr_at_fpr_10": 0.136993,
+  "tpr_at_fpr_01": 0.010775,
+  "tpr_at_fpr_001": 0.000513,
+  "train_acc": 1.0,
+  "test_acc": 0.946397,
+  "gen_gap": 0.053603
+}

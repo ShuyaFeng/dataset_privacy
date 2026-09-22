@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 0.48585885016645247,
+ "uniqueness_p90": 0.5206342939725073,
+ "density_mean": 2.0838809976694215,
+ "density_p90": 2.715906000461036,
+ "outlier_mean": 0.3422603723628968,
+ "outlier_p90": 0.4795049593442726,
+ "entropy": 2.6965013254083376,
+ "cluster_sep": 0.016352910548448563,
+ "disagree5": 0.27532,
+ "disagree20": 0.24604166666666666,
+ "nn1_error": 0.2613333333333333,
+ "n_classes": 3,
+ "chance_disagreement": 0.5753597711111111,
+ "n_samples": 30000,
+ "n_features": 6,
+ "elapsed_sec": 6.7,
+ "dataset": "junglechess2pcsrawen"
+}

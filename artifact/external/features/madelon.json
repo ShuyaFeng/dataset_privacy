@@ -1,0 +1,19 @@
+{
+ "uniqueness_mean": 28.939627163960385,
+ "uniqueness_p90": 29.61331844329834,
+ "density_mean": 0.03456631269929331,
+ "density_p90": 0.035366333353933854,
+ "outlier_mean": 0.3882739845315932,
+ "outlier_p90": 0.5662464557509872,
+ "entropy": 4.645918695236466,
+ "cluster_sep": 0.0005430507590062916,
+ "disagree5": 0.47615384615384615,
+ "disagree20": 0.4771730769230769,
+ "nn1_error": 0.4703846153846154,
+ "n_classes": 2,
+ "chance_disagreement": 0.5,
+ "n_samples": 2600,
+ "n_features": 500,
+ "elapsed_sec": 3.3,
+ "dataset": "madelon"
+}

@@ -1,0 +1,17 @@
+{
+  "dataset": "car",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5217409068501372,
+  "n_samples": 1728,
+  "n_features": 27,
+  "n_classes": 4,
+  "seed": 42,
+  "elapsed_sec": 1.53,
+  "tpr_at_fpr_10": 0.097222,
+  "tpr_at_fpr_01": 0.013889,
+  "tpr_at_fpr_001": 0.00463,
+  "train_acc": 1.0,
+  "test_acc": 0.956019,
+  "gen_gap": 0.043981
+}

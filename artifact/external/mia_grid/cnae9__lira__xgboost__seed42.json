@@ -1,0 +1,15 @@
+{
+  "dataset": "cnae9",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6620346641737296,
+  "n_samples": 1080,
+  "n_features": 856,
+  "n_classes": 9,
+  "seed": 42,
+  "elapsed_sec": 24.31,
+  "tpr_at_fpr_10": 0.237194,
+  "tpr_at_fpr_01": 0.040423,
+  "tpr_at_fpr_001": 0.005924,
+  "lira_eval_n": 1080
+}

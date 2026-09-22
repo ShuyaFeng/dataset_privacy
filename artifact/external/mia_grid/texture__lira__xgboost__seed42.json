@@ -1,0 +1,15 @@
+{
+  "dataset": "texture",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.6822746332303516,
+  "n_samples": 5500,
+  "n_features": 40,
+  "n_classes": 11,
+  "seed": 42,
+  "elapsed_sec": 46.09,
+  "tpr_at_fpr_10": 0.261094,
+  "tpr_at_fpr_01": 0.037146,
+  "tpr_at_fpr_001": 0.00308,
+  "lira_eval_n": 2000
+}

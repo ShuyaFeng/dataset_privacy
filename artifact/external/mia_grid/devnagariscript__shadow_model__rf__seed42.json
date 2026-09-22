@@ -1,0 +1,14 @@
+{
+  "dataset": "devnagariscript",
+  "attack": "shadow_model",
+  "model": "rf",
+  "auc": 0.9063209388888889,
+  "n_samples": 30000,
+  "n_features": 1024,
+  "n_classes": 46,
+  "seed": 42,
+  "elapsed_sec": 79.06,
+  "tpr_at_fpr_10": 0.528133,
+  "tpr_at_fpr_01": 0.035333,
+  "tpr_at_fpr_001": 0.001467
+}

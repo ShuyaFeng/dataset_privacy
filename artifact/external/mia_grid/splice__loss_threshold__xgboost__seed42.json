@@ -1,0 +1,17 @@
+{
+  "dataset": "splice",
+  "attack": "loss_threshold",
+  "model": "xgboost",
+  "auc": 0.5585234028753648,
+  "n_samples": 3190,
+  "n_features": 347,
+  "n_classes": 3,
+  "seed": 42,
+  "elapsed_sec": 2.51,
+  "tpr_at_fpr_10": 0.109091,
+  "tpr_at_fpr_01": 0.011285,
+  "tpr_at_fpr_001": 0.000627,
+  "train_acc": 0.999373,
+  "test_acc": 0.961755,
+  "gen_gap": 0.037618
+}

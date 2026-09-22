@@ -1,0 +1,17 @@
+{
+  "dataset": "mfeatfactors",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.5171105,
+  "n_samples": 2000,
+  "n_features": 216,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 18.75,
+  "tpr_at_fpr_10": 0.085,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.969,
+  "gen_gap": 0.031
+}

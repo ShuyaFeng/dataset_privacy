@@ -1,0 +1,17 @@
+{
+  "dataset": "wilt",
+  "attack": "loss_threshold",
+  "model": "mlp",
+  "auc": 0.49983105511122344,
+  "n_samples": 4839,
+  "n_features": 5,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 5.79,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 0.995039,
+  "test_acc": 0.986777,
+  "gen_gap": 0.008262
+}

@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatzernike",
+  "attack": "lira",
+  "model": "rf",
+  "auc": 0.9842464315333054,
+  "n_samples": 2000,
+  "n_features": 47,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 15.83,
+  "tpr_at_fpr_10": 0.972586,
+  "tpr_at_fpr_01": 0.739437,
+  "tpr_at_fpr_001": 0.035526,
+  "lira_eval_n": 2000
+}

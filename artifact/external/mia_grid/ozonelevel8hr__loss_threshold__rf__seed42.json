@@ -1,0 +1,17 @@
+{
+  "dataset": "ozonelevel8hr",
+  "attack": "loss_threshold",
+  "model": "rf",
+  "auc": 0.630239788598813,
+  "n_samples": 2534,
+  "n_features": 72,
+  "n_classes": 2,
+  "seed": 42,
+  "elapsed_sec": 0.61,
+  "tpr_at_fpr_10": 0.0,
+  "tpr_at_fpr_01": 0.0,
+  "tpr_at_fpr_001": 0.0,
+  "train_acc": 1.0,
+  "test_acc": 0.943173,
+  "gen_gap": 0.056827
+}

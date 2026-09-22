@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatmorphological",
+  "attack": "lira",
+  "model": "mlp",
+  "auc": 0.5308931384585366,
+  "n_samples": 2000,
+  "n_features": 6,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 33.54,
+  "tpr_at_fpr_10": 0.122296,
+  "tpr_at_fpr_01": 0.010249,
+  "tpr_at_fpr_001": 0.000943,
+  "lira_eval_n": 2000
+}

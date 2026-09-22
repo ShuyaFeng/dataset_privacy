@@ -1,0 +1,15 @@
+{
+  "dataset": "mfeatmorphological",
+  "attack": "lira",
+  "model": "xgboost",
+  "auc": 0.7918110829485816,
+  "n_samples": 2000,
+  "n_features": 6,
+  "n_classes": 10,
+  "seed": 42,
+  "elapsed_sec": 18.69,
+  "tpr_at_fpr_10": 0.41587,
+  "tpr_at_fpr_01": 0.119655,
+  "tpr_at_fpr_001": 0.009306,
+  "lira_eval_n": 2000
+}
